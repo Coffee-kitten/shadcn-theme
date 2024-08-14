@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "@/assets/index.css";
-
-//
 import { createHashRouter, RouterProvider } from "react-router-dom";
 //
+import "@/assets/index.css";
+//
+import "@/i18n/index";
+//
 import { ThemeProvider } from "@/components/theme-provider";
-
 //
 import App from "@/App.tsx";
 import SignIn from "@/views/auth/Sign-in";
