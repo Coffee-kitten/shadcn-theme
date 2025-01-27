@@ -27,7 +27,14 @@ window["en-US"] = {
   没有账户: "Don’t have an account?",
   立即注册: "Sign up",
   快速获取OnePixel服务: "Get OnePixel service quickly",
-  忘记密码: "forget the password?",
+  你的邮箱必须符合下拉框中的选项:
+    "Your email suffix must match one of the options in the select box.",
+  请输入发送到您邮箱的一次性验证码:
+    "Please enter the one-time verification code sent to your email.",
+  两次密码输入不同: "The passwords entered do not match",
+  邀请码: "Invitation code",
+  选填: " (Optional)",
+  忘记密码: "Forget the password?",
   已经拥有账户: "Already have an account?",
   登入: "Login",
   发送: "Send",

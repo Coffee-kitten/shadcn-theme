@@ -1,6 +1,51 @@
 import { create } from "zustand";
 
-export const useV2boardUserData = create((set) => ({
+interface UserData {
+  isLoading: boolean;
+  registerData: any;
+  infoData: any;
+  subscribeData: any;
+  trafficLogData: any;
+  serverFetchData: any;
+  configData: any;
+  botInfoData: any;
+  orderFetchData: any;
+  inviteDetailsData: any;
+  inviteFetchData: any;
+  planFetchData: any;
+  planActive: number;
+  planFetchIDData: any;
+  orderDetailData: any;
+  orderPaymentMethodData: any;
+  knowledgeFetchData: any;
+  knowledgeFetchIDData: any;
+  knowledgeActive: boolean;
+  ticketFetchData: any;
+  ticketFetchIDData: any;
+  setIsLoading: (value: boolean) => void;
+  setRegisterData: (data: any) => void;
+  setInfoData: (data: any) => void;
+  setSubscribeData: (data: any) => void;
+  setTrafficLogData: (data: any) => void;
+  setServerFetchData: (data: any) => void;
+  setConfigData: (data: any) => void;
+  setBotInfoData: (data: any) => void;
+  setOrderFetchData: (data: any) => void;
+  setInviteDetailsData: (data: any) => void;
+  setInviteFetchData: (data: any) => void;
+  setPlanFetchData: (data: any) => void;
+  setPlanActive: (value: number) => void;
+  setPlanFetchIDData: (data: any) => void;
+  setOrderDetailData: (data: any) => void;
+  setOrderPaymentMethodData: (data: any) => void;
+  setKnowledgeFetchData: (data: any) => void;
+  setKnowledgeFetchIDData: (data: any) => void;
+  setKnowledgeActive: (value: boolean) => void;
+  setTicketFetchData: (data: any) => void;
+  setTicketFetchIDData: (data: any) => void;
+}
+
+export const useV2boardUserData = create<UserData>((set) => ({
   isLoading: false,
   registerData: {},
   infoData: {},
@@ -22,27 +67,26 @@ export const useV2boardUserData = create((set) => ({
   knowledgeActive: false,
   ticketFetchData: {},
   ticketFetchIDData: {},
-
-  setIsLoading: (value: any) => set({ isLoading: value }),
-  setRegisterData: (data: any) => set({ registerData: data }),
-  setInfoData: (data: any) => set({ infoData: data }),
-  setSubscribeData: (data: any) => set({ subscribeData: data }),
-  setTrafficLogData: (data: any) => set({ trafficLogData: data }),
-  setServerFetchData: (data: any) => set({ serverFetchData: data }),
-  setConfigData: (data: any) => set({ configData: data }),
-  setBotInfoData: (data: any) => set({ botInfoData: data }),
-  setOrderFetchData: (data: any) => set({ orderFetchData: data }),
-  setInviteDetailsData: (data: any) => set({ inviteDetailsData: data }),
-  setInviteFetchData: (data: any) => set({ inviteFetchData: data }),
-  setPlanFetchData: (data: any) => set({ planFetchData: data }),
-  setPlanActive: (value: any) => set({ planActive: value }),
-  setPlanFetchIDData: (data: any) => set({ planFetchIDData: data }),
-  setOrderDetailData: (data: any) => set({ orderDetailData: data }),
-  setOrderPaymentMethodData: (data: any) =>
-    set({ orderPaymentMethodData: data }),
-  setKnowledgeFetchData: (data: any) => set({ knowledgeFetchData: data }),
-  setKnowledgeFetchIDData: (data: any) => set({ knowledgeFetchIDData: data }),
-  setKnowledgeActive: (value: any) => set({ knowledgeActive: value }),
-  setTicketFetchData: (data: any) => set({ ticketFetchData: data }),
-  setTicketFetchIDData: (data: any) => set({ ticketFetchIDData: data }),
+  // Setters
+  setIsLoading: (value) => set({ isLoading: value }),
+  setRegisterData: (data) => set({ registerData: data }),
+  setInfoData: (data) => set({ infoData: data }),
+  setSubscribeData: (data) => set({ subscribeData: data }),
+  setTrafficLogData: (data) => set({ trafficLogData: data }),
+  setServerFetchData: (data) => set({ serverFetchData: data }),
+  setConfigData: (data) => set({ configData: data }),
+  setBotInfoData: (data) => set({ botInfoData: data }),
+  setOrderFetchData: (data) => set({ orderFetchData: data }),
+  setInviteDetailsData: (data) => set({ inviteDetailsData: data }),
+  setInviteFetchData: (data) => set({ inviteFetchData: data }),
+  setPlanFetchData: (data) => set({ planFetchData: data }),
+  setPlanActive: (value) => set({ planActive: value }),
+  setPlanFetchIDData: (data) => set({ planFetchIDData: data }),
+  setOrderDetailData: (data) => set({ orderDetailData: data }),
+  setOrderPaymentMethodData: (data) => set({ orderPaymentMethodData: data }),
+  setKnowledgeFetchData: (data) => set({ knowledgeFetchData: data }),
+  setKnowledgeFetchIDData: (data) => set({ knowledgeFetchIDData: data }),
+  setKnowledgeActive: (value) => set({ knowledgeActive: value }),
+  setTicketFetchData: (data) => set({ ticketFetchData: data }),
+  setTicketFetchIDData: (data) => set({ ticketFetchIDData: data }),
 }));
