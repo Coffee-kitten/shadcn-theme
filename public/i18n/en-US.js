@@ -17,12 +17,11 @@ window["en-US"] = {
   注册成功: "Registration success",
   请登入: "Please login",
   请重新请求: "Please request again",
-  两次密码输入不同: "The password entered twice is different",
   遇到了一些问题: "Encountered some problems, please contact us to solve",
   如果没有收到验证码请检查垃圾箱:
     "If you have not received the verification code, please check your spam folder.",
   //
-  //
+  // auth
   欢迎回来: "Welcome Back👋",
   没有账户: "Don’t have an account?",
   立即注册: "Sign up",
@@ -47,11 +46,10 @@ window["en-US"] = {
   我们将往阁下邮箱发送验证码: "We will send a verification code to your email",
   返回登入: "Back to Login",
   //
-  //
+  // dashboard
   概况: "Profile",
-  订阅: "Subscribe",
-  邀请: "My Invitation",
-  账户: "Account",
-  登出: "Logout",
+  订阅: "Subscription",
+  财务: "Billing",
+  用户: "Account",
   //
 };
