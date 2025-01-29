@@ -1,13 +1,6 @@
 import * as React from "react";
-import {
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  SendHorizontal,
-} from "lucide-react";
-
+import { Command, Frame, LifeBuoy, Map, SendHorizontal } from "lucide-react";
+import { useEffect } from "react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -20,45 +13,59 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
+import { useTranslation } from "react-i18next";
+import { useV2boardUserData } from "@/store/index";
+import { infoGet } from "@/api/dashboard";
+const getSidebarData = () => {
+  const store = useV2boardUserData();
+  const { t } = useTranslation();
+  return {
+    user: {
+      email: store?.infoData?.data?.email,
+      avatar: store?.infoData?.data?.avatar_url,
     },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: SendHorizontal,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+    navSecondary: [
+      {
+        title: "Support",
+        url: "#",
+        icon: LifeBuoy,
+      },
+      {
+        title: "Feedback",
+        url: "#",
+        icon: SendHorizontal,
+      },
+    ],
+    projects: [
+      {
+        name: t("仪表盘"),
+        url: "#",
+        icon: Frame,
+      },
+      {
+        name: t("知识库"),
+        url: "#",
+        icon: Map,
+      },
+    ],
+  };
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const store = useV2boardUserData();
+  const data = getSidebarData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        store.setInfoData((await infoGet()).data);
+      } catch {
+      } finally {
+        store.setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -79,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        
+        <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

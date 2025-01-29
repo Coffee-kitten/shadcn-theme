@@ -9,7 +9,7 @@ import { signUpGet } from "@/api/auth";
 import { useV2boardUserData } from "@/store/index";
 
 import { toast } from "@/components/ui/use-toast";
-import Loading from "@/views/Loading";
+import Loading from "@/views/fragments/Loading";
 
 export default function SignUp() {
   //   const { id } = useParams();

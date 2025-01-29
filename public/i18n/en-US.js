@@ -48,6 +48,10 @@ window["en-US"] = {
   //
   // dashboard
   概况: "Profile",
+  仪表盘: "Dashboard",
+  于: "Will expire on",
+  //
+  使用文档: "Knowledge Base",
   订阅: "Subscription",
   财务: "Billing",
   用户: "Account",
