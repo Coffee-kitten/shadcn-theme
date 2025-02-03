@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "metron";
+  src: url("/static/fonts/metron.woff2") format("woff2"),
+    url("/static/fonts/metron.woff") format("woff"),
+    url("/static/fonts/metron.ttf") format("truetype");
+}
+.metron-clash::before {
+  content: "\E906";
+}
+.metron-surge::before {
+  content: "\E901";
+}
+.metron-shadowrocket::before {
+  content: "\E904";
+}
+.metron-qrcode::before {
+  content: "\E909";
+}
+.metron-copy::before {
+  content: "\EA41";
+}

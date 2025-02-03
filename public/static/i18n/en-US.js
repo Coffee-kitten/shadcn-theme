@@ -50,6 +50,11 @@ window["en-US"] = {
   概况: "Profile",
   仪表盘: "Dashboard",
   于: "Will expire on",
+  到期: "",
+  已用流量将在: "Used data will reset after",
+  日后重置: "days",
+  流量: "Transfer",
+  重置: "Reset",
   //
   使用文档: "Knowledge Base",
   订阅: "Subscription",
