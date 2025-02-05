@@ -9,9 +9,9 @@ import { signUpGet } from "@/api/auth";
 import { useV2boardUserData } from "@/store/index";
 
 import { toast } from "@/components/ui/use-toast";
-import Loading from "@/views/fragments/Loading";
+import Loading from "@/views/fragments/loading";
 
-export default function SignUp() {
+export function SignUp() {
   //   const { id } = useParams();
 
   const store = useV2boardUserData();

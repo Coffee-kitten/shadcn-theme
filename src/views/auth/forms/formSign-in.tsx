@@ -14,7 +14,7 @@ import { signInPost } from "@/api/auth";
 import { useTranslation } from "react-i18next";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { LogIn } from "lucide-react";
-export default function FormSignIn() {
+export function FormSignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const form = useForm({

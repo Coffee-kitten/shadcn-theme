@@ -16,7 +16,7 @@ export function Card3() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
   return (
-    <Card className="bg-muted/50 border-0">
+    <Card className="bg-muted/50">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           到期时间

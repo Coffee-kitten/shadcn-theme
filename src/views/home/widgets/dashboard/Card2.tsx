@@ -17,7 +17,7 @@ export function Card2() {
   const store = useV2boardUserData();
 
   return (
-    <Card className="bg-muted/50 border-0">
+    <Card className="bg-muted/50">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           流量 <Button variant="secondary">重置</Button>

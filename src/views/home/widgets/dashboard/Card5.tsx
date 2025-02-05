@@ -47,7 +47,6 @@ export function Card5() {
       .reduce((map: any, item: any) => {
         const date = item.record_at;
         const { u, d } = item;
-        // 如果Map中没有该日期，初始化
         if (!map.has(date)) {
           map.set(date, {
             date: dayjs(date * 1000).format("YYYY-MM-DD"),

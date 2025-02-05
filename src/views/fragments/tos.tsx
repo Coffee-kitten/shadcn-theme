@@ -1,4 +1,4 @@
-export default function Tos() {
+export function Tos() {
   return (
     <div className="bg-background text-foreground">
       <div className="container mx-auto max-w-4xl py-12 px-4 sm:px-6 lg:px-8">

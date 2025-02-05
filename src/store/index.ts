@@ -7,6 +7,7 @@ interface UserData {
   subscribeData: any;
   trafficLogData: any;
   serverFetchData: any;
+  noticeFetchData: any;
   configData: any;
   botInfoData: any;
   orderFetchData: any;
@@ -28,6 +29,7 @@ interface UserData {
   setSubscribeData: (data: any) => void;
   setTrafficLogData: (data: any) => void;
   setServerFetchData: (data: any) => void;
+  setNoticeFetchData: (data: any) => void;
   setConfigData: (data: any) => void;
   setBotInfoData: (data: any) => void;
   setOrderFetchData: (data: any) => void;
@@ -52,6 +54,7 @@ export const useV2boardUserData = create<UserData>((set) => ({
   subscribeData: {},
   trafficLogData: {},
   serverFetchData: {},
+  noticeFetchData: {},
   configData: {},
   botInfoData: {},
   orderFetchData: {},
@@ -74,6 +77,7 @@ export const useV2boardUserData = create<UserData>((set) => ({
   setSubscribeData: (data) => set({ subscribeData: data }),
   setTrafficLogData: (data) => set({ trafficLogData: data }),
   setServerFetchData: (data) => set({ serverFetchData: data }),
+  setNoticeFetchData: (data) => set({ noticeFetchData: data }),
   setConfigData: (data) => set({ configData: data }),
   setBotInfoData: (data) => set({ botInfoData: data }),
   setOrderFetchData: (data) => set({ orderFetchData: data }),

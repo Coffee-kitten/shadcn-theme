@@ -1,11 +1,12 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
-import SignIn from "@/views/auth/Sign-in";
-import SignUp from "@/views/auth/Sign-up";
-import FourZeroFour from "@/views/fragments/404";
-import Tos from "@/views/fragments/tos";
+import { SignIn } from "@/views/auth/sign-in";
+import { SignUp } from "@/views/auth/sign-up";
+import { FourZeroFour } from "@/views/fragments/404";
+import { Tos } from "@/views/fragments/tos";
 //
-import { Dashboard } from "@/views/home/Dashboard";
+import { Dashboard } from "@/views/home/dashboard";
+import { Announcements } from "@/views/home/announcements";
 //
 
 const router = createHashRouter([
@@ -24,6 +25,10 @@ const router = createHashRouter([
   {
     path: "dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "announcements",
+    element: <Announcements />,
   },
   {
     path: "404",

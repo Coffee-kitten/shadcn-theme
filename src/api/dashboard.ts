@@ -3,7 +3,7 @@ import { v2boardRequest } from "@/utils/requests";
 // 账户信息
 export const infoGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/info",
+    url: "/api/v1/user/info",
     method: "get",
   });
 };
@@ -11,7 +11,7 @@ export const infoGet = () => {
 // 订阅信息
 export const subscribeGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/getSubscribe",
+    url: "/api/v1/user/getSubscribe",
     method: "get",
   });
 };
@@ -19,7 +19,7 @@ export const subscribeGet = () => {
 // 流量使用
 export const trafficLogGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/stat/getTrafficLog",
+    url: "/api/v1/user/stat/getTrafficLog",
     method: "get",
   });
 };
@@ -27,14 +27,14 @@ export const trafficLogGet = () => {
 // 节点信息
 export const serverFetchGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/server/fetch",
+    url: "/api/v1/user/server/fetch",
     method: "get",
   });
 };
 
 export const resetSecurityGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/resetSecurity",
+    url: "/api/v1/user/resetSecurity",
     method: "get",
   });
 };
@@ -45,7 +45,7 @@ export const orderSavePost = (
   coupon_code?: string
 ) => {
   return v2boardRequest({
-    url: "api/v1/user/order/save",
+    url: "/api/v1/user/order/save",
     method: "post",
     data: {
       period: period,

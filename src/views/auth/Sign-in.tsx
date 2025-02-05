@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import I18n from "@/components/i18n";
-import FormSignIn from "@/views/auth/forms/formSign-in";
+import { FormSignIn } from "@/views/auth/forms/formSign-in";
 
-export default function SignIn() {
+export function SignIn() {
   //   const { id } = useParams();
 
   const { t } = useTranslation();
