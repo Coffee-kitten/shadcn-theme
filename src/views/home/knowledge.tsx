@@ -9,14 +9,14 @@ import { toast } from "@/components/ui/use-toast";
 import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
 import { subscribeGet, trafficLogGet } from "@/api/dashboard";
-import { Card1 } from "@/views/home/widgets/dashboard/card1";
-import { Card2 } from "@/views/home/widgets/dashboard/card2";
+import { Card1 } from "@/views/home/widgets/knowledge/card1";
+import { Card2 } from "@/views/home/widgets/knowledge/card2";
 import { Card3 } from "@/views/home/widgets/dashboard/card3";
 import { Card4 } from "@/views/home/widgets/dashboard/card4";
 import { Card5 } from "@/views/home/widgets/dashboard/card5";
 import { Loading } from "@/views/home/widgets/dashboard/loading";
-
-export function Dashboard() {
+import { Android } from "@/views/svg/android";
+export function Knowledge() {
   const store = useV2boardUserData();
   const { t } = useTranslation();
   console.log(
@@ -57,7 +57,11 @@ export function Dashboard() {
 
             {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
             {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
-            <div className="grid auto-rows-min gap-4 2xl:grid-cols-3">
+            <h2 className="text-2xl font-bold">
+              <Android />
+              123
+            </h2>
+            <div className="grid auto-rows-min gap-4 2xl:grid-cols-2">
               <Card2 />
               <Card3 />
               <Card4 />

@@ -7,6 +7,7 @@ import { Tos } from "@/views/fragments/tos";
 //
 import { Dashboard } from "@/views/home/dashboard";
 import { Announcements } from "@/views/home/announcements";
+import { Knowledge } from "@/views/home/knowledge";
 //
 
 const router = createHashRouter([
@@ -29,6 +30,10 @@ const router = createHashRouter([
   {
     path: "announcements",
     element: <Announcements />,
+  },
+  {
+    path: "knowledge",
+    element: <Knowledge />,
   },
   {
     path: "404",
