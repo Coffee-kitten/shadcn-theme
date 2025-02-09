@@ -19,3 +19,7 @@
 .metron-copy::before {
   content: "\EA41";
 }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

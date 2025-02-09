@@ -19,10 +19,6 @@ import { Loading } from "@/views/home/widgets/dashboard/loading";
 export function Dashboard() {
   const store = useV2boardUserData();
   const { t } = useTranslation();
-  console.log(
-    (store?.subscribeData?.data?.u + store?.subscribeData?.data?.d) /
-      store?.subscribeData?.data?.transfer_enable
-  );
   useEffect(() => {
     const fetchData = async () => {
       try {

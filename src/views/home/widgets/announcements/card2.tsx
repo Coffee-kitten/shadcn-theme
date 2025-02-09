@@ -32,7 +32,7 @@ export function Card2() {
             </CardHeader>
             <Button
               variant="link"
-              onClick={() => setSelectedNotice(item)} // 点击后设置当前公告
+              onClick={() => setSelectedNotice(item)}
             >
               查看公告
               <ArrowBigRight />
