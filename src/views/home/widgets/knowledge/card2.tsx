@@ -2,6 +2,9 @@ import { useV2boardUserData } from "@/store/index";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { knowledgeFetchIDGet } from "@/api/knowledge";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 export function Card2() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
@@ -56,12 +59,14 @@ export function Card2() {
               </div>
             </div>
             <hr className="h-px my-2 border-0 bg-muted-foreground/65"></hr>
-            <div
-              className="flex flex-col gap-4 prose prose-h3:text-blue-600"
-              dangerouslySetInnerHTML={{
-                __html: store.knowledgeFetchIDData.data.body,
-              }}
-            />
+            <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-none my-4 select-text">
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]}
+              >
+                {store.knowledgeFetchIDData.data.body}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       ) : (

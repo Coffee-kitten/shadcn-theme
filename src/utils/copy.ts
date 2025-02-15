@@ -1,7 +1,5 @@
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 export const copyToClipboard = async (text: string) => {
   await navigator.clipboard.writeText(text);
-  toast({
-    description: "复制成功",
-  });
+  toast.success("复制成功");
 };
