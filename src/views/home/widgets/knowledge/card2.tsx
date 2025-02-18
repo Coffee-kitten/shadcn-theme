@@ -5,11 +5,16 @@ import { knowledgeFetchIDGet } from "@/api/knowledge";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+
+import { Card3 } from "@/views/home/widgets/knowledge/card3";
+
 export function Card2() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
-  const [selectedKnowledge, setSelectedKnowledge] = useState<any>(null);
+
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
   return (
     <div className="grid md:grid-cols-4 gap-6">
       <div className="flex flex-col gap-6 md:gap-8 md:col-span-1">
@@ -20,13 +25,14 @@ export function Card2() {
               {items.map((item: any) => (
                 <button
                   key={item.id}
-                  className={`text-start font-medium py-1.5 px-3 transition-all duration-200 border rounded-md w-full transition-all duration-300 
+                  className={`text-start font-medium py-1.5 px-3 transition-all duration-200 border rounded-md w-full
                       ${
-                        selectedId === item.id
-                          ? "bg-slate-100 dark:bg-slate-700 shadow-lg scale-105"
+                        selectedId == item.id
+                          ? "bg-slate-100 dark:bg-slate-700 shadow-lg scale-y-105"
                           : "bg-muted"
                       }`}
                   onClick={async () => {
+                    setOpenDrawer(true);
                     setSelectedId(item.id);
                     store.setKnowledgeFetchIDData(
                       (await knowledgeFetchIDGet(item.id)).data
@@ -40,6 +46,7 @@ export function Card2() {
           )
         )}
       </div>
+      <Card3 openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
       {store.knowledgeFetchIDData.data ? (
         <div className="w-full min-h-[65svh] p-6 bg-muted border rounded-lg hidden md:block md:col-span-3">
           <div className="flex flex-col gap-1">
@@ -69,9 +76,7 @@ export function Card2() {
             </div>
           </div>
         </div>
-      ) : (
-        <div></div>
-      )}
+      ) : null}
     </div>
   );
 }

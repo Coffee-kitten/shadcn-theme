@@ -12,7 +12,7 @@ import { subscribeGet, trafficLogGet } from "@/api/dashboard";
 import { knowledgeFetchGet } from "@/api/knowledge";
 import { Card1 } from "@/views/home/widgets/knowledge/card1";
 import { Card2 } from "@/views/home/widgets/knowledge/card2";
-import { Loading } from "@/views/home/widgets/dashboard/loading";
+import { Loading } from "@/views/home/widgets/knowledge/loading";
 import { Android } from "@/views/svg/android";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
