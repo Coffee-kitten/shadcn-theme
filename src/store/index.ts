@@ -89,7 +89,14 @@ export const useV2boardUserData = create<UserData>((set) => ({
   setOrderDetailData: (data) => set({ orderDetailData: data }),
   setOrderPaymentMethodData: (data) => set({ orderPaymentMethodData: data }),
   setKnowledgeFetchData: (data) => set({ knowledgeFetchData: data }),
-  setKnowledgeFetchIDData: (data) => set({ knowledgeFetchIDData: data }),
+  setKnowledgeFetchIDData: (updater) =>
+    set((state) => ({
+      knowledgeFetchIDData: {
+        data: {
+          ...updater(state.knowledgeFetchIDData.data),
+        },
+      },
+    })),
   setKnowledgeActive: (value) => set({ knowledgeActive: value }),
   setTicketFetchData: (data) => set({ ticketFetchData: data }),
   setTicketFetchIDData: (data) => set({ ticketFetchIDData: data }),

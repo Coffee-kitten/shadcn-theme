@@ -12,14 +12,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { ToastContainer } from "@/components/ui/sonner";
 
 //
-import Routers from "@/routers/index.tsx";
+import { Routers } from "@/routers/index.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Routers />
-      <Toaster />
-      <ToastContainer position="top-center" closeButton />
-    </ThemeProvider>
-  </StrictMode>
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <Routers />
+    <Toaster />
+    <StrictMode></StrictMode>
+    <ToastContainer position="top-center" closeButton />
+  </ThemeProvider>
 );

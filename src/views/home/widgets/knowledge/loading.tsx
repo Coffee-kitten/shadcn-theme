@@ -1,8 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function Loading() {
+export function Loading1() {
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1500px] mx-auto w-full">
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1380px] mx-auto w-full">
       <Skeleton className="h-[180px] rounded-xl" />
 
       <div className="grid md:grid-cols-4 gap-6">
@@ -25,6 +25,51 @@ export function Loading() {
         </div>
 
         <Skeleton className="w-full min-h-[65svh] p-6 bg-muted border rounded-lg hidden md:block md:col-span-3" />
+      </div>
+    </div>
+  );
+}
+
+export function Loading2() {
+  return (
+    <div className="flex flex-col gap-1 max-w-[90svw] w-full mx-auto overflow-y-scroll no-scrollbar">
+      <div className="space-y-0.5">
+        <Skeleton className="h-[32px] w-[300px] rounded-lg" />
+        <div className="flex flex-row gap-0.5 md:gap-2">
+          <Skeleton className="h-[20px] w-[128px] rounded-lg" />
+          <Skeleton className="h-[20px] w-[128px] rounded-lg" />
+        </div>
+      </div>
+      <hr className="my-2 bg-muted-foreground/65"></hr>
+      <div className="flex gap-1 flex-col max-w-[90svw] my-4 select-text">
+        <Skeleton className="h-[30px] w-[256px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[196px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[300px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[350px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[96px] rounded-lg" />
+      </div>
+    </div>
+  );
+}
+
+export function Loading3() {
+  return (
+    <div className="flex flex-col gap-1">
+      {/* <pre>{JSON.stringify(store.knowledgeFetchIDData, null, 2)}</pre> */}
+      <div className="space-y-0.5">
+        <Skeleton className="h-[32px] w-[300px] rounded-lg" />
+        <div className="flex flex-row gap-0.5 md:gap-2">
+          <Skeleton className="h-[20px] w-[128px] rounded-lg" />
+          <Skeleton className="h-[20px] w-[128px] rounded-lg" />
+        </div>
+      </div>
+      <hr className="h-px my-2 border-0 bg-muted-foreground/65"></hr>
+      <div className="flex gap-1 flex-col max-w-[90svw] my-4 select-text">
+        <Skeleton className="h-[30px] w-[256px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[196px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[300px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[350px] rounded-lg" />
+        <Skeleton className="h-[30px] w-[96px] rounded-lg" />
       </div>
     </div>
   );

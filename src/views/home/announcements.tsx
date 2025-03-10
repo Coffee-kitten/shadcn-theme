@@ -1,10 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
 import { useEffect } from "react";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { toast } from "@/components/ui/use-toast";
 import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
@@ -36,30 +30,17 @@ export function Announcements() {
 
     fetchData();
   }, []);
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-          </div>
-        </header>
-
-        {store.subscribeData.data &&
-        store.trafficLogData.data &&
-        store.noticeFetchData.data ? (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1500px] mx-auto w-full">
-            <Card1 />
-            <Card2 />
-            {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
-            {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
-            <div className="grid auto-rows-min gap-4 2xl:grid-cols-3"></div>
-          </div>
-        ) : (
-          <Loading />
-        )}
-      </SidebarInset>
-    </SidebarProvider>
+  return store.subscribeData.data &&
+    store.trafficLogData.data &&
+    store.noticeFetchData.data ? (
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1500px] mx-auto w-full">
+      <Card1 />
+      <Card2 />
+      {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
+      {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
+      <div className="grid auto-rows-min gap-4 2xl:grid-cols-3"></div>
+    </div>
+  ) : (
+    <Loading />
   );
 }

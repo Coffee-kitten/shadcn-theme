@@ -12,7 +12,7 @@ import { subscribeGet, trafficLogGet } from "@/api/dashboard";
 import { knowledgeFetchGet } from "@/api/knowledge";
 import { Card1 } from "@/views/home/widgets/knowledge/card1";
 import { Card2 } from "@/views/home/widgets/knowledge/card2";
-import { Loading } from "@/views/home/widgets/knowledge/loading";
+import { Loading1 } from "@/views/home/widgets/knowledge/loading";
 import { Android } from "@/views/svg/android";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -34,8 +34,6 @@ export function Knowledge() {
           title: t("请求失败"),
           description: t("遇到了一些问题"),
         });
-      } finally {
-        store.setIsLoading(false);
       }
     };
 
@@ -54,12 +52,12 @@ export function Knowledge() {
         {store.subscribeData.data &&
         store.trafficLogData.data &&
         store.knowledgeFetchData.data ? (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1500px] mx-auto w-full">
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1380px] mx-auto w-full">
             <Card1 />
             <Card2 />
           </div>
         ) : (
-          <Loading />
+          <Loading1 />
         )}
       </SidebarInset>
     </SidebarProvider>

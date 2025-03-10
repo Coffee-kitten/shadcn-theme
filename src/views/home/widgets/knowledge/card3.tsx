@@ -10,13 +10,12 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { knowledgeFetchIDGet } from "@/api/knowledge";
+
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-export function Card3({ openDrawer, setOpenDrawer }: any) {
+import { Loading2 } from "@/views/home/widgets/knowledge/loading";
+export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const store = useV2boardUserData();
   return isMobile ? (
@@ -30,11 +29,11 @@ export function Card3({ openDrawer, setOpenDrawer }: any) {
           <DrawerTitle></DrawerTitle>
           <DrawerDescription></DrawerDescription>
         </DrawerHeader>
-        {store.knowledgeFetchIDData.data ? (
-          <div className="flex flex-col gap-1 max-w-[90svw] mx-auto overflow-y-scroll no-scrollbar">
+        {store.knowledgeFetchIDData.data?.[selectedId] ? (
+          <div className="flex flex-col gap-1 max-w-[90svw] w-full mx-auto overflow-y-scroll no-scrollbar">
             <div className="space-y-0.5">
               <div className="text-2xl font-semibold select-text">
-                {store.knowledgeFetchIDData.data.title}
+                {store.knowledgeFetchIDData.data[selectedId].title}
               </div>
               <div className="flex flex-col md:flex-row gap-0.5 md:gap-2 text-sm text-muted-foreground">
                 <div className="space-x-1">
@@ -53,11 +52,13 @@ export function Card3({ openDrawer, setOpenDrawer }: any) {
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
               >
-                {store.knowledgeFetchIDData.data.body}
+                {store.knowledgeFetchIDData.data[selectedId].body}
               </ReactMarkdown>
             </div>
           </div>
-        ) : null}
+        ) : (
+          <Loading2 />
+        )}
         <DrawerFooter>
           <Button className="w-full" onClick={() => setOpenDrawer(false)}>
             关闭文档
