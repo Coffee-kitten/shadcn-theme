@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ModeToggle } from "@/components/mode-toggle";
-import I18n from "@/components/i18n";
+import { I18n } from "@/components/i18n";
 import FormSignUp from "@/views/auth/forms/formSign-up";
 
 import { signUpGet } from "@/api/auth";

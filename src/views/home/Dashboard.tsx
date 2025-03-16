@@ -1,9 +1,13 @@
-import { useEffect } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { useTranslation } from "react-i18next";
-import { useV2boardUserData } from "@/store/index";
-import { subscribeGet, trafficLogGet } from "@/api/dashboard";
-import { Card1 } from "@/views/home/widgets/dashboard/card1";
+import {
+  useEffect,
+  toast,
+  useTranslation,
+  useV2boardUserData,
+  trafficLogGet,
+  subscribeGet,
+  PageContainer,
+  Head,
+} from "@/utils/common-imports";
 import { Card2 } from "@/views/home/widgets/dashboard/card2";
 import { Card3 } from "@/views/home/widgets/dashboard/card3";
 import { Card4 } from "@/views/home/widgets/dashboard/card4";
@@ -13,11 +17,12 @@ import { Loading } from "@/views/home/widgets/dashboard/loading";
 export function Dashboard() {
   const store = useV2boardUserData();
   const { t } = useTranslation();
+  const isLoading = !store.subscribeData.data || !store.trafficLogData.data;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        store.setSubscribeData((await subscribeGet()).data);
         store.setTrafficLogData((await trafficLogGet()).data);
+        store.setSubscribeData((await subscribeGet()).data);
       } catch (error: any) {
         toast({
           variant: "destructive",
@@ -29,9 +34,10 @@ export function Dashboard() {
 
     fetchData();
   }, []);
-  return store.subscribeData.data && store.trafficLogData.data ? (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1380px] mx-auto w-full">
-      <Card1 />
+
+  return (
+    <PageContainer loading={isLoading} LoadingComponent={Loading}>
+      <Head badge="仪表盘" />
 
       {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
       {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
@@ -41,8 +47,6 @@ export function Dashboard() {
         <Card4 />
       </div>
       <Card5 />
-    </div>
-  ) : (
-    <Loading />
+    </PageContainer>
   );
 }

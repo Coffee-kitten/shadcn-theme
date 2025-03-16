@@ -1,23 +1,23 @@
-import { Languages } from "lucide-react";
+import { Languages, Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function I18n() {
+export function I18n() {
   const { i18n } = useTranslation();
+  const currentLanguage = window.localStorage.getItem("i18n") || "zh-CN";
+
   const handleLanguage = (language: string) => {
-    i18n.changeLanguage("zh-CN");
+    i18n.changeLanguage(language);
     window.localStorage.setItem("i18n", language);
     location.reload();
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,12 +26,22 @@ export default function I18n() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => handleLanguage("zh-CN")}>
-          简体中文
+        <DropdownMenuItem
+          onClick={() => handleLanguage("zh-CN")}
+          disabled={currentLanguage === "zh-CN"}
+          className="flex justify-between items-center"
+        >
+          <span>简体中文</span>
+          {currentLanguage === "zh-CN" && <Check className="h-4 w-4" />}
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => handleLanguage("en-US")}>
-          English
+        <DropdownMenuItem
+          onClick={() => handleLanguage("en-US")}
+          disabled={currentLanguage === "en-US"}
+          className="flex justify-between items-center"
+        >
+          <span>English</span>
+          {currentLanguage === "en-US" && <Check className="h-4 w-4" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

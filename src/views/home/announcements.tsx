@@ -1,21 +1,22 @@
-import { useEffect } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { useTranslation } from "react-i18next";
-import { useV2boardUserData } from "@/store/index";
-import { subscribeGet, trafficLogGet } from "@/api/dashboard";
-import { noticeFetchGet } from "@/api/announcements";
-import { Card1 } from "@/views/home/widgets/announcements/card1";
-import { Card2 } from "@/views/home/widgets/announcements/card2";
-import { Loading } from "@/views/home/widgets/dashboard/loading";
+import {
+  useEffect,
+  toast,
+  useTranslation,
+  useV2boardUserData,
+  noticeFetchGet,
+  PageContainer,
+  Head,
+} from "@/utils/common-imports";
+import { Card2 } from "@/views/home/widgets/announcements/card1";
+import { Loading } from "@/views/home/widgets/announcements/loading";
 
 export function Announcements() {
   const store = useV2boardUserData();
   const { t } = useTranslation();
+  const isLoading = !store.noticeFetchData.data;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        store.setSubscribeData((await subscribeGet()).data);
-        store.setTrafficLogData((await trafficLogGet()).data);
         store.setNoticeFetchData((await noticeFetchGet()).data);
       } catch {
         toast({
@@ -23,24 +24,15 @@ export function Announcements() {
           title: t("请求失败"),
           description: t("遇到了一些问题"),
         });
-      } finally {
-        store.setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-  return store.subscribeData.data &&
-    store.trafficLogData.data &&
-    store.noticeFetchData.data ? (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-[1500px] mx-auto w-full">
-      <Card1 />
+  return (
+    <PageContainer loading={isLoading} LoadingComponent={Loading}>
+      <Head badge="公告" />
       <Card2 />
-      {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
-      {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
-      <div className="grid auto-rows-min gap-4 2xl:grid-cols-3"></div>
-    </div>
-  ) : (
-    <Loading />
+    </PageContainer>
   );
 }

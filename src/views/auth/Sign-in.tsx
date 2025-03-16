@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { ModeToggle } from "@/components/mode-toggle";
-import I18n from "@/components/i18n";
+import { I18n } from "@/components/i18n";
 import { FormSignIn } from "@/views/auth/forms/formSign-in";
 
 export function SignIn() {
@@ -43,6 +43,16 @@ export function SignIn() {
               {t("立即注册")}
             </a>
           </div>
+        </div>
+        <div className="hidden lg:block fixed bottom-5 end-5 text-sm uppercase text-foreground font-extrabold opacity-30 dark:opacity-50 backdrop-saturate-200 transition-all duration-200 hover:opacity-85">
+          <span>Proudly written by </span>
+          <a
+            href="https://t.me/s/NEDEFINITA"
+            className="underline underline-2 px-0.5"
+          >
+            UNDEFINED
+          </a>
+          <span>.</span>
         </div>
       </div>
     </div>

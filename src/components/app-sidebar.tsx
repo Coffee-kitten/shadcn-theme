@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Command, Frame, LifeBuoy, Map, SendHorizontal } from "lucide-react";
-import { useEffect } from "react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -15,7 +14,6 @@ import {
 } from "@/components/ui/sidebar";
 import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
-import { infoGet } from "@/api/dashboard";
 const getSidebarData = () => {
   const store = useV2boardUserData();
   const { t } = useTranslation();
@@ -52,20 +50,8 @@ const getSidebarData = () => {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const store = useV2boardUserData();
   const data = getSidebarData();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setInfoData((await infoGet()).data);
-      } catch {
-      } finally {
-        store.setIsLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

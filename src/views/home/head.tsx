@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -11,18 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import { ShoppingBag } from "lucide-react";
-import { subscribeGet } from "@/api/dashboard";
 import { useV2boardUserData } from "@/store/index";
 
-export function Head({ badge, footer }: any) {
+export function Head({ badge, footer, IconComponent }: any) {
   const store = useV2boardUserData();
-  useEffect(() => {
-    const fetchData = async () => {
-      store.setSubscribeData((await subscribeGet()).data);
-    };
 
-    fetchData();
-  }, []);
+  const Icon = IconComponent || ShoppingBag;
+
   return (
     <Card className="border-0 bg-gradient-to-l from-indigo-300">
       <CardHeader>
@@ -36,7 +30,7 @@ export function Head({ badge, footer }: any) {
       <CardContent></CardContent>
       <CardFooter>
         <Button variant="secondary">
-          <ShoppingBag /> {footer || "购买订阅"}
+          <Icon /> {footer || "购买订阅"}
         </Button>
       </CardFooter>
     </Card>
