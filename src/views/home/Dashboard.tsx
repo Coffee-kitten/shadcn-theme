@@ -1,7 +1,5 @@
 import {
   useEffect,
-  toast,
-  useTranslation,
   useV2boardUserData,
   trafficLogGet,
   subscribeGet,
@@ -13,28 +11,23 @@ import { Card3 } from "@/views/home/widgets/dashboard/card3";
 import { Card4 } from "@/views/home/widgets/dashboard/card4";
 import { Card5 } from "@/views/home/widgets/dashboard/card5";
 import { Loading } from "@/views/home/widgets/dashboard/loading";
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 
 export function Dashboard() {
   const store = useV2boardUserData();
-  const { t } = useTranslation();
-  const isLoading = !store.subscribeData.data || !store.trafficLogData.data;
+  const { fetchAllData, isLoading } = useFetchMultipleData([
+    {
+      fetchFn: trafficLogGet,
+      setDataFn: (data) => store.setTrafficLogData(data),
+    },
+    {
+      fetchFn: subscribeGet,
+      setDataFn: (data) => store.setSubscribeData(data),
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setTrafficLogData((await trafficLogGet()).data);
-        store.setSubscribeData((await subscribeGet()).data);
-      } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: t("请求失败"),
-          description: error.data.message || t("遇到了一些问题"),
-        });
-      }
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
-
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
       <Head badge="仪表盘" />

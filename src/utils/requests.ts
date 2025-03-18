@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "@/components/ui/use-toast";
 
 export const v2boardRequest = axios.create({
   baseURL: (window as any).config.host,
@@ -34,7 +33,7 @@ v2boardRequest.interceptors.response.use(
   },
   (error) => {
     if (error.message.includes("timeout")) {
-      return Promise.reject(error.response);
+      return Promise.reject(error.message);
     }
 
     if (error.response.status == 403) {

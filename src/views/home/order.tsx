@@ -17,11 +17,11 @@ export function Order() {
     const fetchData = async () => {
       try {
         store.setOrderFetchData((await orderFetchGet()).data);
-      } catch {
+      } catch (error: any) {
         toast({
           variant: "destructive",
           title: t("请求失败"),
-          description: t("遇到了一些问题"),
+          description: error.data.message || t("遇到了一些问题"),
         });
       }
     };

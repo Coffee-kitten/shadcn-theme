@@ -1,8 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   useEffect,
-  toast,
-  useTranslation,
   useV2boardUserData,
   subscribeGet,
   infoGet,
@@ -16,17 +14,23 @@ import {
 import { ModeToggle } from "@/components/mode-toggle";
 import { I18n } from "@/components/i18n";
 import { Loading } from "@/views/home/loading";
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 
 export function Sidebar() {
   const store = useV2boardUserData();
   const isLoading = !store.infoData.data || !store.subscribeData.data;
+  const { fetchAllData } = useFetchMultipleData([
+    {
+      fetchFn: infoGet,
+      setDataFn: (data) => store.setInfoData(data),
+    },
+    {
+      fetchFn: subscribeGet,
+      setDataFn: (data) => store.setSubscribeData(data),
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      store.setSubscribeData((await subscribeGet()).data);
-      store.setInfoData((await infoGet()).data);
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
   if (isLoading) {
     return <Loading />;

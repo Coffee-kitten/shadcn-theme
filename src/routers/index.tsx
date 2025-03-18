@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  createHashRouter,
   RouterProvider,
   useNavigate,
   useLocation,
@@ -25,7 +26,7 @@ function ProtectedRoutes() {
   return <Outlet />;
 }
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "tos",
     element: <Tos />,

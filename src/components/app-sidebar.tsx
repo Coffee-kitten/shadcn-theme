@@ -19,8 +19,8 @@ const getSidebarData = () => {
   const { t } = useTranslation();
   return {
     user: {
-      email: store?.infoData?.data?.email,
-      avatar: store?.infoData?.data?.avatar_url,
+      email: store.infoData.data.email,
+      avatar: store.infoData.data.avatar_url,
     },
     navSecondary: [
       {
@@ -37,12 +37,12 @@ const getSidebarData = () => {
     projects: [
       {
         name: t("仪表盘"),
-        url: "#",
+        url: "/#/dashboard",
         icon: Frame,
       },
       {
         name: t("知识库"),
-        url: "#",
+        url: "/#/knowledge",
         icon: Map,
       },
     ],
