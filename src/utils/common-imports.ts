@@ -15,6 +15,7 @@ export * from "@/api/dashboard";
 export * from "@/api/announcements";
 export * from "@/api/knowledge";
 export * from "@/api/order";
+export * from "@/api/plan";
 
 // 常用的布局组件
 export { PageContainer } from "@/views/home/page-container";

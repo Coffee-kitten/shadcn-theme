@@ -26,19 +26,19 @@ v2boardRequest.interceptors.response.use(
   (request) => {
     if (authUrls.includes(request.config.url as string)) {
       window.localStorage.setItem("authorization", request.data.data.auth_data);
-      window.location.assign("/dashboard");
+      window.location.assign("/#/dashboard");
     }
 
     return request;
   },
   (error) => {
     if (error.message.includes("timeout")) {
-      return Promise.reject(error.message);
+      return Promise.reject(error);
     }
 
     if (error.response.status == 403) {
       window.localStorage.removeItem("authorization");
-      window.location.assign("/login");
+      window.location.assign("/#/login");
     }
 
     return Promise.reject(error.response);

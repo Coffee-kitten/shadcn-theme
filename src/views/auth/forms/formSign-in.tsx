@@ -19,8 +19,8 @@ export function FormSignIn() {
   const { t } = useTranslation();
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "test@com",
+      password: "1234567899",
     },
   });
 

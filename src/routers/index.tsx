@@ -20,6 +20,7 @@ import { Announcements } from "@/views/home/announcements";
 import { Knowledge } from "@/views/home/knowledge";
 import { Server } from "@/views/home/server";
 import { Order } from "@/views/home/order";
+import { Plan } from "@/views/home/plan";
 //
 
 function ProtectedRoutes() {
@@ -49,27 +50,31 @@ const router = createHashRouter([
       },
       {
         path: "/",
-        element: <Sidebar />, // 父路由组件
+        element: <Sidebar />,
         children: [
           {
-            path: "dashboard", // 完整路径将是 /home/dashboard
+            path: "dashboard",
             element: <Dashboard />,
           },
           {
-            path: "announcements", // 完整路径将是 /home/announcements
+            path: "announcements",
             element: <Announcements />,
           },
           {
-            path: "server", // 完整路径将是 /home/server
+            path: "server",
             element: <Server />,
           },
           {
-            path: "knowledge", // 完整路径将是 /home/knowledge
+            path: "knowledge",
             element: <Knowledge />,
           },
           {
-            path: "order", // 完整路径将是 /home/order
+            path: "order",
             element: <Order />,
+          },
+          {
+            path: "plan",
+            element: <Plan />,
           },
         ],
       },

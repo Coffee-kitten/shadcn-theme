@@ -27,7 +27,7 @@ export const useFetchMultipleData = (
       setIsLoading(false);
     } catch (error: any) {
       // 根据错误类型设置不同的提示信息
-      const isTimeout = error.includes("timeout");
+      const isTimeout = error?.message?.includes("timeout");
       toast({
         variant: "destructive",
         title: isTimeout ? t("请求超时") : t("请求失败"),
