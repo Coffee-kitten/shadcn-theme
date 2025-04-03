@@ -6,3 +6,13 @@ export const orderFetchGet = () => {
     method: "get",
   });
 };
+
+export const orderCancelPost = (trade_no: string) => {
+  return v2boardRequest({
+    url: "api/v1/user/order/cancel",
+    method: "post",
+    data: {
+      trade_no: trade_no,
+    },
+  });
+};

@@ -1,7 +1,5 @@
 import {
   useEffect,
-  toast,
-  useTranslation,
   useV2boardUserData,
   serverFetchGet,
   PageContainer,
@@ -10,25 +8,17 @@ import {
 import { Card1 } from "@/views/home/widgets/server/card1";
 import { Card2 } from "@/views/home/widgets/server/card2";
 import { Loading } from "@/views/home/widgets/server/loading";
-
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function Server() {
   const store = useV2boardUserData();
-  const { t } = useTranslation();
-  const isLoading = !store.serverFetchData.data;
+  const { fetchAllData, isLoading } = useFetchMultipleData([
+    {
+      fetchFn: serverFetchGet,
+      setDataFn: (data) => store.setServerFetchData(data),
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setServerFetchData((await serverFetchGet()).data);
-      } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: t("请求失败"),
-          description: error.data.message || t("遇到了一些问题"),
-        });
-      }
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>

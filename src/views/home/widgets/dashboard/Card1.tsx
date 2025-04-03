@@ -20,7 +20,7 @@ export function Card1() {
         <CardTitle>
           <Badge>仪表盘</Badge>
         </CardTitle>
-        <CardDescription>{store?.subscribeData?.data?.plan?.name}</CardDescription>
+        <CardDescription>{store.subscribeData.data.plan.name}</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
       <CardFooter>

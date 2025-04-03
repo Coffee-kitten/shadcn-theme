@@ -12,19 +12,21 @@ import {
 import { useTranslation } from "react-i18next";
 export function NavProjects({
   projects,
+  lable,
 }: {
   projects: {
     name: string;
     url: string;
     icon: LucideIcon;
   }[];
+  lable: string;
 }) {
   const { t } = useTranslation();
   const location = useLocation();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>{t("概况")}</SidebarGroupLabel>
+      <SidebarGroupLabel>{lable}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => {
           // 确保比较逻辑正确

@@ -9,6 +9,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useV2boardUserData } from "@/store/index";
 
 import ReactMarkdown from "react-markdown";
@@ -46,7 +47,7 @@ export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
                 </div>
               </div>
             </div>
-            <hr className="my-2 bg-muted-foreground/65"></hr>
+            <Separator />
             <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-[90svw] my-4 select-text">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}

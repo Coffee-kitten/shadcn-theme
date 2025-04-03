@@ -1,5 +1,6 @@
 import { useV2boardUserData } from "@/store/index";
 import { Select } from "@/views/home/widgets/knowledge/select";
+import { Separator } from "@/components/ui/separator";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -39,7 +40,7 @@ export function Card4({ selectedId }: any) {
                 </div>
               </div>
             </div>
-            <hr className="h-px my-2 border-0 bg-muted-foreground/65"></hr>
+            <Separator />
             <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-none my-4 select-text">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}

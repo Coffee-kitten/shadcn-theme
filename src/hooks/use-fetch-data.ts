@@ -1,6 +1,4 @@
 import { useState, toast, useTranslation } from "@/utils/common-imports";
-type FetchFunction<T> = () => Promise<{ data: T }>;
-type SetDataFunction<T> = (data: T) => void;
 
 /**
  * 批量获取多个数据的 Hook
@@ -8,12 +6,13 @@ type SetDataFunction<T> = (data: T) => void;
  */
 export const useFetchMultipleData = (
   fetchActions: Array<{
-    fetchFn: FetchFunction<any>;
-    setDataFn: SetDataFunction<any>;
+    fetchFn: () => Promise<any>;
+    setDataFn: (data: any) => void;
   }>
 ) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+
   const fetchAllData = async () => {
     try {
       setIsLoading(true);
@@ -25,18 +24,42 @@ export const useFetchMultipleData = (
         setDataFn(results[index].data);
       });
       setIsLoading(false);
-    } catch (error: any) {
-      // 根据错误类型设置不同的提示信息
-      const isTimeout = error?.message?.includes("timeout");
-      toast({
-        variant: "destructive",
-        title: isTimeout ? t("请求超时") : t("请求失败"),
-        description: isTimeout
-          ? t("请尝试重新请求")
-          : error.data.message || t("遇到了一些问题"),
-      });
+    } catch (error) {
+      handleError(error, t);
     }
   };
 
   return { fetchAllData, isLoading };
+};
+
+/**
+ * 单个数据获取的 Hook
+ * @returns 返回一个可以获取数据的函数
+ */
+export const useFetchData = () => {
+  const { t } = useTranslation();
+
+  return async (fetchFn: () => Promise<any>) => {
+    try {
+      const results = await fetchFn();
+      return results.data;
+    } catch (error) {
+      handleError(error, t);
+      return null;
+    }
+  };
+};
+
+// 错误处理辅助函数
+const handleError = (error: any, t: (key: string) => string) => {
+  const isTimeout = error?.message?.includes("timeout");
+  toast({
+    variant: "destructive",
+    title: isTimeout ? t("请求超时") : t("请求失败"),
+    description: isTimeout
+      ? t("请尝试重新请求")
+      : error.data?.errors?.period?.[0] ||
+        error.data?.message ||
+        t("遇到了一些问题"),
+  });
 };

@@ -30,7 +30,7 @@ export function Dashboard() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="仪表盘" />
+      <Head badge="仪表盘" isShow={true} />
 
       {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
       {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}

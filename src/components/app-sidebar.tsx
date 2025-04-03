@@ -1,5 +1,16 @@
 import * as React from "react";
-import { Command, Frame, LifeBuoy, Map, SendHorizontal } from "lucide-react";
+import {
+  Command,
+  Frame,
+  LifeBuoy,
+  Map,
+  SendHorizontal,
+  ShoppingCart,
+  Server,
+  FileText,
+  Users,
+  ClipboardList,
+} from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -45,13 +56,44 @@ const getSidebarData = () => {
         url: "/#/knowledge",
         icon: Map,
       },
+      {
+        name: t("报告"),
+        url: "/#/announcements",
+        icon: ClipboardList,
+      },
+    ],
+    subscriptionItems: [
+      {
+        name: t("购买订阅"),
+        url: "/#/plan",
+        icon: ShoppingCart, // 购物车图标更适合购买操作
+      },
+      {
+        name: t("节点状态"),
+        url: "/#/server",
+        icon: Server, // 服务器图标更适合表示节点状态
+      },
+    ],
+
+    // 将 projects3 重命名为 accountItems
+    accountItems: [
+      {
+        name: t("我的订单"),
+        url: "/#/order", // 修正了URL，应该指向订单页面
+        icon: FileText, // 文档图标更适合表示订单
+      },
+      {
+        name: t("我的邀请"),
+        url: "/#/invite", // 修正了URL，应该指向邀请页面
+        icon: Users, // 用户组图标更适合表示邀请功能
+      },
     ],
   };
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = getSidebarData();
-
+  const { t } = useTranslation();
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -72,7 +114,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects} lable={t("概况")} />
+        <NavProjects projects={data.subscriptionItems} lable={t("订阅")} />
+        <NavProjects projects={data.accountItems} lable={t("财务")} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

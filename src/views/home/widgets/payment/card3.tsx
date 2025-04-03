@@ -1,0 +1,39 @@
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+
+import { useV2boardUserData } from "@/store/index";
+
+export function Card3() {
+  const store = useV2boardUserData();
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>订阅信息</CardTitle>
+        <CardDescription>Enter your payment details</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="flex gap-2 items-center">
+          <CardDescription className="w-32">产品名称：</CardDescription>
+          <div className="text-sm">
+            {store.paymentDetailData.data.plan.name}
+          </div>
+        </div>
+        <div className="flex gap-2 items-center">
+          <CardDescription className="w-32">类型/周期：</CardDescription>
+          <div className="text-sm">月付</div>
+        </div>
+        <div className="flex gap-2 items-center">
+          <CardDescription className="w-32">产品流量：</CardDescription>
+          <div className="text-sm">
+            {store.paymentDetailData.data.plan.transfer_enable} GiB
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

@@ -1,7 +1,5 @@
 import {
   useEffect,
-  toast,
-  useTranslation,
   useV2boardUserData,
   noticeFetchGet,
   PageContainer,
@@ -9,29 +7,21 @@ import {
 } from "@/utils/common-imports";
 import { Card2 } from "@/views/home/widgets/announcements/card1";
 import { Loading } from "@/views/home/widgets/announcements/loading";
-
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function Announcements() {
   const store = useV2boardUserData();
-  const { t } = useTranslation();
-  const isLoading = !store.noticeFetchData.data;
+  const { fetchAllData, isLoading } = useFetchMultipleData([
+    {
+      fetchFn: noticeFetchGet,
+      setDataFn: (data) => store.setNoticeFetchData(data),
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setNoticeFetchData((await noticeFetchGet()).data);
-      } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: t("请求失败"),
-          description: error.data.message || t("遇到了一些问题"),
-        });
-      }
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="公告" />
+      <Head badge="报告" />
       <Card2 />
     </PageContainer>
   );

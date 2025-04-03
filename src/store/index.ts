@@ -16,8 +16,8 @@ interface UserData {
   planFetchData: any;
   planActive: number;
   planFetchIDData: any;
-  orderDetailData: any;
-  orderPaymentMethodData: any;
+  paymentDetailData: any;
+  paymentMethodData: any;
   knowledgeFetchData: any;
   knowledgeFetchIDData: any;
   knowledgeActive: boolean;
@@ -38,8 +38,8 @@ interface UserData {
   setPlanFetchData: (data: any) => void;
   setPlanActive: (value: number) => void;
   setPlanFetchIDData: (data: any) => void;
-  setOrderDetailData: (data: any) => void;
-  setOrderPaymentMethodData: (data: any) => void;
+  setPaymentDetailData: (data: any) => void;
+  setPaymentMethodData: (data: any) => void;
   setKnowledgeFetchData: (data: any) => void;
   setKnowledgeFetchIDData: (data: any) => void;
   setKnowledgeActive: (value: boolean) => void;
@@ -63,8 +63,8 @@ export const useV2boardUserData = create<UserData>((set) => ({
   planFetchData: {},
   planActive: 1,
   planFetchIDData: {},
-  orderDetailData: {},
-  orderPaymentMethodData: {},
+  paymentDetailData: {},
+  paymentMethodData: {},
   knowledgeFetchData: {},
   knowledgeFetchIDData: {},
   knowledgeActive: false,
@@ -86,8 +86,8 @@ export const useV2boardUserData = create<UserData>((set) => ({
   setPlanFetchData: (data) => set({ planFetchData: data }),
   setPlanActive: (value) => set({ planActive: value }),
   setPlanFetchIDData: (data) => set({ planFetchIDData: data }),
-  setOrderDetailData: (data) => set({ orderDetailData: data }),
-  setOrderPaymentMethodData: (data) => set({ orderPaymentMethodData: data }),
+  setPaymentDetailData: (data) => set({ paymentDetailData: data }),
+  setPaymentMethodData: (data) => set({ paymentMethodData: data }),
   setKnowledgeFetchData: (data) => set({ knowledgeFetchData: data }),
   setKnowledgeFetchIDData: (updater) =>
     set((state) => ({

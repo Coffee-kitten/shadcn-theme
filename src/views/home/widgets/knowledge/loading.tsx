@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { Separator } from "@/components/ui/separator";
 export function Loading1() {
   return (
     <div className="grid md:grid-cols-4 gap-6">
@@ -36,7 +36,7 @@ export function Loading2() {
           <Skeleton className="h-[20px] w-[128px] rounded-lg" />
         </div>
       </div>
-      <hr className="my-2 bg-muted-foreground/65"></hr>
+      <Separator />
       <div className="flex gap-1 flex-col max-w-[90svw] my-4 select-text">
         <Skeleton className="h-[30px] w-[256px] rounded-lg" />
         <Skeleton className="h-[30px] w-[196px] rounded-lg" />
@@ -59,7 +59,7 @@ export function Loading3() {
           <Skeleton className="h-[20px] w-[128px] rounded-lg" />
         </div>
       </div>
-      <hr className="h-px my-2 border-0 bg-muted-foreground/65"></hr>
+      <Separator />
       <div className="flex gap-1 flex-col max-w-[90svw] my-4 select-text">
         <Skeleton className="h-[30px] w-[256px] rounded-lg" />
         <Skeleton className="h-[30px] w-[196px] rounded-lg" />

@@ -11,6 +11,7 @@ import {
 import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import { Card1 } from "@/views/home/widgets/plan/card1";
+import { Card2 } from "@/views/home/widgets/plan/card2";
 
 export function Plan() {
   const store = useV2boardUserData();

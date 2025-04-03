@@ -1,39 +1,28 @@
 import {
   useEffect,
-  toast,
-  useTranslation,
   useV2boardUserData,
   orderFetchGet,
   Head,
+  PageContainer,
 } from "@/utils/common-imports";
 import { Card1 } from "@/views/home/widgets/order/card1";
 import { Loading } from "@/views/home/widgets/order/loading";
-
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function Order() {
   const store = useV2boardUserData();
-  const { t } = useTranslation();
-
+  const { fetchAllData, isLoading } = useFetchMultipleData([
+    {
+      fetchFn: orderFetchGet,
+      setDataFn: (data) => store.setOrderFetchData(data),
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setOrderFetchData((await orderFetchGet()).data);
-      } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: t("请求失败"),
-          description: error.data.message || t("遇到了一些问题"),
-        });
-      }
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
-  return store.orderFetchData.data ? (
-    <div className="flex flex-1 flex-col gap-4 p-6 pt-0 max-w-[1380px] mx-auto w-full">
+  return (
+    <PageContainer loading={isLoading} LoadingComponent={Loading}>
       <Head badge="订单管理" />
       <Card1 />
-    </div>
-  ) : (
-    <Loading />
+    </PageContainer>
   );
 }
