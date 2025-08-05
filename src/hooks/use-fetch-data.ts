@@ -7,7 +7,7 @@ import { useState, toast, useTranslation } from "@/utils/common-imports";
 export const useFetchMultipleData = (
   fetchActions: Array<{
     fetchFn: () => Promise<any>;
-    setDataFn: (data: any) => void;
+    setDataFn?: (data: any) => void;
   }>
 ) => {
   const { t } = useTranslation();
@@ -21,7 +21,9 @@ export const useFetchMultipleData = (
       );
 
       fetchActions.forEach(({ setDataFn }, index) => {
-        setDataFn(results[index].data);
+        if (setDataFn) {
+          setDataFn(results[index].data);
+        }
       });
       setIsLoading(false);
     } catch (error) {

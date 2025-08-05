@@ -6,6 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
@@ -20,7 +31,24 @@ export function Card2() {
     <Card className="bg-muted/50">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          流量 <Button variant="secondary">重置</Button>
+          流量
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="secondary">重置</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>确认重置本月已用流量？</AlertDialogTitle>
+                <AlertDialogDescription>
+                  点击「确定」后将跳转至收银台。完成支付后，系统将自动为阁下重置本月的流量使用记录，流量额度即刻恢复。
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardTitle>
         <CardDescription>
           {store.subscribeData.data.plan.onetime_price ? (

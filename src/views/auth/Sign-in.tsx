@@ -44,7 +44,7 @@ export function SignIn() {
             </a>
           </div>
         </div>
-        <div className="hidden lg:block fixed bottom-5 end-5 text-sm uppercase text-foreground font-extrabold opacity-30 dark:opacity-50 backdrop-saturate-200 transition-all duration-200 hover:opacity-85">
+        {/* <div className="hidden lg:block fixed bottom-5 end-5 text-sm uppercase text-foreground font-extrabold opacity-30 dark:opacity-50 backdrop-saturate-200 transition-all duration-200 hover:opacity-85">
           <span>Proudly written by </span>
           <a
             href="https://t.me/s/NEDEFINITA"
@@ -53,7 +53,7 @@ export function SignIn() {
             UNDEFINED
           </a>
           <span>.</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -6,8 +6,8 @@ export const signInPost = (email: string, password: string) => {
     url: "/api/v1/passport/auth/login",
     method: "post",
     data: {
-      email: email,
-      password: password,
+      email,
+      password,
     },
   });
 };
@@ -18,7 +18,7 @@ export const signUpMailPost = (email: string) => {
     url: "/api/v1/passport/comm/sendEmailVerify",
     method: "post",
     data: {
-      email: email,
+      email,
     },
   });
 };
@@ -34,10 +34,10 @@ export const signUpPost = (
     url: "/api/v1/passport/auth/register",
     method: "post",
     data: {
-      email: email,
-      password: password,
-      invite_code: invite_code,
-      email_code: email_code,
+      email,
+      password,
+      invite_code,
+      email_code,
     },
   });
 };

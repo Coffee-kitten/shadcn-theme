@@ -59,7 +59,7 @@ export function Loading3() {
           <Skeleton className="h-[20px] w-[128px] rounded-lg" />
         </div>
       </div>
-      <Separator />
+      <Separator className="bg-foreground/50" />
       <div className="flex gap-1 flex-col max-w-[90svw] my-4 select-text">
         <Skeleton className="h-[30px] w-[256px] rounded-lg" />
         <Skeleton className="h-[30px] w-[196px] rounded-lg" />

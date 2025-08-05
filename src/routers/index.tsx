@@ -22,6 +22,8 @@ import { Server } from "@/views/home/server";
 import { Order } from "@/views/home/order";
 import { Plan } from "@/views/home/plan";
 import { Payment } from "@/views/home/payment";
+import { User } from "@/views/home/user";
+import { Invite } from "@/views/home/invite";
 //
 
 function ProtectedRoutes() {
@@ -80,6 +82,14 @@ const router = createHashRouter([
           {
             path: "order/:id",
             element: <Payment />,
+          },
+          {
+            path: "user",
+            element: <User />,
+          },
+          {
+            path: "invite",
+            element: <Invite />,
           },
         ],
       },

@@ -9,6 +9,7 @@ export { Badge } from "@/components/ui/badge";
 // 常用的工具函数和hooks
 export { useTranslation } from "react-i18next";
 export { useV2boardUserData } from "@/store/index";
+export { useFetchData, useFetchMultipleData } from "@/hooks/use-fetch-data";
 
 // 常用的API
 export * from "@/api/dashboard";
@@ -17,6 +18,8 @@ export * from "@/api/knowledge";
 export * from "@/api/order";
 export * from "@/api/plan";
 export * from "@/api/payment";
+export * from "@/api/user";
+export * from "@/api/invite";
 
 // 常用的布局组件
 export { PageContainer } from "@/views/home/page-container";

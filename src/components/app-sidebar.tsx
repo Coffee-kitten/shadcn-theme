@@ -9,6 +9,7 @@ import {
   Server,
   FileText,
   Users,
+  User,
   ClipboardList,
 } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
@@ -77,6 +78,11 @@ const getSidebarData = () => {
 
     // 将 projects3 重命名为 accountItems
     accountItems: [
+      {
+        name: t("个人中心"),
+        url: "/#/user",
+        icon: User, // 用户图标表示个人中心
+      },
       {
         name: t("我的订单"),
         url: "/#/order", // 修正了URL，应该指向订单页面

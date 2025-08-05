@@ -2,32 +2,38 @@ import { v2boardRequest } from "@/utils/requests";
 
 export const paymentDetailGet = (trade_no: any) => {
   return v2boardRequest({
-    url: "api/v1/user/order/detail?trade_no=" + trade_no,
+    url: "/api/v1/user/order/detail",
     method: "get",
+    params: {
+      trade_no,
+    },
   });
 };
 
 export const paymentMethodGet = () => {
   return v2boardRequest({
-    url: "api/v1/user/order/getPaymentMethod",
+    url: "/api/v1/user/order/getPaymentMethod",
     method: "get",
   });
 };
 
-export const orderCheckGet = (trace_no: any) => {
+export const orderCheckGet = (trade_no: string) => {
   return v2boardRequest({
-    url: "api/v1/user/order/check?trade_no=" + trace_no,
+    url: "/api/v1/user/order/check",
     method: "get",
+    params: {
+      trade_no,
+    },
   });
 };
 
-export const orderCheckoutPost = (trade_no: any, method: string) => {
+export const orderCheckoutPost = (trade_no: string, method: string) => {
   return v2boardRequest({
-    url: "api/v1/user/order/checkout",
+    url: "/api/v1/user/order/checkout",
     method: "post",
     data: {
-      trade_no: trade_no,
-      method: method,
+      trade_no,
+      method,
     },
   });
 };

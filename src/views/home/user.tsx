@@ -1,28 +1,29 @@
 import {
   useEffect,
   useV2boardUserData,
-  announcementsFetchGet,
+  userNoticeFetchGet,
   PageContainer,
   Head,
 } from "@/utils/common-imports";
-import { Card2 } from "@/views/home/widgets/announcements/card1";
+import { Card1 } from "@/views/home/widgets/user/card1";
+import { Card2 } from "@/views/home/widgets/user/card2";
+import { Card3 } from "@/views/home/widgets/user/card3";
 import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
-export function Announcements() {
+export function User() {
   const store = useV2boardUserData();
   const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: announcementsFetchGet,
-      setDataFn: (data) => store.setNoticeFetchData(data),
-    },
+
   ]);
   useEffect(() => {
     fetchAllData();
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="报告" />
+      <Head badge="用户中心" />
+      <Card1 />
       <Card2 />
+      <Card3 />
     </PageContainer>
   );
 }

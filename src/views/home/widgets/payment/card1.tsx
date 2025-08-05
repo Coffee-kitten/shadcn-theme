@@ -7,44 +7,58 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { orderCheckoutPost, orderCheckGet } from "@/api/payment";
+import {
+  orderCheckoutPost,
+  orderCheckGet,
+  paymentDetailGet,
+} from "@/api/payment";
 import { useV2boardUserData } from "@/store/index";
 import { CreditCard } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { AntDesignAlipayCircleFilled } from "@/views/svg/payment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Qrcode } from "@/views/home/widgets/payment/qrcode";
 import { useFetchData } from "@/hooks/use-fetch-data";
 import { Card2 } from "@/views/home/widgets/payment/card2";
 import { Card3 } from "@/views/home/widgets/payment/card3";
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function Card1() {
   const store = useV2boardUserData();
   const [selectedPayment, setSelectedPayment] = useState(
     store.paymentMethodData.data[0]?.id
   );
-  const [isLoading, setIsLoading] = useState(false);
+
   const [isDialogLoading, setDialogIsLoading] = useState(false);
   const [paymentData, setPaymentData] = useState<any>(null);
 
-  const [tradeNo, setTradeNo] = useState<string | null>(null);
-  const { data, error } = useQuery({
-    queryKey: ["transactions", tradeNo],
-    queryFn: async () => {
-      if (!tradeNo) throw new Error("tradeNo 不能为空");
-      return await orderCheckGet(tradeNo);
+  const [isLoading, setIsLoading] = useState(false);
+  const fetchData = useFetchData();
+  const { fetchAllData } = useFetchMultipleData([
+    {
+      fetchFn: () => paymentDetailGet(store.paymentDetailData.data.trade_no),
+      setDataFn: (data) => store.setPaymentDetailData(data),
     },
-    enabled: !!tradeNo, // 只有当 tradeNo 存在时才执行查询
-    refetchInterval: 5000, // 每 5 秒轮询
-    staleTime: 3000, // 数据 3 秒内不会被标记为过期
-    onSuccess: (data) => {
-      if (data.data?.status === 1) {
-        setTradeNo(null); // 如果交易成功，则清空 tradeNo
+  ]);
+  const [shouldPoll, setShouldPoll] = useState(true);
+
+  useEffect(() => {
+    const fetchAndSchedule = async () => {
+      if (!shouldPoll) return;
+
+      const result = await fetchData(() =>
+        orderCheckGet(store.paymentDetailData.data.trade_no)
+      );
+
+      if (result?.data !== 0) {
+        await fetchAllData();
+        setShouldPoll(false);
+        return;
       }
-    },
-    onError: (error) => {
-      console.error("查询失败:", error);
-    },
-  });
+
+      setTimeout(fetchAndSchedule, 5000);
+    };
+
+    fetchAndSchedule();
+  }, [shouldPoll]);
 
   const getPaymentIcon = (name: string) => {
     if (name.toLowerCase().includes("alipay")) {
@@ -52,7 +66,7 @@ export function Card1() {
     }
     return <CreditCard className="mb-3 h-6 w-6" />;
   };
-  const fetchData = useFetchData();
+
   const clickPayment = async () => {
     setIsLoading(true);
     const result = await fetchData(() =>

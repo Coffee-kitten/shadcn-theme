@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { useTranslation } from "react-i18next";
+
 export function NavProjects({
   projects,
   lable,
@@ -21,7 +21,7 @@ export function NavProjects({
   }[];
   lable: string;
 }) {
-  const { t } = useTranslation();
+
   const location = useLocation();
 
   return (

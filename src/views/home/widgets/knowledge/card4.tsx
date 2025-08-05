@@ -40,7 +40,7 @@ export function Card4({ selectedId }: any) {
                 </div>
               </div>
             </div>
-            <Separator />
+            <Separator className="bg-foreground/50" />
             <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-none my-4 select-text">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
