@@ -30,3 +30,11 @@ export const changePasswordPost = (
     },
   });
 };
+
+// 重置安全信息
+export const resetSecurityGet = () => {
+  return v2boardRequest({
+    url: "/api/v1/user/resetSecurity",
+    method: "get",
+  });
+};

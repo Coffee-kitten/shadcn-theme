@@ -2,17 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Toggle } from "@/components/ui/toggle";
 import { ArrowRightLeft } from "lucide-react";
+import { BadgeJapaneseYen } from "lucide-react";
+import { useState } from "react";
 
 export const TransferDialog = ({
   currentBalance,
@@ -20,54 +22,71 @@ export const TransferDialog = ({
   setTransferAmount,
   onTransfer,
 }: any) => {
+  const [open, setOpen] = useState(false);
+
+  const handleTransfer = () => {
+    onTransfer();
+    setOpen(false);
+    setTransferAmount("");
+  };
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="secondary"
-          size="sm"
-        >
-          <ArrowRightLeft className="w-3 h-3 mr-1" />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="secondary" size="sm">
+          <ArrowRightLeft />
           划转
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>佣金划转</AlertDialogTitle>
-          <AlertDialogDescription>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>佣金划转</DialogTitle>
+          <DialogDescription>
             划转后的余额仅用于 {(window as any).config.name} 消费使用
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="current-balance">当前推广佣金余额</Label>
-            <Input
-              id="current-balance"
-              value={`¥${currentBalance / 100}`}
-              disabled
-              className="bg-muted"
-            />
+          </DialogDescription>
+        </DialogHeader>
+        <div className="my-2">
+          <div className="text-base">您的可划转佣金:</div>
+          <div className="flex gap-0.5 items-center font-medium text-xl">
+            <span>¥</span>
+            <span>{currentBalance / 100}</span>
+            <span>CNY</span>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="transfer-amount">划转金额</Label>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="transfer-amount">划转金额</Label>
+          <div className="flex gap-2 items-center">
+            <Toggle variant="outline" aria-label="Toggle italic">
+              <BadgeJapaneseYen />
+            </Toggle>
             <Input
               id="transfer-amount"
               type="number"
               placeholder="请输入划转金额"
               value={transferAmount}
-              onChange={(e) => setTransferAmount(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // 只允许最多两位小数
+                if (value === "" || /^\d*\.?\d{0,2}$/.test(value)) {
+                  setTransferAmount(value);
+                }
+              }}
               max={currentBalance / 100}
               min="0"
               step="0.01"
             />
           </div>
         </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setTransferAmount("")}>
-            取消
-          </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={onTransfer}
+
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button className="mt-2 sm:mt-0" variant="outline">
+              取消
+            </Button>
+          </DialogClose>
+          <Button
+            onClick={handleTransfer}
             disabled={
               !transferAmount ||
               parseFloat(transferAmount) <= 0 ||
@@ -75,9 +94,9 @@ export const TransferDialog = ({
             }
           >
             确认划转
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

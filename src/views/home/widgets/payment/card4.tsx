@@ -4,7 +4,6 @@ export function Card4() {
   const store = useV2boardUserData();
   const paymentData = store.paymentDetailData.data;
   const orderStatus = getOrderStatus(store.paymentDetailData.data.status);
-  console.log(orderStatus);
   // 获取标题和描述文本
   const getTitleAndDescription = () => {
     switch (paymentData.status) {

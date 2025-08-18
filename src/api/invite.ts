@@ -42,3 +42,18 @@ export const userTransferPost = (transfer_amount: number) => {
     },
   });
 };
+
+// 申请提现
+export const ticketWithdrawPost = (
+  withdraw_method: string,
+  withdraw_account: string
+) => {
+  return v2boardRequest({
+    url: "/api/v1/user/ticket/withdraw",
+    method: "post",
+    data: {
+      withdraw_method,
+      withdraw_account,
+    },
+  });
+};

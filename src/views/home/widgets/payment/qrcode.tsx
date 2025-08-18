@@ -31,9 +31,16 @@ export function Qrcode({
           disabled={isLoading}
           onClick={clickFuc}
         >
-          {isLoading && <Loader2 className="animate-spin" />}
-          {!isLoading && <CreditCard />}
-          {isLoading ? "Please wait" : "付款"}
+          {isLoading ? (
+            <>
+              <Loader2 className="animate-spin" /> Please wait
+            </>
+          ) : (
+            <>
+              <CreditCard />
+              付款
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[475px] [&>button]:hidden">

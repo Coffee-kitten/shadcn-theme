@@ -2,7 +2,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { inviteSaveGet } from "@/utils/common-imports";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
-import { inviteFetchGet, userTransferPost } from "@/utils/common-imports";
+import {
+  inviteFetchGet,
+  userTransferPost,
+  ticketWithdrawPost,
+} from "@/utils/common-imports";
 import { useV2boardUserData } from "@/store/index";
 
 export const useInviteActions = () => {
@@ -41,15 +45,18 @@ export const useInviteActions = () => {
     }
   };
 
-  const handleWithdrawCommission = async (withdrawMethod: string, withdrawAccount: string) => {
+  const handleWithdrawCommission = async (
+    withdrawMethod: string,
+    withdrawAccount: string
+  ) => {
     try {
       // TODO: 调用推广佣金提现的API，传入提现方式和账号
-      // await withdrawCommission({ method: withdrawMethod, account: withdrawAccount });
+      await ticketWithdrawPost(withdrawMethod, withdrawAccount);
       await fetchAllData(); // 更新数据
       toast.success(`提现申请已提交，提现方式：${withdrawMethod}`);
     } catch (error: any) {
       toast.error(error.data?.message || "提现失败");
-    } 
+    }
   };
 
   return {

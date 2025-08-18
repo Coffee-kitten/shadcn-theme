@@ -1,21 +1,22 @@
 import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -26,63 +27,69 @@ import { useV2boardUserData } from "@/store/index";
 export const WithdrawDialog = ({ currentBalance, onWithdraw }: any) => {
   const [withdrawMethod, setWithdrawMethod] = useState("");
   const [withdrawAccount, setWithdrawAccount] = useState("");
+  const [open, setOpen] = useState(false);
   const store = useV2boardUserData();
-
-  const handleWithdraw = () => {
-    if (withdrawMethod && withdrawAccount) {
-      onWithdraw(withdrawMethod, withdrawAccount);
-    }
-  };
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button variant="secondary" size="sm">
-          <Banknote className="w-3 h-3 mr-1" />
+          <Banknote />
           提现
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>提现申请</AlertDialogTitle>
-          <AlertDialogDescription>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>提现申请</DialogTitle>
+          <DialogDescription>
             申请提现 ¥{currentBalance / 100} 推广佣金，请填写提现信息。
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid gap-2">
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="space-y-2 ">
             <Label htmlFor="withdraw-method">提现方式</Label>
-            <Select value={withdrawMethod} onValueChange={setWithdrawMethod}>
-              <SelectTrigger>
-                <SelectValue placeholder="请选择提现方式" />
+            <Select onValueChange={setWithdrawMethod}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={withdrawMethod || "..."} />
               </SelectTrigger>
               <SelectContent>
-                {store.configData.data?.withdraw_methods?.map(
-                  (method: string) => (
+                <SelectGroup>
+                  {store.configData.data.withdraw_methods.map((method: any) => (
                     <SelectItem key={method} value={method}>
                       {method}
                     </SelectItem>
-                  )
-                )}
+                  ))}
+                </SelectGroup>
               </SelectContent>
             </Select>
           </div>
-          <div className="grid gap-2">
+          <div className="space-y-2 md:col-span-2">
             <Label htmlFor="withdraw-account">提现账号</Label>
             <Input
               id="withdraw-account"
               placeholder="请输入提现账号"
               value={withdrawAccount}
+              className="w-full"
               onChange={(e) => setWithdrawAccount(e.target.value)}
             />
           </div>
         </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel>取消</AlertDialogCancel>
-          <AlertDialogAction onClick={handleWithdraw}>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button className="mt-2 sm:mt-0" variant="outline">
+              取消
+            </Button>
+          </DialogClose>
+          <Button
+            disabled={!withdrawMethod || !withdrawAccount}
+            onClick={() => {
+              onWithdraw(withdrawMethod, withdrawAccount);
+              setOpen(false);
+            }}
+          >
             确认提现
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

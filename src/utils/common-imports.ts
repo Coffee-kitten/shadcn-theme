@@ -20,6 +20,7 @@ export * from "@/api/plan";
 export * from "@/api/payment";
 export * from "@/api/user";
 export * from "@/api/invite";
+export * from "@/api/ticket";
 
 // 常用的布局组件
 export { PageContainer } from "@/views/home/page-container";

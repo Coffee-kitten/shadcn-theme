@@ -74,12 +74,6 @@ export const Card1 = () => {
           iconBgColor="bg-green-50 dark:bg-green-950/50"
           iconColor="text-green-600 dark:text-green-400"
           title="剩余佣金"
-          badge={{
-            text: "可提现",
-            variant: "secondary",
-            className:
-              "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400",
-          }}
           content={
             <div className="flex items-center gap-2">
               <div className="flex gap-1">

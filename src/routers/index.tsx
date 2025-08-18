@@ -10,12 +10,12 @@ import { useEffect } from "react";
 //
 import { Sidebar } from "@/views/home/sidebar";
 //
-import { SignIn } from "@/views/auth/sign-in";
-import { SignUp } from "@/views/auth/sign-up";
+import { SignIn } from "@/views/auth/Sign-in";
+import { SignUp } from "@/views/auth/Sign-up";
 import { FourZeroFour } from "@/views/fragments/404";
 import { Tos } from "@/views/fragments/tos";
 //
-import { Dashboard } from "@/views/home/dashboard";
+import { Dashboard } from "@/views/home/Dashboard";
 import { Announcements } from "@/views/home/announcements";
 import { Knowledge } from "@/views/home/knowledge";
 import { Server } from "@/views/home/server";
@@ -24,8 +24,8 @@ import { Plan } from "@/views/home/plan";
 import { Payment } from "@/views/home/payment";
 import { User } from "@/views/home/user";
 import { Invite } from "@/views/home/invite";
+import { Ticket } from "@/views/home/ticket";
 //
-
 function ProtectedRoutes() {
   return <Outlet />;
 }
@@ -91,6 +91,10 @@ const router = createHashRouter([
             path: "invite",
             element: <Invite />,
           },
+          {
+            path: "ticket",
+            element: <Ticket />,
+          },
         ],
       },
     ],
@@ -98,5 +102,12 @@ const router = createHashRouter([
 ]);
 
 export function Routers() {
-  return <RouterProvider router={router} />;
+  return (
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
+  );
 }

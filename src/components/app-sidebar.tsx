@@ -11,6 +11,7 @@ import {
   Users,
   User,
   ClipboardList,
+  MessageCircle,
 } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -76,13 +77,22 @@ const getSidebarData = () => {
       },
     ],
 
-    // 将 projects3 重命名为 accountItems
-    accountItems: [
+    // 用户相关功能
+    userItems: [
       {
         name: t("个人中心"),
         url: "/#/user",
         icon: User, // 用户图标表示个人中心
       },
+      {
+        name: t("我的工单"),
+        url: "/#/ticket",
+        icon: MessageCircle, // 消息圆圈图标表示工单
+      },
+    ],
+
+    // 将 projects3 重命名为 accountItems
+    accountItems: [
       {
         name: t("我的订单"),
         url: "/#/order", // 修正了URL，应该指向订单页面
@@ -122,6 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavProjects projects={data.projects} lable={t("概况")} />
         <NavProjects projects={data.subscriptionItems} lable={t("订阅")} />
+        <NavProjects projects={data.userItems} lable={t("用户")} />
         <NavProjects projects={data.accountItems} lable={t("财务")} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
