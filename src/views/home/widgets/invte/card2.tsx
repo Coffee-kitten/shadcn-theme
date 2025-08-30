@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 const CommissionRecordItem = ({ record }: any) => {
   const formatDate = (timestamp: number) => {
-    return dayjs(timestamp * 1000).format("YYYY-MM-DD HH:mm");
+    return dayjs.unix(timestamp).format("YYYY-MM-DD HH:mm");
   };
 
   const getStatusBadge = () => {

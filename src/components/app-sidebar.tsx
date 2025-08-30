@@ -37,13 +37,8 @@ const getSidebarData = () => {
     },
     navSecondary: [
       {
-        title: "Support",
-        url: "#",
-        icon: LifeBuoy,
-      },
-      {
-        title: "Feedback",
-        url: "#",
+        title: "Telegram",
+        url: store.configData.data.telegram_discuss_link,
         icon: SendHorizontal,
       },
     ],
@@ -67,7 +62,7 @@ const getSidebarData = () => {
     subscriptionItems: [
       {
         name: t("购买订阅"),
-        url: "/#/plan",
+        url: "/#/store",
         icon: ShoppingCart, // 购物车图标更适合购买操作
       },
       {

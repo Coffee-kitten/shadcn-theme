@@ -1,8 +1,7 @@
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle } from "lucide-react";
 import dayjs from "dayjs";
-import { getTicketStatus, getPriorityText } from "./utils";
+import { getTicketStatus } from "./utils";
 
 interface TicketListProps {
   tickets: any[];
@@ -11,9 +10,9 @@ interface TicketListProps {
 
 export function TicketList({ tickets, onTicketClick }: TicketListProps) {
   return (
-    <div className="grid lg:grid-cols-2 gap-4 pr-4">
+    <div className="grid lg:grid-cols-2 gap-4">
       {tickets.map((ticket: any) => {
-        const ticketStatus = getTicketStatus(ticket.status);
+        const ticketStatus = getTicketStatus(ticket.reply_status);
 
         return (
           <button
@@ -36,14 +35,23 @@ export function TicketList({ tickets, onTicketClick }: TicketListProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Badge
-                    variant={ticketStatus.variant}
-                    className="text-xs px-2 py-0.5 font-normal"
-                  >
-                    {ticketStatus.text}
-                  </Badge>
+                  {ticket.status == 1 ? (
+                    <Badge
+                      variant="secondary"
+                      className="text-xs px-2 py-0.5 font-normal"
+                    >
+                      已完成
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant={ticketStatus.variant}
+                      className="text-xs px-2 py-0.5 font-normal"
+                    >
+                      {ticketStatus.text}
+                    </Badge>
+                  )}
                   <span className="text-xs text-muted-foreground">
-                    {dayjs(ticket.created_at * 1000).format("MM-DD HH:mm")}
+                    {dayjs.unix(ticket.created_at).format("MM-DD HH:mm")}
                   </span>
                 </div>
               </div>

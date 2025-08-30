@@ -5,7 +5,7 @@ import {
   PageContainer,
   Head,
 } from "@/utils/common-imports";
-import { Card2 } from "@/views/home/widgets/announcements/card1";
+import { Card1 } from "@/views/home/widgets/announcements/Card1";
 import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function Announcements() {
@@ -13,7 +13,7 @@ export function Announcements() {
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: announcementsFetchGet,
-      setDataFn: (data) => store.setNoticeFetchData(data),
+      setDataFn: store.setNoticeFetchData,
     },
   ]);
   useEffect(() => {
@@ -22,7 +22,7 @@ export function Announcements() {
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
       <Head badge="报告" />
-      <Card2 />
+      <Card1 />
     </PageContainer>
   );
 }

@@ -14,24 +14,21 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { ArrowRightLeft } from "lucide-react";
 import { BadgeJapaneseYen } from "lucide-react";
-import { useState } from "react";
-
-export const TransferDialog = ({
-  currentBalance,
-  transferAmount,
-  setTransferAmount,
-  onTransfer,
-}: any) => {
-  const [open, setOpen] = useState(false);
-
+import { useInviteActions } from "./useInviteActions";
+export const TransferDialog = ({ currentBalance }: any) => {
+  const {
+    transferAmount,
+    setTransferAmount,
+    handleTransferToBalance,
+    generateLoading,
+  } = useInviteActions();
   const handleTransfer = () => {
-    onTransfer();
-    setOpen(false);
+    handleTransferToBalance();
     setTransferAmount("");
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button variant="secondary" size="sm">
           <ArrowRightLeft />
@@ -81,7 +78,11 @@ export const TransferDialog = ({
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="mt-2 sm:mt-0" variant="outline">
+            <Button
+              className="mt-2 sm:mt-0"
+              variant="outline"
+              disabled={generateLoading}
+            >
               取消
             </Button>
           </DialogClose>
@@ -90,7 +91,8 @@ export const TransferDialog = ({
             disabled={
               !transferAmount ||
               parseFloat(transferAmount) <= 0 ||
-              parseFloat(transferAmount) > currentBalance / 100
+              parseFloat(transferAmount) > currentBalance / 100 ||
+              generateLoading
             }
           >
             确认划转

@@ -53,7 +53,7 @@ export function FormSignIn() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} autoComplete="email" />
               </FormControl>
             </FormItem>
           )}
@@ -66,23 +66,35 @@ export function FormSignIn() {
               <FormLabel className="flex items-center">
                 Password{" "}
                 <a
-                  href="/forgot-password"
-                  className="ml-auto inline-block text-sm underline"
+                  href="/#/forgot-password"
+                  className="ml-auto inline-block text-xs sm:text-sm underline opacity-75"
                 >
                   {t("忘记密码")}
                 </a>
               </FormLabel>
 
               <FormControl>
-                <Input {...field} type="password" />
+                <Input
+                  {...field}
+                  type="password"
+                  autoComplete="current-password"
+                />
               </FormControl>
             </FormItem>
           )}
         />
         <Button type="submit" disabled={isLoading}>
-          {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-          {!isLoading && <LogIn className="mr-2 h-4 w-4" />}
-          {isLoading ? "Please wait" : t("登入")}
+          {isLoading ? (
+            <>
+              <ReloadIcon className="mr-2 animate-spin" />
+              Please wait
+            </>
+          ) : (
+            <>
+              <LogIn className="mr-2" />
+              {t("登入")}
+            </>
+          )}
         </Button>
       </form>
     </Form>

@@ -10,7 +10,7 @@ import {
 } from "@/utils/common-imports";
 import { Card1 } from "@/views/home/widgets/invte/card1";
 import { Card2 } from "@/views/home/widgets/invte/card2";
-import { Loading } from "@/views/home/widgets/announcements/loading";
+import { Loading } from "@/views/home/widgets/invte/Loading";
 
 export function Invite() {
   const store = useV2boardUserData();
@@ -22,10 +22,6 @@ export function Invite() {
     {
       fetchFn: inviteDetailsGet,
       setDataFn: store.setInviteDetailsData,
-    },
-    {
-      fetchFn: commConfigGet,
-      setDataFn: store.setConfigData,
     },
   ]);
 

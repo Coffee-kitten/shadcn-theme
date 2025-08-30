@@ -21,7 +21,8 @@ export const Card3 = () => {
   const fetchData = useFetchData();
   const [loadingTraffic, setLoadingTraffic] = useState(false);
   const [loadingExpire, setLoadingExpire] = useState(false);
-  const { fetchAllData } = useFetchMultipleData([
+
+  const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: infoGet,
       setDataFn: store.setInfoData,

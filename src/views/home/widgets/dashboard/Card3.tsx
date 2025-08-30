@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
-
+import { PlanCard3 } from "@/views/home/widgets/plan/card3";
 import { useTranslation } from "react-i18next";
 import { Workflow } from "lucide-react";
 import dayjs from "dayjs";
@@ -20,12 +20,7 @@ export function Card3() {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           到期时间
-          <Button
-            variant="secondary"
-            disabled={store.subscribeData.data.plan.onetime_price}
-          >
-            续费
-          </Button>
+          <PlanCard3 plan={store.subscribeData.data.plan} renew={1} />
         </CardTitle>
         <CardDescription>订阅流量用尽请进行重置</CardDescription>
       </CardHeader>
@@ -34,9 +29,9 @@ export function Card3() {
           <p>该订阅长期有效</p>
         ) : (
           <p>
-            {dayjs(store.subscribeData.data.expired_at * 1000).format(
-              "YYYY-MM-DD HH:mm:ss"
-            )}
+            {dayjs
+              .unix(store.subscribeData.data.expired_at)
+              .format("YYYY-MM-DD HH:mm:ss")}
           </p>
         )}
       </CardContent>
@@ -45,10 +40,9 @@ export function Card3() {
           <p>Never</p>
         ) : (
           <p>
-            {dayjs(store.subscribeData.data.expired_at * 1000).diff(
-              dayjs(),
-              "day"
-            )}{" "}
+            {dayjs
+              .unix(store.subscribeData.data.expired_at)
+              .diff(dayjs(), "day")}{" "}
             days before expiration
           </p>
         )}

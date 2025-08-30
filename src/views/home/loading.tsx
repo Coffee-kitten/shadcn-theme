@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-export function Loading() {
+export const Loading = () => {
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-background">
       <div className="space-y-4 text-center">
@@ -8,4 +8,4 @@ export function Loading() {
       </div>
     </div>
   );
-}
+};

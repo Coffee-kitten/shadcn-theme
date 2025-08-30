@@ -24,7 +24,7 @@ export function Head({ badge, footer, IconComponent }: any) {
           <Badge>{badge || ""} </Badge>
         </CardTitle>
         <CardDescription>
-          {store.subscribeData.data?.plan.name || "暂无订阅"}
+          {store.subscribeData.data?.plan?.name || "尚未拥有订阅"}
         </CardDescription>
       </CardHeader>
       <CardContent></CardContent>

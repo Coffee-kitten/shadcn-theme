@@ -1,5 +1,5 @@
 import { Languages, Check } from "lucide-react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,11 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function I18n() {
-  const { i18n } = useTranslation();
+  // const { i18n } = useTranslation();
   const currentLanguage = window.localStorage.getItem("i18n") || "zh-CN";
 
   const handleLanguage = (language: string) => {
-    i18n.changeLanguage(language);
     window.localStorage.setItem("i18n", language);
     location.reload();
   };

@@ -4,6 +4,7 @@ import {
   useV2boardUserData,
   subscribeGet,
   infoGet,
+  commConfigGet,
 } from "@/utils/common-imports";
 import { Outlet } from "react-router-dom";
 import {
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { I18n } from "@/components/i18n";
-import { Loading } from "@/views/home/loading";
+import { Loading } from "@/views/home/Loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 
 export function Sidebar() {
@@ -27,6 +28,10 @@ export function Sidebar() {
     {
       fetchFn: subscribeGet,
       setDataFn: (data) => store.setSubscribeData(data),
+    },
+    {
+      fetchFn: commConfigGet,
+      setDataFn: store.setConfigData,
     },
   ]);
   useEffect(() => {

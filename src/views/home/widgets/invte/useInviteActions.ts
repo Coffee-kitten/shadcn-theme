@@ -11,6 +11,8 @@ import { useV2boardUserData } from "@/store/index";
 
 export const useInviteActions = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [withdrawLoading, setWithdrawLoading] = useState(false);
+  const [generateLoading, setGenerateLoading] = useState(false);
   const [transferAmount, setTransferAmount] = useState("");
   const store = useV2boardUserData();
 
@@ -25,7 +27,7 @@ export const useInviteActions = () => {
     try {
       setIsLoading(true);
       await inviteSaveGet();
-      await fetchAllData(); // 更新邀请数据
+      await fetchAllData(true); // 更新邀请数据
       toast.success("已生成");
     } catch (error: any) {
       toast.error(error.data?.message || "生成失败");
@@ -36,12 +38,15 @@ export const useInviteActions = () => {
 
   const handleTransferToBalance = async () => {
     try {
+      setGenerateLoading(true);
       await userTransferPost(Math.floor((transferAmount as any) * 100));
-      await fetchAllData(); // 更新数据
+      await fetchAllData(true); // 更新数据
       toast.success(`成功划转 ¥${transferAmount} 到账户余额`);
       setTransferAmount(""); // 清空输入框
     } catch (error: any) {
       toast.error(error.data?.errors?.transfer_amount?.[0] || "划转失败");
+    } finally {
+      setGenerateLoading(false);
     }
   };
 
@@ -50,17 +55,21 @@ export const useInviteActions = () => {
     withdrawAccount: string
   ) => {
     try {
-      // TODO: 调用推广佣金提现的API，传入提现方式和账号
+      setWithdrawLoading(true);
       await ticketWithdrawPost(withdrawMethod, withdrawAccount);
-      await fetchAllData(); // 更新数据
+      await fetchAllData(true); // 更新数据
       toast.success(`提现申请已提交，提现方式：${withdrawMethod}`);
     } catch (error: any) {
       toast.error(error.data?.message || "提现失败");
+    } finally {
+      setWithdrawLoading(false);
     }
   };
 
   return {
     isLoading,
+    withdrawLoading,
+    generateLoading,
     transferAmount,
     setTransferAmount,
     handleGenerateNewLink,

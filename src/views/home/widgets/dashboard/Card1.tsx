@@ -59,7 +59,7 @@ export function Card1() {
           </CardTitle>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
-            {dayjs(firstAnnouncement.created_at * 1000).format("MM-DD")}
+            {dayjs.unix(firstAnnouncement.created_at).format("MM-DD")}
           </div>
         </div>
       </CardHeader>

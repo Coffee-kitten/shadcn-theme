@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 
 import { useV2boardUserData } from "@/store/index";
-
+import { OrderperiodMap } from "@/hooks/price";
 export function Card3() {
   const store = useV2boardUserData();
   return (
@@ -25,7 +25,9 @@ export function Card3() {
         </div>
         <div className="flex gap-2 items-center">
           <CardDescription className="w-32">类型/周期：</CardDescription>
-          <div className="text-sm">月付</div>
+          <div className="text-sm">
+            {OrderperiodMap[store.paymentDetailData.data.period]}
+          </div>
         </div>
         <div className="flex gap-2 items-center">
           <CardDescription className="w-32">产品流量：</CardDescription>

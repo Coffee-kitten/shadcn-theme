@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { resetSecurityGet } from "@/api/user";
 import { toast } from "sonner";
-export const Card2 = () => {
+export const Card2 = ({ fetchAllData }: { fetchAllData: () => Promise<void> }) => {
   const onClickReset = async () => {
     try {
       await resetSecurityGet();
       toast.success("重置成功");
+      fetchAllData();
     } catch {
       toast.error("重置失败");
     }

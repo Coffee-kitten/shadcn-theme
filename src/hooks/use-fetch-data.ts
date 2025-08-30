@@ -13,9 +13,11 @@ export const useFetchMultipleData = (
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchAllData = async () => {
+  const fetchAllData = async (silent: boolean = false) => {
     try {
-      setIsLoading(true);
+      if (!silent) {
+        setIsLoading(true);
+      }
       const results = await Promise.all(
         fetchActions.map(({ fetchFn }) => fetchFn())
       );
@@ -25,9 +27,14 @@ export const useFetchMultipleData = (
           setDataFn(results[index].data);
         }
       });
-      setIsLoading(false);
+      if (!silent) {
+        setIsLoading(false);
+      }
     } catch (error) {
       handleError(error, t);
+      if (!silent) {
+        setIsLoading(false);
+      }
     }
   };
 

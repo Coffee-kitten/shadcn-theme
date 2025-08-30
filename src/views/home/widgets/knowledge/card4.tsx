@@ -23,19 +23,21 @@ export function Card4({ selectedId }: any) {
                 <div className="space-x-1">
                   <span className="font-medium">创建于</span>
                   <span className="select-text">
-                    {dayjs(
-                      store.knowledgeFetchIDData.data[selectedId].created_at *
-                        1000
-                    ).format("YYYY-MM-DD")}
+                    {dayjs
+                      .unix(
+                        store.knowledgeFetchIDData.data[selectedId].created_at
+                      )
+                      .format("YYYY-MM-DD")}
                   </span>
                 </div>
                 <div className="space-x-1">
                   <span className="font-medium">更新于</span>
                   <span className="select-text">
-                    {dayjs(
-                      store.knowledgeFetchIDData.data[selectedId].updated_at *
-                        1000
-                    ).format("YYYY-MM-DD")}
+                    {dayjs
+                      .unix(
+                        store.knowledgeFetchIDData.data[selectedId].updated_at
+                      )
+                      .format("YYYY-MM-DD")}
                   </span>
                 </div>
               </div>

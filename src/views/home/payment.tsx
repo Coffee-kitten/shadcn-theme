@@ -9,7 +9,7 @@ import {
 import { useParams } from "react-router-dom";
 import { Card1 } from "@/views/home/widgets/payment/card1";
 import { Card4 } from "@/views/home/widgets/payment/card4";
-import { Loading } from "@/views/home/widgets/dashboard/Loading";
+import { Loading } from "@/views/home/widgets/payment/Loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 
 // Create a client

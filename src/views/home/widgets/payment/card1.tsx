@@ -41,7 +41,9 @@ export function Card1() {
   const [shouldPoll, setShouldPoll] = useState(true);
 
   useEffect(() => {
-    const fetchAndSchedule = async () => {
+    if (!shouldPoll) return;
+
+    const intervalId = setInterval(async () => {
       if (!shouldPoll) return;
 
       const result = await fetchData(() =>
@@ -53,11 +55,9 @@ export function Card1() {
         setShouldPoll(false);
         return;
       }
+    }, 5000);
 
-      setTimeout(fetchAndSchedule, 5000);
-    };
-
-    fetchAndSchedule();
+    return () => clearInterval(intervalId);
   }, [shouldPoll]);
 
   const getPaymentIcon = (name: string) => {

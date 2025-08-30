@@ -49,7 +49,7 @@ export function Card5() {
         const { u, d } = item;
         if (!map.has(date)) {
           map.set(date, {
-            date: dayjs(date * 1000).format("YYYY-MM-DD"),
+            date: dayjs.unix(date).format("YYYY-MM-DD"),
             u: 0,
             d: 0,
             total: 0,

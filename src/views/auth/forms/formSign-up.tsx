@@ -113,76 +113,104 @@ export default function FormSignUp() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSignUp)} className="grid gap-4">
-        <FormLabel>Email</FormLabel>
-        <div className="flex">
+        {!!store.registerData.data.email_whitelist_suffix ? (
+          <>
+            <FormLabel>Email</FormLabel>
+            <div className="flex">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="flex-[2_1_]">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        className="rounded-r-none"
+                        {...field}
+                        autoComplete="email"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email_domain"
+                render={({ field }) => (
+                  <FormItem className="flex-[1_1]">
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="rounded-l-none">
+                          <SelectValue placeholder="select" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {store.registerData.data.email_whitelist_suffix.map(
+                          (suffix: any, index: any) => (
+                            <SelectItem key={index} value={"@" + suffix}>
+                              {"@" + suffix}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormDescription className="text-xs sm:text-sm">
+              {t("你的邮箱必须符合下拉框中的选项")}
+            </FormDescription>
+          </>
+        ) : (
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="flex-[2_1_]">
+              <FormItem>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" className="rounded-r-none" {...field} />
+                  <Input type="email" {...field} autoComplete="email" />
                 </FormControl>
               </FormItem>
             )}
           />
+        )}
+
+        {!!store.registerData.data.is_email_verify && (
           <FormField
             control={form.control}
-            name="email_domain"
+            name="email_code"
             render={({ field }) => (
-              <FormItem className="flex-[1_1]">
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="rounded-l-none">
-                      <SelectValue placeholder="select" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {store.registerData.data.email_whitelist_suffix.map(
-                      (suffix: any, index: any) => (
-                        <SelectItem key={index} value={"@" + suffix}>
-                          {"@" + suffix}
-                        </SelectItem>
-                      )
-                    )}
-                  </SelectContent>
-                </Select>
+              <FormItem>
+                <FormLabel>Verification code</FormLabel>
+                <FormControl>
+                  <div className="flex gap-2">
+                    <Input {...field} autoComplete="one-time-code" />
+                    <Button
+                      type="button"
+                      onClick={handleSignUp_Mail}
+                      disabled={sendMailcode}
+                    >
+                      {sendMailcode ? countdownSeconds : t("发送")}
+                    </Button>
+                  </div>
+                </FormControl>
 
+                <FormDescription className="text-xs sm:text-sm">
+                  {t("请输入发送到您邮箱的一次性验证码")}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-        <FormDescription>{t("你的邮箱必须符合下拉框中的选项")}</FormDescription>
-        <FormField
-          control={form.control}
-          name="email_code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Verification code</FormLabel>
-              <FormControl>
-                <div className="flex gap-2">
-                  <Input {...field} />
-                  <Button
-                    type="button"
-                    onClick={handleSignUp_Mail}
-                    disabled={sendMailcode}
-                  >
-                    {sendMailcode ? countdownSeconds : t("发送")}
-                  </Button>
-                </div>
-              </FormControl>
+        )}
 
-              <FormDescription>
-                {t("请输入发送到您邮箱的一次性验证码")}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="password"
@@ -190,7 +218,7 @@ export default function FormSignUp() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} type="password" />
+                <Input {...field} type="password" autoComplete="new-password" />
               </FormControl>
             </FormItem>
           )}
@@ -203,7 +231,7 @@ export default function FormSignUp() {
               <FormLabel>Confirm Password</FormLabel>
 
               <FormControl>
-                <Input {...field} type="password" />
+                <Input {...field} type="password" autoComplete="new-password" />
               </FormControl>
             </FormItem>
           )}
@@ -215,11 +243,14 @@ export default function FormSignUp() {
             <FormItem>
               <FormLabel>Invitation code</FormLabel>
               <FormControl>
-                {store.registerData.data.is_invite_force ? (
-                  <Input {...field} placeholder={t("邀请码")} />
-                ) : (
-                  <Input {...field} placeholder={t("邀请码") + t("选填")} />
-                )}
+                <Input
+                  {...field}
+                  placeholder={
+                    t("邀请码") +
+                    (store.registerData.data.is_invite_force ? "" : t("选填"))
+                  }
+                  autoComplete="off"
+                />
               </FormControl>
             </FormItem>
           )}

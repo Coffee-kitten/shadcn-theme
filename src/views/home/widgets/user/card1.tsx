@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useV2boardUserData } from "@/store/index";
-import { Mail, Shield, Wallet } from "lucide-react";
+import { Mail, Shield, Wallet, Hash } from "lucide-react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
 
 import { useState } from "react";
@@ -29,6 +29,26 @@ export const Card1 = () => {
           </div>
         </div>
         <Badge variant="outline">{store.infoData.data.email}</Badge>
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+            <Hash className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          </div>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-foreground">UUID</h3>
+            <Badge
+              variant="secondary"
+              className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+            >
+              唯一标识
+            </Badge>
+          </div>
+        </div>
+        <Badge variant="outline" className="w-fit">
+          {store.infoData.data.uuid || "N/A"}
+        </Badge>
       </div>
       <Separator />
       <div className="flex items-center justify-between">

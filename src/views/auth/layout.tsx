@@ -5,26 +5,30 @@ import { I18n } from "@/components/i18n";
 import { Outlet } from "react-router-dom";
 export function Layout() {
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
-      <div className="hidden bg-muted lg:block">
+    <div className="w-full grid min-h-svh">
+      <div className="absolute inset-0 overflow-hidden">
         <img
           src="/bg.jpeg"
           alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover hidden dark:block"
         />
       </div>
-      <div className="flex items-center justify-center py-12 h-full">
-        <div className="absolute top-10 w-full flex justify-between lg:w-1/2">
-          <div className="pl-10">
-            <I18n />
-          </div>
-          <div className="pr-10">
-            <ModeToggle />
-          </div>
-        </div>
+      <div className="flex lg:w-1/2 items-center justify-center py-20 h-full backdrop-blur-lg lg:backdrop-blur-2xl lg:border-e">
+        <header className="absolute top-0 inset-x-0 flex justify-between p-10">
+          <I18n />
+          <ModeToggle />
+        </header>
         <Outlet />
+      </div>
+      <div className="hidden lg:block fixed bottom-5 end-5 text-sm uppercase text-foreground font-extrabold opacity-30 dark:opacity-50 backdrop-saturate-200 transition-all duration-200 hover:opacity-85">
+        <span>Proudly written by </span>
+        <a
+          href="https://t.me/s/NEDEFINITA"
+          className="underline underline-2 px-0.5"
+        >
+          UNDEFINED
+        </a>
+        <span>.</span>
       </div>
     </div>
   );

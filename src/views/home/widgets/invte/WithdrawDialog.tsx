@@ -23,14 +23,14 @@ import {
 import { Banknote } from "lucide-react";
 import { useState } from "react";
 import { useV2boardUserData } from "@/store/index";
-
-export const WithdrawDialog = ({ currentBalance, onWithdraw }: any) => {
+import { useInviteActions } from "./useInviteActions";
+export const WithdrawDialog = ({ currentBalance }: any) => {
   const [withdrawMethod, setWithdrawMethod] = useState("");
   const [withdrawAccount, setWithdrawAccount] = useState("");
-  const [open, setOpen] = useState(false);
   const store = useV2boardUserData();
+  const { handleWithdrawCommission, withdrawLoading } = useInviteActions();
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button variant="secondary" size="sm">
           <Banknote />
@@ -75,15 +75,18 @@ export const WithdrawDialog = ({ currentBalance, onWithdraw }: any) => {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="mt-2 sm:mt-0" variant="outline">
+            <Button
+              className="mt-2 sm:mt-0"
+              variant="outline"
+              disabled={withdrawLoading}
+            >
               取消
             </Button>
           </DialogClose>
           <Button
-            disabled={!withdrawMethod || !withdrawAccount}
+            disabled={!withdrawMethod || !withdrawAccount || withdrawLoading}
             onClick={() => {
-              onWithdraw(withdrawMethod, withdrawAccount);
-              setOpen(false);
+              handleWithdrawCommission(withdrawMethod, withdrawAccount);
             }}
           >
             确认提现

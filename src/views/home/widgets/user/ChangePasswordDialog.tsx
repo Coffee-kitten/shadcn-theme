@@ -41,6 +41,7 @@ const PasswordField = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
+          autoComplete={name === "oldPassword-1" ? "current-password" : "new-password"}
           className={`${
             showToggle ? "pr-12" : ""
           } h-11 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20 transition-all duration-200`}
@@ -170,18 +171,7 @@ export const ChangePasswordDialog = () => {
         <div className="border-t bg-muted/30 p-6">
           <DialogFooter className="gap-3">
             <DialogClose asChild>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setFormData({
-                    oldPassword: "",
-                    newPassword: "",
-                    confirmPassword: "",
-                  });
-                }}
-                className="flex-1 h-11"
-              >
+              <Button type="button" variant="outline" className="flex-1 h-11">
                 取消
               </Button>
             </DialogClose>

@@ -20,14 +20,7 @@ import { useInviteActions } from "./useInviteActions";
 
 export const Card1 = () => {
   const store = useV2boardUserData();
-  const {
-    isLoading,
-    transferAmount,
-    setTransferAmount,
-    handleGenerateNewLink,
-    handleTransferToBalance,
-    handleWithdrawCommission,
-  } = useInviteActions();
+  const { isLoading, handleGenerateNewLink } = useInviteActions();
 
   const inviteCodes = store.inviteFetchData?.data?.codes || [];
 
@@ -76,16 +69,12 @@ export const Card1 = () => {
           title="剩余佣金"
           content={
             <div className="flex items-center gap-2">
-              <div className="flex gap-1">
+              <div className="flex gap-1 sm:flex-row flex-col">
                 <TransferDialog
                   currentBalance={store.inviteFetchData.data.stat[4]}
-                  transferAmount={transferAmount}
-                  setTransferAmount={setTransferAmount}
-                  onTransfer={handleTransferToBalance}
                 />
                 <WithdrawDialog
                   currentBalance={store.inviteFetchData.data.stat[4]}
-                  onWithdraw={handleWithdrawCommission}
                 />
               </div>
               <Badge variant="outline">

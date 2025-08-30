@@ -19,7 +19,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { CaretSortIcon, ComponentPlaceholderIcon } from "@radix-ui/react-icons";
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 export function NavUser({
   user,
 }: {
@@ -29,7 +30,12 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("authorization");
+    toast.info("已退出登录");
+    navigate("/login");
+  };
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -89,7 +95,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

@@ -20,13 +20,23 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
-
+import { orderSavePost } from "@/utils/common-imports";
 import { useTranslation } from "react-i18next";
-
+import { useNavigate } from "react-router-dom";
+import { useFetchData } from "@/hooks/use-fetch-data";
 export function Card2() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
-
+  const navigate = useNavigate();
+  const fetchData = useFetchData();
+  const handleReset = async () => {
+    const result = await fetchData(() =>
+      orderSavePost("reset_price", store.subscribeData.data.plan.id)
+    );
+    if (result?.data) {
+      navigate(`/order/${result.data}`);
+    }
+  };
   return (
     <Card className="bg-muted/50">
       <CardHeader>
@@ -45,7 +55,9 @@ export function Card2() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={handleReset}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

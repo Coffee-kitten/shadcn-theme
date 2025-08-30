@@ -7,6 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 
@@ -23,6 +24,13 @@ export function NavProjects({
 }) {
 
   const location = useLocation();
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleItemClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -36,6 +44,7 @@ export function NavProjects({
               <SidebarMenuButton asChild>
                 <a
                   href={item.url}
+                  onClick={handleItemClick}
                   className={cn(
                     isActive && "bg-accent text-accent-foreground font-medium"
                   )}

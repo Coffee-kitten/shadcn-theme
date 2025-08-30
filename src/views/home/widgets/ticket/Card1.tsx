@@ -29,7 +29,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, MessageCircle, FileText, AlertCircle } from "lucide-react";
 import { useState } from "react";
-export const Card1 = () => {
+import { ticketSavePost } from "@/api/ticket";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+export const Card1 = ({ onTicketCreated }: any) => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForm, setCreateForm] = useState({
     subject: "",
@@ -43,24 +46,23 @@ export const Card1 = () => {
       return;
     }
 
-    setIsSubmitting(true);
     try {
-      // TODO: 实现创建工单的API调用
-      console.log("Creating ticket:", createForm);
+      setIsSubmitting(true);
       // 模拟API调用延迟
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      await ticketSavePost(createForm);
+      toast.success("工单创建成功");
       // 重置表单
       setCreateForm({
         subject: "",
         level: 0,
         message: "",
       });
-
       // 关闭对话框
       setIsCreateOpen(false);
-    } catch (error) {
-      console.error("Failed to create ticket:", error);
+      // 刷新工单列表数据
+      onTicketCreated();
+    } catch (error: any) {
+      toast.warning(error?.data?.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -114,7 +116,7 @@ export const Card1 = () => {
                       placeholder="简要描述您的问题"
                       className="h-11"
                       value={createForm.subject}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      onChange={(e) =>
                         setCreateForm({
                           ...createForm,
                           subject: e.target.value,
@@ -176,6 +178,7 @@ export const Card1 = () => {
                     variant="outline"
                     onClick={() => setIsCreateOpen(false)}
                     className="px-6"
+                    disabled={isSubmitting}
                   >
                     取消
                   </Button>
@@ -188,14 +191,21 @@ export const Card1 = () => {
                     }
                     className="px-6 bg-primary hover:bg-primary/90"
                   >
-                    {isSubmitting ? (
+                    {/* {isSubmitting ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                         创建中...
                       </>
                     ) : (
+
+                    )} */}
+                    {isSubmitting ? (
                       <>
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Loader2 className="animate-spin" /> Please wait
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="mr-2" />
                         创建工单
                       </>
                     )}

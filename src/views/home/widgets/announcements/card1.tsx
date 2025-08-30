@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
 
-export function Card2() {
+export function Card1() {
   const store = useV2boardUserData();
   const [selectedNotice, setSelectedNotice] = useState<any>(null);
 
@@ -27,13 +27,10 @@ export function Card2() {
             <CardHeader>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>
-                {dayjs(item.created_at * 1000).format("YYYY-MM-DD")}
+                {dayjs.unix(item.created_at).format("YYYY-MM-DD")}
               </CardDescription>
             </CardHeader>
-            <Button
-              variant="link"
-              onClick={() => setSelectedNotice(item)}
-            >
+            <Button variant="link" onClick={() => setSelectedNotice(item)}>
               查看公告
               <ArrowBigRight />
             </Button>
@@ -44,7 +41,7 @@ export function Card2() {
           <CardHeader>
             <CardTitle>{selectedNotice.title}</CardTitle>
             <CardDescription>
-              {dayjs(selectedNotice.created_at * 1000).format("YYYY-MM-DD")}
+              {dayjs.unix(selectedNotice.created_at).format("YYYY-MM-DD")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -53,7 +50,7 @@ export function Card2() {
           <CardFooter className="flex justify-between">
             <CardDescription className="flex items-center">
               <Calendar className="mr-1" /> 更新于{" "}
-              {dayjs(selectedNotice.updated_at * 1000).format("YYYY-MM-DD")}
+              {dayjs.unix(selectedNotice.updated_at).format("YYYY-MM-DD")}
             </CardDescription>
             <Button variant="outline" onClick={() => setSelectedNotice(null)}>
               返回

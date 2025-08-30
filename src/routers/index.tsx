@@ -8,25 +8,41 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 //
-import { Sidebar } from "@/views/home/sidebar";
+import { Sidebar } from "@/views/home/Sidebar";
 //
 import { SignIn } from "@/views/auth/Sign-in";
 import { SignUp } from "@/views/auth/Sign-up";
+import { ForgotPwd } from "@/views/auth/Forgot-pwd";
 import { FourZeroFour } from "@/views/fragments/404";
 import { Tos } from "@/views/fragments/tos";
 //
 import { Dashboard } from "@/views/home/Dashboard";
-import { Announcements } from "@/views/home/announcements";
-import { Knowledge } from "@/views/home/knowledge";
-import { Server } from "@/views/home/server";
-import { Order } from "@/views/home/order";
-import { Plan } from "@/views/home/plan";
-import { Payment } from "@/views/home/payment";
-import { User } from "@/views/home/user";
-import { Invite } from "@/views/home/invite";
-import { Ticket } from "@/views/home/ticket";
+import { Announcements } from "@/views/home/Announcements";
+import { Knowledge } from "@/views/home/Knowledge";
+import { Server } from "@/views/home/Server";
+import { Order } from "@/views/home/Order";
+import { Plan } from "@/views/home/Plan";
+import { Payment } from "@/views/home/Payment";
+import { User } from "@/views/home/User";
+import { Invite } from "@/views/home/Invite";
+import { Ticket } from "@/views/home/Ticket";
+import { Layout } from "@/views/auth/layout";
 //
 function ProtectedRoutes() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authorization");
+    const isAuthPage =
+      location.pathname == "/login" || location.pathname == "/register";
+
+    // 如果已登录且访问认证页面，重定向到仪表盘
+    if (token && isAuthPage) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate, location.pathname]);
+
   return <Outlet />;
 }
 
@@ -44,12 +60,22 @@ const router = createHashRouter([
     element: <ProtectedRoutes />,
     children: [
       {
-        path: "login",
-        element: <SignIn />,
-      },
-      {
-        path: "register",
-        element: <SignUp />,
+        path: "/",
+        element: <Layout />,
+        children: [
+          {
+            path: "login",
+            element: <SignIn />,
+          },
+          {
+            path: "register",
+            element: <SignUp />,
+          },
+          {
+            path: "forgot-password",
+            element: <ForgotPwd />,
+          },
+        ],
       },
       {
         path: "/",
@@ -76,7 +102,7 @@ const router = createHashRouter([
             element: <Order />,
           },
           {
-            path: "plan",
+            path: "store",
             element: <Plan />,
           },
           {

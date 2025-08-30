@@ -1,11 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
+// 默认加载组件（有订阅且未到期）
 export function Loading() {
   return (
     <>
-      {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
-
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+      <Skeleton className="h-[262px] rounded-xl" />
+      <div className="grid auto-rows-min gap-4 2xl:grid-cols-3">
         <Skeleton className="h-[190px] rounded-xl" />
         <Skeleton className="h-[190px] rounded-xl" />
         <Skeleton className="h-[190px] rounded-xl" />
@@ -13,4 +13,9 @@ export function Loading() {
       <Skeleton className="h-[405px] rounded-xl" />
     </>
   );
+}
+
+// 订阅已到期的加载组件
+export function Loading2() {
+  return <Skeleton className="h-full" />;
 }
