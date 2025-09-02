@@ -17,8 +17,10 @@ import { InfoCard } from "./InfoCard";
 import { TransferDialog } from "./TransferDialog";
 import { WithdrawDialog } from "./WithdrawDialog";
 import { useInviteActions } from "./useInviteActions";
+import { useTranslation } from "react-i18next";
 
 export const Card1 = () => {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const { isLoading, handleGenerateNewLink } = useInviteActions();
 
@@ -33,10 +35,10 @@ export const Card1 = () => {
           </div>
           <div>
             <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-              我的邀请
+              {t("我的邀请")}
             </h4>
             <p className="text-sm text-muted-foreground">
-              邀请好友注册，获得丰厚奖励
+              {t("邀请好友注册，获得丰厚奖励")}
             </p>
           </div>
         </div>
@@ -47,16 +49,16 @@ export const Card1 = () => {
           icon={UserPlus}
           iconBgColor="bg-blue-50 dark:bg-blue-950/50"
           iconColor="text-blue-600 dark:text-blue-400"
-          title="邀请人数"
+          title={t("邀请人数")}
           badge={{
-            text: "累计",
+            text: t("累计"),
             variant: "secondary",
             className:
               "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400",
           }}
           content={
             <Badge variant="outline">
-              {store.inviteFetchData.data.stat[0]}人
+              {t("{{count}}人", { count: store.inviteFetchData.data.stat[0] })}
             </Badge>
           }
         />
@@ -66,7 +68,7 @@ export const Card1 = () => {
           icon={Wallet}
           iconBgColor="bg-green-50 dark:bg-green-950/50"
           iconColor="text-green-600 dark:text-green-400"
-          title="剩余佣金"
+          title={t("剩余佣金")}
           content={
             <div className="flex items-center gap-2">
               <div className="flex gap-1 sm:flex-row flex-col">
@@ -88,7 +90,7 @@ export const Card1 = () => {
           icon={Percent}
           iconBgColor="bg-emerald-50 dark:bg-emerald-950/50"
           iconColor="text-emerald-600 dark:text-emerald-400"
-          title="佣金比例"
+          title={t("佣金比例")}
           content={
             <Badge variant="outline">
               {store.inviteFetchData.data.stat[3]}%
@@ -102,9 +104,9 @@ export const Card1 = () => {
           icon={Gift}
           iconBgColor="bg-amber-50 dark:bg-amber-950/50"
           iconColor="text-amber-600 dark:text-amber-400"
-          title="待结算"
+          title={t("待结算")}
           badge={{
-            text: "处理中",
+            text: t("处理中"),
             variant: "secondary",
             className:
               "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
@@ -124,9 +126,11 @@ export const Card1 = () => {
               <Link className="w-4 h-4 text-primary" />
             </div>
             <div>
-              <h4 className="text-sm font-medium text-foreground">邀请码</h4>
+              <h4 className="text-sm font-medium text-foreground">
+                {t("邀请码")}
+              </h4>
               <p className="text-xs text-muted-foreground">
-                分享邀请码给好友完成注册
+                {t("分享邀请码给好友完成注册")}
               </p>
             </div>
           </div>
@@ -145,7 +149,7 @@ export const Card1 = () => {
                           {code.code}
                         </span>
                         <span className="text-xs text-muted-foreground">
-                          邀请码
+                          {t("邀请码")}
                         </span>
                       </div>
                     </div>
@@ -172,7 +176,7 @@ export const Card1 = () => {
             disabled={isLoading}
             className="w-full"
           >
-            {isLoading ? "生成中..." : "生成邀请码"}
+            {isLoading ? t("生成中...") : t("生成邀请码")}
           </Button>
         </div>
       </CardContent>

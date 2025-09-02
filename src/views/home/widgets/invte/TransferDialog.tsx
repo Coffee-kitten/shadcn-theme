@@ -15,7 +15,10 @@ import { Toggle } from "@/components/ui/toggle";
 import { ArrowRightLeft } from "lucide-react";
 import { BadgeJapaneseYen } from "lucide-react";
 import { useInviteActions } from "./useInviteActions";
+import { useTranslation } from "react-i18next";
+
 export const TransferDialog = ({ currentBalance }: any) => {
+  const { t } = useTranslation();
   const {
     transferAmount,
     setTransferAmount,
@@ -32,18 +35,20 @@ export const TransferDialog = ({ currentBalance }: any) => {
       <DialogTrigger asChild>
         <Button variant="secondary" size="sm">
           <ArrowRightLeft />
-          划转
+          {t("划转")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>佣金划转</DialogTitle>
+          <DialogTitle>{t("佣金划转")}</DialogTitle>
           <DialogDescription>
-            划转后的余额仅用于 {(window as any).config.name} 消费使用
+            {t("划转后的余额仅用于 {appName} 消费使用", {
+              appName: import.meta.env.VITE_APP_NAME,
+            })}
           </DialogDescription>
         </DialogHeader>
         <div className="my-2">
-          <div className="text-base">您的可划转佣金:</div>
+          <div className="text-base">{t("您的可划转佣金:")}</div>
           <div className="flex gap-0.5 items-center font-medium text-xl">
             <span>¥</span>
             <span>{currentBalance / 100}</span>
@@ -52,7 +57,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="transfer-amount">划转金额</Label>
+          <Label htmlFor="transfer-amount">{t("划转金额")}</Label>
           <div className="flex gap-2 items-center">
             <Toggle variant="outline" aria-label="Toggle italic">
               <BadgeJapaneseYen />
@@ -60,7 +65,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
             <Input
               id="transfer-amount"
               type="number"
-              placeholder="请输入划转金额"
+              placeholder={t("请输入划转金额")}
               value={transferAmount}
               onChange={(e) => {
                 const value = e.target.value;
@@ -83,7 +88,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
               variant="outline"
               disabled={generateLoading}
             >
-              取消
+              {t("取消")}
             </Button>
           </DialogClose>
           <Button
@@ -95,7 +100,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
               generateLoading
             }
           >
-            确认划转
+            {t("确认划转")}
           </Button>
         </DialogFooter>
       </DialogContent>

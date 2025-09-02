@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Loader2, CreditCard } from "lucide-react";
 import QRCode from "react-qr-code";
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
 import { AntDesignAlipayCircleFilled } from "@/views/svg/payment";
 import { ScanQrCode } from "lucide-react";
@@ -21,6 +21,7 @@ export function Qrcode({
   isLoading,
   paymentData,
 }: any) {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   return (
     <Dialog open={isDialogLoading}>
@@ -88,10 +89,10 @@ export function Qrcode({
             className="w-full"
             onClick={() => setDialogIsLoading(false)}
           >
-            关闭
+            {t("关闭")}
           </Button>
           <Button className="w-full" onClick={() => setDialogIsLoading(false)}>
-            已完成
+            {t("已完成")}
           </Button>
         </DialogFooter>
       </DialogContent>

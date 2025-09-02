@@ -5,6 +5,7 @@ import {
   announcementsFetchGet,
   PageContainer,
   Head,
+  subscribeGet,
 } from "@/utils/common-imports";
 import { Card1 } from "@/views/home/widgets/dashboard/Card1";
 import { Card2 } from "@/views/home/widgets/dashboard/Card2";
@@ -12,13 +13,14 @@ import { Card3 } from "@/views/home/widgets/dashboard/Card3";
 import { Card4 } from "@/views/home/widgets/dashboard/Card4";
 import { Card5 } from "@/views/home/widgets/dashboard/Card5";
 import { ExpiredAt, BuyPlan } from "@/views/home/widgets/dashboard/Plan";
-import { Loading, Loading2 } from "@/views/home/widgets/dashboard/Loading";
+import { Loading } from "@/views/home/widgets/dashboard/Loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 export function Dashboard() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
-  console.log(dayjs().unix());
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: trafficLogGet,
@@ -28,24 +30,29 @@ export function Dashboard() {
       fetchFn: announcementsFetchGet,
       setDataFn: store.setNoticeFetchData,
     },
+    {
+      fetchFn: subscribeGet,
+      setDataFn: store.setSubscribeData,
+    },
   ]);
 
   // 根据订阅状态选择加载组件
-  const getLoadingComponent = () => {
-    if (dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at))) {
-      return Loading2;
-    }
-    return Loading;
-  };
+  // const getLoadingComponent = () => {
+  //   if (dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at))) {
+  //     return Loading2;
+  //   }
+  //   return Loading;
+  // };
 
   useEffect(() => {
     fetchAllData();
   }, []);
   return (
-    <PageContainer loading={isLoading} LoadingComponent={getLoadingComponent()}>
-      <Head badge="仪表盘" isShow={true} />
+    <PageContainer loading={isLoading} LoadingComponent={Loading}>
+      <Head badge={t("仪表盘")} />
       {store.subscribeData.data.plan ? (
-        dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at)) ? (
+        dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at)) &&
+        store.subscribeData.data.expired_at ? (
           <ExpiredAt
             expiredAt={dayjs
               .unix(store.subscribeData.data.expired_at)

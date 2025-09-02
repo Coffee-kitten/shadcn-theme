@@ -7,7 +7,10 @@ import {
 } from "lucide-react";
 
 // 获取订单状态信息和对应图标
+import { useTranslation } from "react-i18next";
+
 export const getOrderStatus = (status: number, extraClassName: string = "") => {
+  const { t } = useTranslation();
   const statusMap: Record<
     number,
     {
@@ -17,7 +20,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
     }
   > = {
     0: {
-      text: "待支付",
+      text: t("待支付"),
       color: "text-yellow-600 dark:text-yellow-400",
       icon: (className = "") => (
         <CreditCard
@@ -26,7 +29,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
       ),
     },
     1: {
-      text: "处理中",
+      text: t("处理中"),
       color: "text-blue-600 dark:text-blue-400",
       icon: (className = "") => (
         <Clock
@@ -35,7 +38,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
       ),
     },
     2: {
-      text: "已取消",
+      text: t("已取消"),
       color: "text-red-600 dark:text-red-400",
       icon: (className = "") => (
         <XCircle
@@ -44,7 +47,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
       ),
     },
     3: {
-      text: "已完成",
+      text: t("已完成"),
       color: "text-green-600 dark:text-green-400",
       icon: (className = "") => (
         <CheckCircle
@@ -53,7 +56,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
       ),
     },
     4: {
-      text: "已折抵",
+      text: t("已折抵"),
       color: "text-purple-600 dark:text-purple-400",
       icon: (className = "") => (
         <AlertCircle
@@ -65,7 +68,7 @@ export const getOrderStatus = (status: number, extraClassName: string = "") => {
 
   return (
     statusMap[status] || {
-      text: "未知状态",
+      text: t("未知状态"),
       color: "text-muted-foreground",
       icon: (className = "") => (
         <AlertCircle

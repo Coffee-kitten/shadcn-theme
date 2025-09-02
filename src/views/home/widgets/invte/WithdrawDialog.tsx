@@ -24,7 +24,10 @@ import { Banknote } from "lucide-react";
 import { useState } from "react";
 import { useV2boardUserData } from "@/store/index";
 import { useInviteActions } from "./useInviteActions";
+import { useTranslation } from "react-i18next";
+
 export const WithdrawDialog = ({ currentBalance }: any) => {
+  const { t } = useTranslation();
   const [withdrawMethod, setWithdrawMethod] = useState("");
   const [withdrawAccount, setWithdrawAccount] = useState("");
   const store = useV2boardUserData();
@@ -34,19 +37,21 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
       <DialogTrigger asChild>
         <Button variant="secondary" size="sm">
           <Banknote />
-          提现
+          {t("提现")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>提现申请</DialogTitle>
+          <DialogTitle>{t("提现申请")}</DialogTitle>
           <DialogDescription>
-            申请提现 ¥{currentBalance / 100} 推广佣金，请填写提现信息。
+            {t("申请提现 ¥{{currentBalance}} 推广佣金，请填写提现信息。", {
+              currentBalance: currentBalance / 100,
+            })}
           </DialogDescription>
         </DialogHeader>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="space-y-2 ">
-            <Label htmlFor="withdraw-method">提现方式</Label>
+            <Label htmlFor="withdraw-method">{t("提现方式")}</Label>
             <Select onValueChange={setWithdrawMethod}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={withdrawMethod || "..."} />
@@ -63,10 +68,10 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
             </Select>
           </div>
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="withdraw-account">提现账号</Label>
+            <Label htmlFor="withdraw-account">{t("提现账号")}</Label>
             <Input
               id="withdraw-account"
-              placeholder="请输入提现账号"
+              placeholder={t("请输入提现账号")}
               value={withdrawAccount}
               className="w-full"
               onChange={(e) => setWithdrawAccount(e.target.value)}
@@ -80,7 +85,7 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
               variant="outline"
               disabled={withdrawLoading}
             >
-              取消
+              {t("取消")}
             </Button>
           </DialogClose>
           <Button
@@ -89,7 +94,7 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
               handleWithdrawCommission(withdrawMethod, withdrawAccount);
             }}
           >
-            确认提现
+            {t("确认提现")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -19,14 +19,14 @@ export function Card3() {
     <Card className="bg-muted/50">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          到期时间
+          {t("到期时间")}
           <PlanCard3 plan={store.subscribeData.data.plan} renew={1} />
         </CardTitle>
-        <CardDescription>订阅流量用尽请进行重置</CardDescription>
+        <CardDescription>{t("订阅流量用尽请进行重置")}</CardDescription>
       </CardHeader>
       <CardContent>
         {store.subscribeData.data.plan.onetime_price ? (
-          <p>该订阅长期有效</p>
+          <p>{t("该订阅长期有效")}</p>
         ) : (
           <p>
             {dayjs

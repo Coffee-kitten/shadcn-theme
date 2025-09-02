@@ -21,6 +21,7 @@ import { useFetchData } from "@/hooks/use-fetch-data";
 import { Card2 } from "@/views/home/widgets/payment/card2";
 import { Card3 } from "@/views/home/widgets/payment/card3";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
+import { subscribeGet } from "@/api/dashboard";
 export function Card1() {
   const store = useV2boardUserData();
   const [selectedPayment, setSelectedPayment] = useState(
@@ -35,7 +36,11 @@ export function Card1() {
   const { fetchAllData } = useFetchMultipleData([
     {
       fetchFn: () => paymentDetailGet(store.paymentDetailData.data.trade_no),
-      setDataFn: (data) => store.setPaymentDetailData(data),
+      setDataFn: store.setPaymentDetailData,
+    },
+    {
+      fetchFn: subscribeGet,
+      setDataFn: store.setSubscribeData,
     },
   ]);
   const [shouldPoll, setShouldPoll] = useState(true);
@@ -72,9 +77,11 @@ export function Card1() {
     const result = await fetchData(() =>
       orderCheckoutPost(store.paymentDetailData.data.trade_no, selectedPayment)
     );
-    if (result?.data) {
+    if (result?.data != true) {
       setPaymentData(result);
       setDialogIsLoading(true);
+    } else {
+      await fetchAllData();
     }
     setIsLoading(false);
   };

@@ -6,9 +6,11 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { Loading3 } from "@/views/home/widgets/knowledge/loading";
+import { useTranslation } from "react-i18next";
 
 export function Card4({ selectedId }: any) {
   const store = useV2boardUserData();
+  const { t } = useTranslation();
   return (
     <div className="w-full min-h-[65svh] p-6 bg-muted border rounded-lg hidden md:block md:col-span-3">
       {selectedId ? (
@@ -21,7 +23,7 @@ export function Card4({ selectedId }: any) {
               </div>
               <div className="flex flex-col md:flex-row gap-0.5 md:gap-2 text-sm text-muted-foreground">
                 <div className="space-x-1">
-                  <span className="font-medium">创建于</span>
+                  <span className="font-medium">{t("创建于")}</span>
                   <span className="select-text">
                     {dayjs
                       .unix(
@@ -31,7 +33,7 @@ export function Card4({ selectedId }: any) {
                   </span>
                 </div>
                 <div className="space-x-1">
-                  <span className="font-medium">更新于</span>
+                  <span className="font-medium">{t("更新于")}</span>
                   <span className="select-text">
                     {dayjs
                       .unix(

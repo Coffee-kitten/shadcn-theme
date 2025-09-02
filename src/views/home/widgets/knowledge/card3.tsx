@@ -16,7 +16,10 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { Loading2 } from "@/views/home/widgets/knowledge/loading";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
 export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
+  const { t } = useTranslation();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const store = useV2boardUserData();
   return isMobile ? (
@@ -38,12 +41,24 @@ export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
               </div>
               <div className="flex flex-col md:flex-row gap-0.5 md:gap-2 text-sm text-muted-foreground">
                 <div className="space-x-1">
-                  <span className="font-medium">创建于</span>
-                  <span className="select-text">2025-02-01 07:29:30</span>
+                  <span className="font-medium">{t("创建于")}</span>
+                  <span className="select-text">
+                    {dayjs
+                      .unix(
+                        store.knowledgeFetchIDData.data[selectedId].created_at
+                      )
+                      .format("YYYY-MM-DD")}
+                  </span>
                 </div>
                 <div className="space-x-1">
-                  <span className="font-medium">更新于</span>
-                  <span className="select-text">2025-02-01 07:34:14</span>
+                  <span className="font-medium">{t("更新于")}</span>
+                  <span className="select-text">
+                    {dayjs
+                      .unix(
+                        store.knowledgeFetchIDData.data[selectedId].updated_at
+                      )
+                      .format("YYYY-MM-DD")}
+                  </span>
                 </div>
               </div>
             </div>

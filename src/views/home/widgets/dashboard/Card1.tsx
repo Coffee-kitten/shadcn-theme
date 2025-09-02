@@ -5,8 +5,10 @@ import { Bell, Calendar, ArrowRight } from "lucide-react";
 import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function Card1() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -21,11 +23,11 @@ export function Card1() {
             <div className="p-2 rounded-full bg-primary/10">
               <Bell className="h-4 w-4 text-primary" />
             </div>
-            最新公告
+            {t("最新公告")}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground text-sm">暂无公告</p>
+          <p className="text-muted-foreground text-sm">{t("暂无公告")}</p>
         </CardContent>
       </Card>
     );
@@ -54,7 +56,7 @@ export function Card1() {
             <div className="p-2 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
               <Bell className="h-4 w-4 text-primary animate-pulse" />
             </div>
-            最新公告
+            {t("最新公告")}
             <Badge variant="secondary">NEW</Badge>
           </CardTitle>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -80,7 +82,7 @@ export function Card1() {
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-primary hover:text-primary/80 hover:bg-primary/10 p-0 h-auto font-medium"
           >
-            {isExpanded ? "收起" : "展开"}
+            {isExpanded ? t("收起") : t("展开")}
             <ArrowRight
               className={`ml-1 h-3 w-3 transition-transform duration-200 ${
                 isExpanded ? "rotate-90" : ""

@@ -10,7 +10,10 @@ import {
 import QRCode from "react-qr-code";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
+import { useTranslation } from "react-i18next";
+
 export function Qrcode() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   return (
     <Dialog>
@@ -19,13 +22,15 @@ export function Qrcode() {
           <i
             className={`font-[metron] metron-qrcode text-[1.3rem] antialiased not-italic font-normal`}
           />
-          二维码
+          {t("二维码")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>二维码</DialogTitle>
-          <DialogDescription>使用支持扫码的客户端进行订阅</DialogDescription>
+          <DialogTitle>{t("二维码")}</DialogTitle>
+          <DialogDescription>
+            {t("使用支持扫码的客户端进行订阅")}
+          </DialogDescription>
         </DialogHeader>
         <div className="p-4 bg-primary rounded-md mx-auto my-4">
           <QRCode

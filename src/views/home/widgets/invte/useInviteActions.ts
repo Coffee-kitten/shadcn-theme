@@ -8,12 +8,14 @@ import {
   ticketWithdrawPost,
 } from "@/utils/common-imports";
 import { useV2boardUserData } from "@/store/index";
+import { useTranslation } from "react-i18next";
 
 export const useInviteActions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [withdrawLoading, setWithdrawLoading] = useState(false);
   const [generateLoading, setGenerateLoading] = useState(false);
   const [transferAmount, setTransferAmount] = useState("");
+  const { t } = useTranslation();
   const store = useV2boardUserData();
 
   const { fetchAllData } = useFetchMultipleData([
@@ -28,9 +30,9 @@ export const useInviteActions = () => {
       setIsLoading(true);
       await inviteSaveGet();
       await fetchAllData(true); // 更新邀请数据
-      toast.success("已生成");
+      toast.success(t("已生成"));
     } catch (error: any) {
-      toast.error(error.data?.message || "生成失败");
+      toast.error(error.data?.message || t("生成失败"));
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +43,11 @@ export const useInviteActions = () => {
       setGenerateLoading(true);
       await userTransferPost(Math.floor((transferAmount as any) * 100));
       await fetchAllData(true); // 更新数据
-      toast.success(`成功划转 ¥${transferAmount} 到账户余额`);
+      toast.success(
+        t("成功划转 ¥{transferAmount} 到账户余额", {
+          transferAmount,
+        })
+      );
       setTransferAmount(""); // 清空输入框
     } catch (error: any) {
       toast.error(error.data?.errors?.transfer_amount?.[0] || "划转失败");
@@ -58,9 +64,13 @@ export const useInviteActions = () => {
       setWithdrawLoading(true);
       await ticketWithdrawPost(withdrawMethod, withdrawAccount);
       await fetchAllData(true); // 更新数据
-      toast.success(`提现申请已提交，提现方式：${withdrawMethod}`);
+      toast.success(
+        t("提现申请已提交，提现方式：{withdrawMethod}", {
+          withdrawMethod,
+        })
+      );
     } catch (error: any) {
-      toast.error(error.data?.message || "提现失败");
+      toast.error(error.data?.message || t("提现失败"));
     } finally {
       setWithdrawLoading(false);
     }

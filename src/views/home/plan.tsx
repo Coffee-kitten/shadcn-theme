@@ -14,6 +14,7 @@ import { Card1 } from "@/views/home/widgets/plan/card1";
 import { Card2 } from "@/views/home/widgets/plan/card2";
 
 export function Plan() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
@@ -26,7 +27,7 @@ export function Plan() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="订阅" />
+      <Head badge={t("订阅")} />
       <Card1 />
     </PageContainer>
   );

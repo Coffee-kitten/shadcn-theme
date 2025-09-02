@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const chartConfig = {
   views: {
@@ -38,6 +39,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function Card5() {
+  const { t } = useTranslation();
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("u");
 
@@ -76,8 +78,8 @@ export function Card5() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>流量使用记录</CardTitle>
-          <CardDescription>单位 / GB</CardDescription>
+          <CardTitle>{t("流量使用记录")}</CardTitle>
+          <CardDescription>{t("单位 / GB")}</CardDescription>
         </div>
         <div className="flex">
           {["u", "d", "total"].map((key) => {

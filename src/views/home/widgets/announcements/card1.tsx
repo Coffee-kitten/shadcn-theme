@@ -11,8 +11,10 @@ import { ArrowBigRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 export function Card1() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const [selectedNotice, setSelectedNotice] = useState<any>(null);
 
@@ -31,7 +33,7 @@ export function Card1() {
               </CardDescription>
             </CardHeader>
             <Button variant="link" onClick={() => setSelectedNotice(item)}>
-              查看公告
+              {t("查看公告")}
               <ArrowBigRight />
             </Button>
           </Card>
@@ -49,11 +51,11 @@ export function Card1() {
           </CardContent>
           <CardFooter className="flex justify-between">
             <CardDescription className="flex items-center">
-              <Calendar className="mr-1" /> 更新于{" "}
+              <Calendar className="mr-1" /> {t("更新于")}{" "}
               {dayjs.unix(selectedNotice.updated_at).format("YYYY-MM-DD")}
             </CardDescription>
             <Button variant="outline" onClick={() => setSelectedNotice(null)}>
-              返回
+              {t("返回")}
             </Button>
           </CardFooter>
         </Card>

@@ -29,11 +29,14 @@ import {
   orderCancelPost,
 } from "@/utils/common-imports";
 import { OrderperiodMap } from "@/hooks/price";
+import { useTranslation } from "react-i18next";
+
 export function Card1() {
   const store = useV2boardUserData();
   const navigate = useNavigate();
   const fetchData = useFetchData();
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
   const handlePayment = (tardeNo: string) => {
     navigate("/order/" + tardeNo);
   };
@@ -49,7 +52,7 @@ export function Card1() {
 
     if (result?.data) {
       await fetchAllData();
-      toast.success("订单已取消");
+      toast.success(t("订单已取消"));
     }
 
     setIsLoading(false);
@@ -73,11 +76,11 @@ export function Card1() {
                     <Badge
                       className="w-fit mb-1 sm:mb-0"
                       variant={
-                        orderStatus.text == "已完成"
+                        orderStatus.text == t("已完成")
                           ? "default"
-                          : orderStatus.text == "已折抵"
+                          : orderStatus.text == t("已折抵")
                           ? "secondary"
-                          : orderStatus.text == "待支付"
+                          : orderStatus.text == t("待支付")
                           ? "destructive"
                           : "outline"
                       }
@@ -85,7 +88,7 @@ export function Card1() {
                       {orderStatus.text}
                     </Badge>
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
-                      <span className="font-medium">创建于</span>
+                      <span className="font-medium">{t("创建于")}</span>
                       <span className="line-clamp-1">
                         {dayjs.unix(item.created_at).format("MM-DD HH:mm")}
                       </span>
@@ -96,7 +99,9 @@ export function Card1() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>订单详细 #{item.trade_no}</DialogTitle>
+                <DialogTitle>
+                  {t("订单详细")} #{item.trade_no}
+                </DialogTitle>
                 <DialogDescription></DialogDescription>
               </DialogHeader>
 
@@ -109,43 +114,46 @@ export function Card1() {
               <Separator />
 
               <div className="space-y-6">
-                <OrderSection title="订阅信息">
-                  <OrderInfoRow label="订阅名称" value={item.plan?.name} />
+                <OrderSection title={t("订阅信息")}>
+                  <OrderInfoRow label={t("订阅名称")} value={item.plan?.name} />
                   <OrderInfoRow
-                    label="订阅类型/周期"
+                    label={t("订阅类型/周期")}
                     value={OrderperiodMap[item.period]}
                   />
                   <OrderInfoRow
-                    label="订阅流量"
+                    label={t("订阅流量")}
                     value={`${item.plan?.transfer_enable} GiB`}
                   />
                 </OrderSection>
-                <OrderSection title="订阅信息">
-                  <OrderInfoRow label="订单号" value={item.trade_no} />
+                <OrderSection title={t("订阅信息")}>
+                  <OrderInfoRow label={t("订单号")} value={item.trade_no} />
                   {item.callback_no && (
-                    <OrderInfoRow label="回调单号" value={item.callback_no} />
+                    <OrderInfoRow
+                      label={t("回调单号")}
+                      value={item.callback_no}
+                    />
                   )}
 
                   <OrderInfoRow
-                    label="需支付金额"
+                    label={t("需支付金额")}
                     value={`¥ ${(item.total_amount / 100).toFixed(2)} CNY`}
                   />
                   <OrderInfoRow
-                    label="订单创建于"
+                    label={t("订单创建于")}
                     value={dayjs
                       .unix(item.created_at)
                       .format("YYYY-MM-DD HH:mm:ss")}
                   />
                   {item.paid_at && (
                     <OrderInfoRow
-                      label="订单支付于"
+                      label={t("订单支付于")}
                       value={dayjs
                         .unix(item.paid_at)
                         .format("YYYY-MM-DD HH:mm:ss")}
                     />
                   )}
                   <OrderInfoRow
-                    label="订单更新于"
+                    label={t("订单更新于")}
                     value={dayjs
                       .unix(item.updated_at)
                       .format("YYYY-MM-DD HH:mm:ss")}
@@ -161,7 +169,7 @@ export function Card1() {
                     disabled={isLoading}
                     className="w-full sm:w-auto"
                   >
-                    取消订单
+                    {t("取消订单")}
                   </Button>
                   <Button
                     type="button"
@@ -169,7 +177,7 @@ export function Card1() {
                     disabled={isLoading}
                     className="w-full sm:w-auto"
                   >
-                    支付
+                    {t("支付")}
                   </Button>
                 </DialogFooter>
               )}

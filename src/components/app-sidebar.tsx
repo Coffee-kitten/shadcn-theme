@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
+import dayjs from "dayjs";
 const getSidebarData = () => {
   const store = useV2boardUserData();
   const { t } = useTranslation();
@@ -116,8 +117,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-semibold">OnePixel Inc</span>
+                  <span className="truncate text-xs">
+                    2020-{dayjs().year()}
+                  </span>
                 </div>
               </a>
             </SidebarMenuButton>

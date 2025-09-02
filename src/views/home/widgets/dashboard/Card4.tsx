@@ -9,12 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Qrcode } from "@/views/home/widgets/dashboard/qrcode";
 import { copyToClipboard } from "@/utils/copy";
 import { redirectToUrl } from "@/utils/url";
-
+import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
 
 const iconClasses =
   "font-[metron] text-[1.3rem] antialiased not-italic font-normal";
 export function Card4() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const buttonData = [
     {
@@ -42,8 +43,8 @@ export function Card4() {
   return (
     <Card className="bg-muted/50">
       <CardHeader>
-        <CardTitle>快捷订阅</CardTitle>
-        <CardDescription>不会使用请查阅使用教程</CardDescription>
+        <CardTitle>{t("快捷订阅")}</CardTitle>
+        <CardDescription>{t("不会使用请查阅使用教程")}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-5">
@@ -54,7 +55,7 @@ export function Card4() {
             }
           >
             <i className={`${iconClasses} metron-copy`} />
-            复制
+            {t("复制")}
           </Button>
           <Qrcode />
 

@@ -41,22 +41,26 @@ export function Card2() {
     <Card className="bg-muted/50">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          流量
+          {t("流量")}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="secondary">重置</Button>
+              <Button variant="secondary">{t("重置")}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>确认重置本月已用流量？</AlertDialogTitle>
+                <AlertDialogTitle>
+                  {t("确认重置本月已用流量？")}
+                </AlertDialogTitle>
                 <AlertDialogDescription>
-                  点击「确定」后将跳转至收银台。完成支付后，系统将自动为阁下重置本月的流量使用记录，流量额度即刻恢复。
+                  {t(
+                    "点击「确定」后将跳转至收银台。完成支付后，系统将自动为阁下重置本月的流量使用记录，流量额度即刻恢复。"
+                  )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t("取消")}</AlertDialogCancel>
                 <AlertDialogAction onClick={handleReset}>
-                  Continue
+                  {t("继续")}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

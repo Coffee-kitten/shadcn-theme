@@ -8,7 +8,10 @@ import {
 import { Card1 } from "@/views/home/widgets/announcements/Card1";
 import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
+import { useTranslation } from "react-i18next";
+
 export function Announcements() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
@@ -21,7 +24,7 @@ export function Announcements() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="报告" />
+      <Head badge={t("公告")} />
       <Card1 />
     </PageContainer>
   );

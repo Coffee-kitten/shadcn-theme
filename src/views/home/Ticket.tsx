@@ -10,8 +10,10 @@ import { Card1 } from "@/views/home/widgets/ticket/Card1";
 import { Card2 } from "@/views/home/widgets/ticket/Card2";
 import { Loading1 } from "@/views/home/widgets/ticket/Loading1";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
+import { useTranslation } from "react-i18next";
 
 export function Ticket() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const [currentView, setCurrentView] = useState<"list" | "detail">("list");
 
@@ -28,7 +30,7 @@ export function Ticket() {
 
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading1}>
-      <Head badge="我的工单" />
+      <Head badge={t("我的工单")} />
       {currentView === "list" && (
         <Card1 onTicketCreated={() => fetchAllData(true)} />
       )}

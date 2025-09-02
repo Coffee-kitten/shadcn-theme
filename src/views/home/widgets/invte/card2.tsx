@@ -4,8 +4,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Receipt, CheckCircle } from "lucide-react";
 import { useV2boardUserData } from "@/utils/common-imports";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 const CommissionRecordItem = ({ record }: any) => {
+  const { t } = useTranslation();
   const formatDate = (timestamp: number) => {
     return dayjs.unix(timestamp).format("YYYY-MM-DD HH:mm");
   };
@@ -17,7 +19,7 @@ const CommissionRecordItem = ({ record }: any) => {
         className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 hover:bg-green-100 hover:text-green-800 dark:hover:bg-green-900 dark:hover:text-green-200"
       >
         <CheckCircle className="w-3 h-3 mr-1" />
-        已发放
+        {t("已发放")}
       </Badge>
     );
   };
@@ -32,7 +34,7 @@ const CommissionRecordItem = ({ record }: any) => {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-gray-900 dark:text-gray-100 break-all">
-            订单 #{record.trade_no}
+            {t("订单")} #{record.trade_no}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             {formatDate(record.created_at)}
@@ -45,7 +47,7 @@ const CommissionRecordItem = ({ record }: any) => {
             +¥{(record.get_amount / 100).toFixed(2)}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            订单金额: ¥{(record.order_amount / 100).toFixed(2)}
+            {t("订单金额")}: ¥{(record.order_amount / 100).toFixed(2)}
           </p>
         </div>
         {getStatusBadge()}
@@ -55,6 +57,7 @@ const CommissionRecordItem = ({ record }: any) => {
 };
 
 export const Card2 = () => {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const commissionRecords = store.inviteDetailsData?.data || [];
   return (
@@ -62,7 +65,7 @@ export const Card2 = () => {
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <Receipt className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-          佣金发放记录
+          {t("佣金发放记录")}
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
@@ -78,7 +81,7 @@ export const Card2 = () => {
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Receipt className="w-12 h-12 text-gray-400 dark:text-gray-600 mb-4" />
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              暂无佣金发放记录
+              {t("暂无佣金发放记录")}
             </p>
           </div>
         )}

@@ -17,5 +17,8 @@ import { Routers } from "@/routers/index.tsx";
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <Routers />
+    <Toaster />
+    <StrictMode></StrictMode>
+    <ToastContainer position="top-center" closeButton richColors />
   </ThemeProvider>
 );

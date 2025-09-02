@@ -5,6 +5,7 @@ import {
   subscribeGet,
   infoGet,
   commConfigGet,
+  paymentDetailGet,
 } from "@/utils/common-imports";
 import { Outlet } from "react-router-dom";
 import {
@@ -16,18 +17,17 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { I18n } from "@/components/i18n";
 import { Loading } from "@/views/home/Loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
-
 export function Sidebar() {
   const store = useV2boardUserData();
-  const isLoading = !store.infoData.data || !store.subscribeData.data;
-  const { fetchAllData } = useFetchMultipleData([
+
+  const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: infoGet,
-      setDataFn: (data) => store.setInfoData(data),
+      setDataFn: store.setInfoData,
     },
     {
       fetchFn: subscribeGet,
-      setDataFn: (data) => store.setSubscribeData(data),
+      setDataFn: store.setSubscribeData,
     },
     {
       fetchFn: commConfigGet,

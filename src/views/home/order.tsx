@@ -8,7 +8,9 @@ import {
 import { Card1 } from "@/views/home/widgets/order/card1";
 import { Loading } from "@/views/home/widgets/order/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
+import { useTranslation } from "react-i18next";
 export function Order() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
@@ -21,7 +23,7 @@ export function Order() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="订单管理" />
+      <Head badge={t("订单管理")} />
       <Card1 />
     </PageContainer>
   );

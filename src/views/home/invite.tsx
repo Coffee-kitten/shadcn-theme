@@ -11,8 +11,10 @@ import {
 import { Card1 } from "@/views/home/widgets/invte/card1";
 import { Card2 } from "@/views/home/widgets/invte/card2";
 import { Loading } from "@/views/home/widgets/invte/Loading";
+import { useTranslation } from "react-i18next";
 
 export function Invite() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
@@ -31,7 +33,7 @@ export function Invite() {
 
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge="我的邀请" />
+      <Head badge={t("我的邀请")} />
       <Card1 />
       <Card2 />
     </PageContainer>
