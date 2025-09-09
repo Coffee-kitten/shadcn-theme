@@ -25,8 +25,10 @@ import {
 } from "lucide-react";
 import { availablePeriods } from "@/hooks/price";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
+import { useTranslation } from "react-i18next";
 
 export function Card2(plan: any) {
+  const { t } = useTranslation();
   const periodOptions = availablePeriods(plan);
 
   // 图标映射
@@ -108,7 +110,7 @@ export function Card2(plan: any) {
           {plan.transfer_enable && (
             <CardDescription className="mt-2 text-sm font-medium">
               {plan.transfer_enable}GB{" "}
-              {plan.reset_traffic_method != 2 ? "月流量" : "一次性"}
+              {plan.reset_traffic_method != 2 ? t("月流量") : t("一次性")}
             </CardDescription>
           )}
         </div>
@@ -121,7 +123,7 @@ export function Card2(plan: any) {
         {parsedData.list.length > 0 && (
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-              核心功能
+              {t("核心功能")}
             </h4>
             <div className="grid gap-3">
               {parsedData.list.map((feature, idx) => {
@@ -145,7 +147,7 @@ export function Card2(plan: any) {
         {parsedData.features.length > 0 && (
           <div className="mt-6 space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-              附加特性
+              {t("附加特性")}
             </h4>
             <div className="flex flex-wrap gap-2">
               {parsedData.features.map((tag, idx) => (

@@ -22,7 +22,9 @@ import { Card2 } from "@/views/home/widgets/payment/card2";
 import { Card3 } from "@/views/home/widgets/payment/card3";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import { subscribeGet } from "@/api/dashboard";
+import { useTranslation } from "react-i18next";
 export function Card1() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const [selectedPayment, setSelectedPayment] = useState(
     store.paymentMethodData.data[0]?.id
@@ -33,6 +35,7 @@ export function Card1() {
 
   const [isLoading, setIsLoading] = useState(false);
   const fetchData = useFetchData();
+
   const { fetchAllData } = useFetchMultipleData([
     {
       fetchFn: () => paymentDetailGet(store.paymentDetailData.data.trade_no),
@@ -91,9 +94,9 @@ export function Card1() {
         <Card3 />
         <Card>
           <CardHeader>
-            <CardTitle>Payment Options</CardTitle>
+            <CardTitle>{t("Payment Options")}</CardTitle>
             <CardDescription>
-              Select your preferred payment method
+              {t("Select your preferred payment method")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

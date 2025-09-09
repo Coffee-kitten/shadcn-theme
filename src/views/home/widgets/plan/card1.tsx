@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card2 } from "@/views/home/widgets/plan/card2.tsx";
-
+import { useTranslation } from "react-i18next";
 import { useV2boardUserData } from "@/store/index";
 export function Card1() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
 
   // 过滤函数
@@ -14,9 +15,9 @@ export function Card1() {
   return (
     <Tabs defaultValue="all">
       <TabsList className="mb-2">
-        <TabsTrigger value="all">全部</TabsTrigger>
-        <TabsTrigger value="traffic">按流量</TabsTrigger>
-        <TabsTrigger value="period">按周期</TabsTrigger>
+        <TabsTrigger value="all">{t("全部")}</TabsTrigger>
+        <TabsTrigger value="traffic">{t("按流量")}</TabsTrigger>
+        <TabsTrigger value="period">{t("按周期")}</TabsTrigger>
       </TabsList>
 
       {filterPlans.map((key: any) => (

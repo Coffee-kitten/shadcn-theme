@@ -15,8 +15,10 @@ import {
   infoGet,
 } from "@/utils/common-imports";
 import { Switch } from "@/components/ui/switch";
+import { useTranslation } from "react-i18next";
 
 export const Card3 = () => {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const fetchData = useFetchData();
   const [loadingTraffic, setLoadingTraffic] = useState(false);
@@ -44,14 +46,14 @@ export const Card3 = () => {
   return (
     <Card className="bg-muted/30">
       <CardHeader>
-        <CardTitle>通知偏好</CardTitle>
-        <CardDescription>配置系统邮件提醒偏好</CardDescription>
+        <CardTitle>{t("通知偏好")}</CardTitle>
+        <CardDescription>{t("配置系统邮件提醒偏好")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Card className="bg-muted/30">
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle>到期邮件提醒</CardTitle>
+              <CardTitle>{t("到期邮件提醒")}</CardTitle>
               <Switch
                 checked={store.infoData.data.remind_expire}
                 disabled={loadingExpire}
@@ -65,7 +67,7 @@ export const Card3 = () => {
         <Card className="bg-muted/30">
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle>流量邮件提醒</CardTitle>
+              <CardTitle>{t("流量邮件提醒")}</CardTitle>
               <Switch
                 checked={store.infoData.data.remind_traffic}
                 disabled={loadingTraffic}

@@ -6,11 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useV2boardUserData } from "@/store/index";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
 import { useTranslation } from "react-i18next";
-import { Workflow } from "lucide-react";
 import dayjs from "dayjs";
 export function Card3() {
   const { t } = useTranslation();

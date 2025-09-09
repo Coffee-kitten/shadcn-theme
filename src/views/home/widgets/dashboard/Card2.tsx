@@ -69,6 +69,8 @@ export function Card2() {
         <CardDescription>
           {store.subscribeData.data.plan.onetime_price ? (
             <p>Never</p>
+          ) : store.subscribeData.data.reset_day == 0 ? (
+            <p>{t("已用流量已在今日重置")}</p>
           ) : (
             <p>
               {t("已用流量将在")} {store.subscribeData.data.reset_day}{" "}

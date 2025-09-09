@@ -1,4 +1,4 @@
 window.config = {
   name: "OnePixel",
-  host: "https://equinix.yyxc.org",
+  host: "https://euix.yyxc.org",
 };

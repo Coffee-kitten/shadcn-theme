@@ -1,14 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useV2boardUserData } from "@/store/index";
 import { Mail, Shield, Wallet, Hash } from "lucide-react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
-
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 export const Card1 = () => {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
 
   return (
@@ -19,12 +16,14 @@ export const Card1 = () => {
             <Mail className="w-5 h-5 text-primary" />
           </div>
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-foreground">电子邮箱</h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("电子邮箱")}
+            </h3>
             <Badge
               variant="secondary"
               className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30"
             >
-              已验证
+              {t("已验证")}
             </Badge>
           </div>
         </div>
@@ -42,7 +41,7 @@ export const Card1 = () => {
               variant="secondary"
               className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30"
             >
-              唯一标识
+              {t("唯一标识")}
             </Badge>
           </div>
         </div>
@@ -57,12 +56,14 @@ export const Card1 = () => {
             <Wallet className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-foreground">钱包余额</h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("钱包余额")}
+            </h3>
             <Badge
               variant="secondary"
               className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
             >
-              可用
+              {t("可用")}
             </Badge>
           </div>
         </div>
@@ -81,9 +82,11 @@ export const Card1 = () => {
             <Shield className="w-5 h-5 text-amber-600 dark:text-amber-400" />
           </div>
           <div className="space-y-1">
-            <h4 className="text-sm font-semibold text-foreground">账户安全</h4>
+            <h4 className="text-sm font-semibold text-foreground">
+              {t("账户安全")}
+            </h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              定期更新密码以保护您的账户安全
+              {t("定期更新密码以保护您的账户安全")}
             </p>
           </div>
         </div>

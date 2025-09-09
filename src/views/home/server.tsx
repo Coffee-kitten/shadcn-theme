@@ -16,7 +16,7 @@ export function Server() {
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: serverFetchGet,
-      setDataFn: (data) => store.setServerFetchData(data),
+      setDataFn: store.setServerFetchData,
     },
   ]);
   useEffect(() => {

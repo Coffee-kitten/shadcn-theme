@@ -15,6 +15,7 @@ import { Eye, EyeOff, Lock, Loader2 } from "lucide-react";
 import { changePasswordPost } from "@/api/user";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // 密码输入字段通用组件
 const PasswordField = ({
@@ -41,7 +42,9 @@ const PasswordField = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          autoComplete={name === "oldPassword-1" ? "current-password" : "new-password"}
+          autoComplete={
+            name === "oldPassword-1" ? "current-password" : "new-password"
+          }
           className={`${
             showToggle ? "pr-12" : ""
           } h-11 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20 transition-all duration-200`}
@@ -67,6 +70,7 @@ const PasswordField = ({
 };
 
 export const ChangePasswordDialog = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -78,14 +82,14 @@ export const ChangePasswordDialog = () => {
   });
   const handlePasswordChange = async () => {
     if (formData.newPassword !== formData.confirmPassword) {
-      toast.error("两次新密码输入不同");
+      toast.error(t("两次新密码输入不同"));
       return;
     }
 
     setIsLoading(true);
     try {
       await changePasswordPost(formData.oldPassword, formData.newPassword);
-      toast.success("修改成功");
+      toast.success(t("修改成功"));
       setIsDialogOpen(false);
       setFormData({ oldPassword: "", newPassword: "", confirmPassword: "" });
     } catch (error: any) {
@@ -93,7 +97,7 @@ export const ChangePasswordDialog = () => {
         error.data?.errors?.old_password?.[0] ||
           error.data?.errors?.new_password?.[0] ||
           error.data?.message ||
-          "密码修改失败"
+          t("密码修改失败")
       );
     } finally {
       setIsLoading(false);
@@ -109,7 +113,7 @@ export const ChangePasswordDialog = () => {
           className="group/btn relative overflow-hidden border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
         >
           <Lock className="transition-transform group-hover/btn:scale-110" />
-          修改密码
+          {t("修改密码")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden">
@@ -121,10 +125,10 @@ export const ChangePasswordDialog = () => {
               </div>
               <div>
                 <DialogTitle className="text-lg font-semibold">
-                  修改密码
+                  {t("修改密码")}
                 </DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground mt-1">
-                  为了您的账户安全，请设置一个强密码
+                  {t("为了您的账户安全，请设置一个强密码")}
                 </DialogDescription>
               </div>
             </div>
@@ -135,35 +139,35 @@ export const ChangePasswordDialog = () => {
           <PasswordField
             id="oldPassword"
             name="oldPassword-1"
-            label="当前密码"
+            label={t("当前密码")}
             value={formData.oldPassword}
             onChange={(value: string) =>
               setFormData({ ...formData, oldPassword: value })
             }
-            placeholder="请输入当前密码"
+            placeholder={t("请输入当前密码")}
             showPassword={showOldPassword}
             onTogglePassword={() => setShowOldPassword(!showOldPassword)}
           />
           <PasswordField
             id="newPassword"
             name="newPassword"
-            label="新密码"
+            label={t("新密码")}
             value={formData.newPassword}
             onChange={(value: string) =>
               setFormData({ ...formData, newPassword: value })
             }
-            placeholder="请输入新密码（至少8位）"
+            placeholder={t("请输入新密码（至少8位）")}
             showPassword={showNewPassword}
             onTogglePassword={() => setShowNewPassword(!showNewPassword)}
           />
           <PasswordField
             id="confirmPassword"
-            label="确认新密码"
+            label={t("确认新密码")}
             value={formData.confirmPassword}
             onChange={(value: string) =>
               setFormData({ ...formData, confirmPassword: value })
             }
-            placeholder="请再次输入新密码"
+            placeholder={t("请再次输入新密码")}
             showToggle={false}
           />
         </div>
@@ -172,7 +176,7 @@ export const ChangePasswordDialog = () => {
           <DialogFooter className="gap-3">
             <DialogClose asChild>
               <Button type="button" variant="outline" className="flex-1 h-11">
-                取消
+                {t("取消")}
               </Button>
             </DialogClose>
             <Button
@@ -186,7 +190,7 @@ export const ChangePasswordDialog = () => {
                   <Loader2 className="animate-spin" /> Please wait
                 </>
               ) : (
-                "确认修改"
+                t("确认修改")
               )}
             </Button>
           </DialogFooter>

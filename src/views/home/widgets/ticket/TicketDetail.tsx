@@ -9,6 +9,8 @@ import { Loading2 } from "./Loading2";
 import { useState, useEffect } from "react";
 import { ticketReplyPost, ticketFetchIdGet } from "@/api/ticket";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+
 export function TicketDetail({
   setTicketMessages,
   ticketMessages,
@@ -17,6 +19,7 @@ export function TicketDetail({
   onBack,
   shouldPoll,
 }: any) {
+  const { t } = useTranslation();
   const [replyMessage, setReplyMessage] = useState("");
   const [isReplyLoading, setIsReplyLoading] = useState(false);
 
@@ -38,7 +41,7 @@ export function TicketDetail({
   if (!ticketMessages) return <Loading2 />;
   const statusInfo =
     ticketMessages.status == 1
-      ? { ...getTicketStatus(2), text: "已完成" }
+      ? { ...getTicketStatus(2), text: t("已完成") }
       : getTicketStatus(ticketMessages.reply_status);
   const handleReply = async () => {
     try {
@@ -58,7 +61,7 @@ export function TicketDetail({
         <Button variant="ghost" size="sm" onClick={onBack} className="px-2">
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <h2 className="text-lg font-semibold">工单详情</h2>
+        <h2 className="text-lg font-semibold">{t("工单详情")}</h2>
       </div>
       <div className="bg-card border rounded-lg p-6 space-y-4">
         <div className="space-y-2">
@@ -77,7 +80,7 @@ export function TicketDetail({
               {statusInfo.text}
             </div>
             <div className="text-xs text-muted-foreground mt-0.5">
-              工单编号: {ticketMessages.id}
+              {t("工单编号")}: {ticketMessages.id}
             </div>
           </div>
         </div>
@@ -85,24 +88,26 @@ export function TicketDetail({
         <Separator />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <TicketInfoRow
-            label="优先级"
+            label={t("优先级")}
             value={getPriorityText(ticketMessages.level).text}
           />
           <TicketInfoRow
-            label="创建时间"
+            label={t("创建时间")}
             value={dayjs
               .unix(ticketMessages.created_at)
               .format("YYYY-MM-DD HH:mm")}
           />
           <TicketInfoRow
-            label="更新时间"
+            label={t("更新时间")}
             value={dayjs
               .unix(ticketMessages.updated_at)
               .format("YYYY-MM-DD HH:mm")}
           />
         </div>
         <div className="space-y-3">
-          <div className="text-sm font-medium text-foreground">消息记录</div>
+          <div className="text-sm font-medium text-foreground">
+            {t("消息记录")}
+          </div>
           <ScrollArea className="h-64 w-full border rounded-lg">
             <div className="p-4 space-y-4">
               {ticketMessages.message.map((message: any) => (
@@ -118,7 +123,9 @@ export function TicketDetail({
                     </div>
                     <div className="text-xs mt-2 text-muted-foreground">
                       {dayjs.unix(message.created_at).format("MM-DD HH:mm")}
-                      {message.is_me ? " (我)" : " (客服)"}
+                      {message.is_me
+                        ? " (" + t("我") + ")"
+                        : " (" + t("客服") + ")"}
                     </div>
                   </div>
                 </div>
@@ -130,7 +137,7 @@ export function TicketDetail({
           <div className="space-y-3">
             <div className="flex w-full gap-2">
               <Textarea
-                placeholder="Type your message here."
+                placeholder={t("请输入回复内容")}
                 className="flex-1"
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
@@ -141,7 +148,7 @@ export function TicketDetail({
                 disabled={isLoading || isReplyLoading}
                 onClick={handleReply}
               >
-                回复
+                {t("回复")}
               </Button>
             </div>
             <div className="flex justify-end pt-2">
@@ -151,7 +158,7 @@ export function TicketDetail({
                 onClick={() => onCloseTicket(ticketMessages.id)}
                 disabled={isLoading || isReplyLoading}
               >
-                关闭工单
+                {t("关闭工单")}
               </Button>
             </div>
           </div>

@@ -15,7 +15,7 @@ export function Order() {
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: orderFetchGet,
-      setDataFn: (data) => store.setOrderFetchData(data),
+      setDataFn: store.setOrderFetchData,
     },
   ]);
   useEffect(() => {

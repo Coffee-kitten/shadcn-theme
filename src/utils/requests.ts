@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const v2boardRequest = axios.create({
-  baseURL: (window as any).config.host,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     "Content-Language": window.localStorage.getItem("i18n"),

@@ -7,9 +7,10 @@ import {
 
 import { useV2boardUserData } from "@/store/index";
 import { Badge } from "@/components/ui/badge";
-
+import { useTranslation } from "react-i18next";
 import { Signal1, Signal2 } from "@/views/svg/signal";
 export function Card1() {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   return (
     <div className="grid lg:grid-cols-2 gap-4 lg:gap-5">
@@ -29,7 +30,11 @@ export function Card1() {
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              {item.is_online ? <p>节点当前在线</p> : <p>节点当前离线</p>}
+              {item.is_online ? (
+                <p>{t("节点当前在线")}</p>
+              ) : (
+                <p>{t("节点当前离线")}</p>
+              )}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

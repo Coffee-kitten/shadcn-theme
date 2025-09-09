@@ -67,6 +67,15 @@ export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ node, ...props }) => (
+                    <img
+                      {...props}
+                      className="w-1/2 h-auto mx-auto rounded-lg shadow"
+                      loading="lazy"
+                    />
+                  ),
+                }}
               >
                 {store.knowledgeFetchIDData.data[selectedId].body}
               </ReactMarkdown>
@@ -77,7 +86,7 @@ export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
         )}
         <DrawerFooter>
           <Button className="w-full" onClick={() => setOpenDrawer(false)}>
-            关闭文档
+            {t("关闭文档")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

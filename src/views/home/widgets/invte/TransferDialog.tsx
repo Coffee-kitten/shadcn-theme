@@ -42,7 +42,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
         <DialogHeader>
           <DialogTitle>{t("佣金划转")}</DialogTitle>
           <DialogDescription>
-            {t("划转后的余额仅用于 {appName} 消费使用", {
+            {t("划转后的余额仅用于 {{appName}} 消费使用", {
               appName: import.meta.env.VITE_APP_NAME,
             })}
           </DialogDescription>

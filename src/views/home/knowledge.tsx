@@ -16,7 +16,7 @@ export function Knowledge() {
   const { fetchAllData, isLoading } = useFetchMultipleData([
     {
       fetchFn: knowledgeFetchGet,
-      setDataFn: (data) => store.setKnowledgeFetchData(data),
+      setDataFn: store.setKnowledgeFetchData,
     },
   ]);
   useEffect(() => {

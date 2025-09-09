@@ -4,7 +4,10 @@ import { ticketFetchIdGet, ticketClosePost } from "@/api/ticket";
 import { TicketList } from "./TicketList";
 import { TicketDetail } from "./TicketDetail";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+
 export function Card2({ currentView, setCurrentView, onTicketCreated }: any) {
+  const { t } = useTranslation();
   const store = useV2boardUserData();
   const [isLoading, setIsLoading] = useState(false);
   const [ticketMessages, setTicketMessages] = useState<any>(null);
@@ -33,7 +36,7 @@ export function Card2({ currentView, setCurrentView, onTicketCreated }: any) {
       await ticketClosePost(ticketId);
       setShouldPoll(false);
     } catch (error) {
-      toast.error("工单关闭失败，请重试");
+      toast.error(t("工单关闭失败，请重试"));
     } finally {
       setTicketMessages((await ticketFetchIdGet(ticketId)).data.data);
       setIsLoading(false);

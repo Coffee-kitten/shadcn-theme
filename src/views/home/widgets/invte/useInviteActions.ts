@@ -65,7 +65,7 @@ export const useInviteActions = () => {
       await ticketWithdrawPost(withdrawMethod, withdrawAccount);
       await fetchAllData(true); // 更新数据
       toast.success(
-        t("提现申请已提交，提现方式：{withdrawMethod}", {
+        t("提现申请已提交，提现方式：{{withdrawMethod}}", {
           withdrawMethod,
         })
       );

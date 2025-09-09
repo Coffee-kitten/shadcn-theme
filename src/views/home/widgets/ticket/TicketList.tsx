@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { MessageCircle } from "lucide-react";
 import dayjs from "dayjs";
 import { getTicketStatus } from "./utils";
+import { useTranslation } from "react-i18next";
 
 interface TicketListProps {
   tickets: any[];
@@ -9,6 +10,7 @@ interface TicketListProps {
 }
 
 export function TicketList({ tickets, onTicketClick }: TicketListProps) {
+  const { t } = useTranslation();
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       {tickets.map((ticket: any) => {
@@ -40,7 +42,7 @@ export function TicketList({ tickets, onTicketClick }: TicketListProps) {
                       variant="secondary"
                       className="text-xs px-2 py-0.5 font-normal"
                     >
-                      已完成
+                      {t("已完成")}
                     </Badge>
                   ) : (
                     <Badge

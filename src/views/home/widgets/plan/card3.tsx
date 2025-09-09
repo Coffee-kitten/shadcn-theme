@@ -22,7 +22,9 @@ import { Ticket, Tag, Percent } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const periodOptions = availablePeriods(plan);
   const [selectedPeriod, setSelectedPeriod] = useState(
@@ -75,15 +77,15 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
   const actionMap: Record<number, JSX.Element> = {
     0: (
       <Button variant="outline" className="w-full">
-        立即订购
+        {t("立即订购")}
       </Button>
     ),
     1: (
       <Button variant="secondary" disabled={plan.onetime_price}>
-        续费
+        {t("续费")}
       </Button>
     ),
-    2: <Button className="h-9 py-2 px-6">即刻续费</Button>,
+    2: <Button className="h-9 py-2 px-6">{t("即刻续费")}</Button>,
   };
 
   return (
@@ -93,43 +95,51 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
         <DialogHeader>
           {renew != 0 ? (
             <>
-              <DialogTitle>续费订阅 #{plan.name}</DialogTitle>
+              <DialogTitle>
+                {t("续费订阅")} #{plan.name}
+              </DialogTitle>
               <DialogDescription>
-                您可以在旧订阅的基础上直接续费，保持您的订阅计划不变，延长订阅到期时间。
+                {t(
+                  "您可以在旧订阅的基础上直接续费，保持您的订阅计划不变，延长订阅到期时间。"
+                )}
               </DialogDescription>
             </>
           ) : (
             <>
-              <DialogTitle>购买订阅 #{plan.name}</DialogTitle>
+              <DialogTitle>
+                {t("购买订阅")} #{plan.name}
+              </DialogTitle>
               <DialogDescription>
-                如果您已有订阅，当前订阅被新订阅覆盖，将会丢失当前订阅的流量和到期时间，并覆盖为新订阅。
+                {t(
+                  "如果您已有订阅，当前订阅被新订阅覆盖，将会丢失当前订阅的流量和到期时间，并覆盖为新订阅。"
+                )}
               </DialogDescription>
             </>
           )}
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-3">
-            <div className="text-lg font-bold">订阅参数</div>
+            <div className="text-lg font-bold">{t("订阅参数")}</div>
             <div className="grid grid-cols-3 md:grid-cols-4 text-sm">
               <div className="space-y-0.5 col-span-1 w-full font-medium">
-                <div>可用流量</div>
-                <div>速率限制</div>
-                <div>可续费</div>
-                <div>可重置流量</div>
+                <div>{t("可用流量")}</div>
+                <div>{t("速率限制")}</div>
+                <div>{t("可续费")}</div>
+                <div>{t("可重置流量")}</div>
               </div>
               <div className="space-y-0.5 col-span-2 md:grid-cols-3 w-full">
                 <div>{`${plan.transfer_enable} GiB`}</div>
                 <div>
-                  {plan.speed_limit ? `${plan.speed_limit} Mbps` : "无限制"}
+                  {plan.speed_limit ? `${plan.speed_limit} Mbps` : t("无限制")}
                 </div>
-                <div>{(plan.renew = 1 ? "是" : "否")}</div>
-                <div>{plan.reset_price ? "是" : "否"}</div>
+                <div>{(plan.renew = 1 ? t("是") : t("否"))}</div>
+                <div>{plan.reset_price ? t("是") : t("否")}</div>
               </div>
             </div>
           </div>
           <Separator />
           <div className="flex items-center justify-between">
-            <p className="font-bold">周期</p>
+            <p className="font-bold">{t("周期")}</p>
             <Tabs
               defaultValue={selectedPeriod}
               onValueChange={setSelectedPeriod}
@@ -137,7 +147,7 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
               <TabsList>
                 {periodOptions.map((item) => (
                   <TabsTrigger key={item.key} value={item.period}>
-                    {`${item.period}付`}
+                    {`${item.period} ${t("付")}`}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -149,7 +159,7 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
               <div className="relative flex-1">
                 <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="输入优惠码"
+                  placeholder={t("输入优惠码")}
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="pl-10"
@@ -162,14 +172,16 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
                 className="shrink-0"
               >
                 <Ticket className="h-4 w-4 mr-1" />
-                应用
+                {t("应用")}
               </Button>
             </div>
 
             {/* 价格显示区域 */}
             <div className="bg-muted/30 rounded-lg p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">原价</span>
+                <span className="text-sm text-muted-foreground">
+                  {t("原价")}
+                </span>
                 <span
                   className={`text-lg font-medium ${
                     couponData
@@ -187,7 +199,7 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
                     <div className="flex items-center gap-2">
                       <Percent className="h-4 w-4 text-green-600" />
                       <span className="text-sm text-muted-foreground">
-                        优惠
+                        {t("优惠")}
                       </span>
                       <Badge
                         variant="secondary"
@@ -207,14 +219,14 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
               )}
 
               <div className="flex items-center justify-between">
-                <span className="text-base font-semibold">订阅金额</span>
+                <span className="text-base font-semibold">{t("订阅金额")}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-2xl font-bold text-primary">
                     ￥{couponDiscount.toFixed(2)}
                   </span>
                   {couponData && (
                     <Badge variant="outline" className="text-xs">
-                      已优惠
+                      {t("已优惠")}
                     </Badge>
                   )}
                 </div>
@@ -229,11 +241,11 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
               variant="outline"
               disabled={isLoading}
             >
-              取消
+              {t("取消")}
             </Button>
           </DialogClose>
           <Button onClick={clickOrder} disabled={isLoading}>
-            提交
+            {t("提交")}
           </Button>
         </DialogFooter>
       </DialogContent>

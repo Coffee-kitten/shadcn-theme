@@ -32,7 +32,9 @@ import { useState } from "react";
 import { ticketSavePost } from "@/api/ticket";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 export const Card1 = ({ onTicketCreated }: any) => {
+  const { t } = useTranslation();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForm, setCreateForm] = useState({
     subject: "",
@@ -50,7 +52,7 @@ export const Card1 = ({ onTicketCreated }: any) => {
       setIsSubmitting(true);
       // 模拟API调用延迟
       await ticketSavePost(createForm);
-      toast.success("工单创建成功");
+      toast.success(t("工单创建成功"));
       // 重置表单
       setCreateForm({
         subject: "",
@@ -75,13 +77,13 @@ export const Card1 = ({ onTicketCreated }: any) => {
             <div className="p-2 rounded-full bg-primary/10">
               <MessageCircle className="h-4 w-4 text-primary" />
             </div>
-            工单支持
+            {t("工单支持")}
           </div>
           <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2" />
-                创建工单
+                {t("创建工单")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
@@ -92,11 +94,13 @@ export const Card1 = ({ onTicketCreated }: any) => {
                       <MessageCircle className="h-5 w-5 text-primary" />
                     </div>
                     <DialogTitle className="text-xl font-semibold">
-                      创建新工单
+                      {t("创建新工单")}
                     </DialogTitle>
                   </div>
                   <DialogDescription className="text-muted-foreground">
-                    描述您遇到的问题，我们的技术团队将尽快为您提供专业支持
+                    {t(
+                      "描述您遇到的问题，我们的技术团队将尽快为您提供专业支持"
+                    )}
                   </DialogDescription>
                 </DialogHeader>
               </div>
@@ -109,11 +113,11 @@ export const Card1 = ({ onTicketCreated }: any) => {
                       className="text-sm font-medium flex items-center gap-2"
                     >
                       <FileText className="h-4 w-4 text-muted-foreground" />
-                      工单主题
+                      {t("工单主题")}
                     </Label>
                     <Input
                       id="subject"
-                      placeholder="简要描述您的问题"
+                      placeholder={t("简要描述您的问题")}
                       className="h-11"
                       value={createForm.subject}
                       onChange={(e) =>
@@ -131,7 +135,7 @@ export const Card1 = ({ onTicketCreated }: any) => {
                       className="text-sm font-medium flex items-center gap-2"
                     >
                       <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                      优先级别
+                      {t("优先级别")}
                     </Label>
                     <Select
                       value={createForm.level.toString()}
@@ -140,12 +144,12 @@ export const Card1 = ({ onTicketCreated }: any) => {
                       }
                     >
                       <SelectTrigger className="h-11">
-                        <SelectValue placeholder="选择优先级" />
+                        <SelectValue placeholder={t("选择优先级")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="0">低优先级</SelectItem>
-                        <SelectItem value="1">中优先级</SelectItem>
-                        <SelectItem value="2">高优先级</SelectItem>
+                        <SelectItem value="0">{t("低优先级")}</SelectItem>
+                        <SelectItem value="1">{t("中优先级")}</SelectItem>
+                        <SelectItem value="2">{t("高优先级")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -156,11 +160,13 @@ export const Card1 = ({ onTicketCreated }: any) => {
                       className="text-sm font-medium flex items-center gap-2"
                     >
                       <MessageCircle className="h-4 w-4 text-muted-foreground" />
-                      问题详情
+                      {t("问题详情")}
                     </Label>
                     <Textarea
                       id="message"
-                      placeholder="请详细描述您遇到的问题，包括具体的错误信息、操作步骤等，这将帮助我们更快地为您解决问题"
+                      placeholder={t(
+                        "请详细描述您遇到的问题，包括具体的错误信息、操作步骤等，这将帮助我们更快地为您解决问题"
+                      )}
                       className="min-h-[140px] resize-none"
                       value={createForm.message}
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -180,7 +186,7 @@ export const Card1 = ({ onTicketCreated }: any) => {
                     className="px-6"
                     disabled={isSubmitting}
                   >
-                    取消
+                    {t("取消")}
                   </Button>
                   <Button
                     onClick={handleCreateTicket}
@@ -206,7 +212,7 @@ export const Card1 = ({ onTicketCreated }: any) => {
                     ) : (
                       <>
                         <Plus className="mr-2" />
-                        创建工单
+                        {t("创建工单")}
                       </>
                     )}
                   </Button>

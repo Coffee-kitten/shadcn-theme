@@ -39,7 +39,7 @@ export function Qrcode({
           ) : (
             <>
               <CreditCard />
-              付款
+              {t("付款")}
             </>
           )}
         </Button>
@@ -49,7 +49,9 @@ export function Qrcode({
           <DialogTitle className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
               <AntDesignAlipayCircleFilled className="w-8 h-8 text-primary" />
-              <h3 className="text-xl font-semibold">Lightning Payment</h3>
+              <h3 className="text-xl font-semibold">
+                {t("Lightning Payment")}
+              </h3>
             </div>
             <ScanQrCode className="w-8 h-8 text-muted-foreground" />
           </DialogTitle>
@@ -62,7 +64,7 @@ export function Qrcode({
             ¥{(store.paymentDetailData.data.total_amount / 100).toFixed(2)}
           </p>
           <p className="text-muted-foreground">
-            Please scan the QR code to complete your lightning payment.
+            {t("Please scan the QR code to complete your lightning payment.")}
           </p>
           <div className="bg-muted p-4 rounded-md">
             {/* <img

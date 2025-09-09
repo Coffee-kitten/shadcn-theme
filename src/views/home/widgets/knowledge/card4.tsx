@@ -49,6 +49,15 @@ export function Card4({ selectedId }: any) {
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ node, ...props }) => (
+                    <img
+                      {...props}
+                      className="w-1/2 h-auto mx-auto rounded-lg shadow"
+                      loading="lazy"
+                    />
+                  ),
+                }}
               >
                 {store.knowledgeFetchIDData.data[selectedId].body}
               </ReactMarkdown>
