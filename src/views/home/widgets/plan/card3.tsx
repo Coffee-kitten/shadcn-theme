@@ -11,14 +11,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { availablePeriods } from "@/hooks/price";
+import { useAvailablePeriods } from "@/hooks/price";
 import {
   useState,
   couponCheckPost,
   orderSavePost,
 } from "@/utils/common-imports";
 import { useFetchData } from "@/hooks/use-fetch-data";
-import { Ticket, Tag, Percent } from "lucide-react";
+import { Ticket, Tag, Percent, RefreshCw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
@@ -26,20 +26,16 @@ import { useTranslation } from "react-i18next";
 export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const periodOptions = availablePeriods(plan);
+  const periodOptions = useAvailablePeriods(plan);
   const [selectedPeriod, setSelectedPeriod] = useState(
-    periodOptions[0]?.period || ""
+    periodOptions[0]?.key || ""
   );
   const [couponCode, setCouponCode] = useState("");
   const [couponData, setCouponData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const fetchData = useFetchData();
 
-  const price =
-    Number(
-      periodOptions.find((item) => item.period == selectedPeriod)?.price
-    ) || 0;
-
+  const price = plan[selectedPeriod] / 100;
   const couponDiscount = couponData
     ? couponData.type == 2
       ? price * (1 - couponData.value / 100)
@@ -61,11 +57,8 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
     setIsLoading(true);
     const result = await fetchData(() =>
       orderSavePost(
-        String(
-          periodOptions.find((item) => item.period == selectedPeriod)?.key
-        ),
+        selectedPeriod,
         plan.id,
-
         couponData ? couponCode : undefined
       )
     );
@@ -81,7 +74,11 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
       </Button>
     ),
     1: (
-      <Button variant="secondary" disabled={plan.onetime_price}>
+      <Button
+        variant="secondary"
+        disabled={plan.onetime_price || plan.renew == 0}
+      >
+        <RefreshCw />
         {t("续费")}
       </Button>
     ),
@@ -128,11 +125,11 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
                 <div>{t("可重置流量")}</div>
               </div>
               <div className="space-y-0.5 col-span-2 md:grid-cols-3 w-full">
-                <div>{`${plan.transfer_enable} GiB`}</div>
+                <div>{`${plan.transfer_enable} GB`}</div>
                 <div>
                   {plan.speed_limit ? `${plan.speed_limit} Mbps` : t("无限制")}
                 </div>
-                <div>{(plan.renew = 1 ? t("是") : t("否"))}</div>
+                <div>{plan.renew == 1 ? t("是") : t("否")}</div>
                 <div>{plan.reset_price ? t("是") : t("否")}</div>
               </div>
             </div>
@@ -146,8 +143,8 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
             >
               <TabsList>
                 {periodOptions.map((item) => (
-                  <TabsTrigger key={item.key} value={item.period}>
-                    {`${item.period} ${t("付")}`}
+                  <TabsTrigger key={item.key} value={item.key}>
+                    {`${item.period.long}`}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -163,6 +160,7 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="pl-10"
+                  inputMode="none"
                 />
               </div>
               <Button

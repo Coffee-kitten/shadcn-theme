@@ -1,13 +1,11 @@
 import { useV2boardUserData } from "@/store/index";
-import { useState, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { knowledgeFetchIDGet } from "@/api/knowledge";
 
 import { Card3 } from "@/views/home/widgets/knowledge/card3";
 import { Card4 } from "@/views/home/widgets/knowledge/card4";
 
 export function Card2() {
-  const { t } = useTranslation();
   const store = useV2boardUserData();
 
   const [selectedId, setSelectedId] = useState<any>(null);

@@ -1,5 +1,4 @@
 import {
-  createBrowserRouter,
   createHashRouter,
   RouterProvider,
   useNavigate,
@@ -19,13 +18,13 @@ import { Tos } from "@/views/fragments/tos";
 import { Dashboard } from "@/views/home/Dashboard";
 import { Announcements } from "@/views/home/Announcements";
 import { Knowledge } from "@/views/home/Knowledge";
-import { Server } from "@/views/home/Server";
+import { ServerPage } from "@/views/home/Server";
 import { Order } from "@/views/home/Order";
 import { Plan } from "@/views/home/Plan";
 import { Payment } from "@/views/home/Payment";
-import { User } from "@/views/home/User";
-import { Invite } from "@/views/home/Invite";
-import { Ticket } from "@/views/home/Ticket";
+import { UserPage } from "@/views/home/User";
+import { InvitePage } from "@/views/home/Invite";
+import { TicketPage } from "@/views/home/Ticket";
 import { Layout } from "@/views/auth/layout";
 //
 function ProtectedRoutes() {
@@ -34,12 +33,25 @@ function ProtectedRoutes() {
 
   useEffect(() => {
     const token = localStorage.getItem("authorization");
+    const currentPath = location.pathname;
     const isAuthPage =
-      location.pathname == "/login" || location.pathname == "/register";
+      currentPath === "/login" ||
+      currentPath === "/register" ||
+      currentPath === "/forgot-password";
 
     // 如果已登录且访问认证页面，重定向到仪表盘
     if (token && isAuthPage) {
       navigate("/dashboard", { replace: true });
+      return;
+    }
+
+    // 处理根路径访问
+    if (currentPath === "/") {
+      if (token) {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/login", { replace: true });
+      }
     }
   }, [navigate, location.pathname]);
 
@@ -52,7 +64,7 @@ const router = createHashRouter([
     element: <Tos />,
   },
   {
-    path: "404",
+    path: "*",
     element: <FourZeroFour />,
   },
   {
@@ -91,7 +103,7 @@ const router = createHashRouter([
           },
           {
             path: "server",
-            element: <Server />,
+            element: <ServerPage />,
           },
           {
             path: "knowledge",
@@ -111,15 +123,15 @@ const router = createHashRouter([
           },
           {
             path: "user",
-            element: <User />,
+            element: <UserPage />,
           },
           {
             path: "invite",
-            element: <Invite />,
+            element: <InvitePage />,
           },
           {
             path: "ticket",
-            element: <Ticket />,
+            element: <TicketPage />,
           },
         ],
       },

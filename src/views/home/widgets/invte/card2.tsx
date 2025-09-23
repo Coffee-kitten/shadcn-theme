@@ -25,14 +25,12 @@ const CommissionRecordItem = ({ record }: any) => {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+    <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800 last:border-b-0 ">
       <div className="flex items-center space-x-3">
-        <div className="flex-shrink-0">
-          <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
-            <Receipt className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-          </div>
+        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950/50 rounded-lg flex items-center justify-center">
+          <Receipt className="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="flex flex-col">
           <p className="text-sm font-medium text-gray-900 dark:text-gray-100 break-all">
             {t("订单")} #{record.trade_no}
           </p>
@@ -41,7 +39,7 @@ const CommissionRecordItem = ({ record }: any) => {
           </p>
         </div>
       </div>
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 shrink-0">
         <div className="text-right">
           <p className="text-sm font-semibold text-green-600 dark:text-green-400">
             +¥{(record.get_amount / 100).toFixed(2)}
@@ -70,7 +68,7 @@ export const Card2 = () => {
       </CardHeader>
       <CardContent className="p-0">
         {commissionRecords.length > 0 ? (
-          <ScrollArea className="max-h-[400px]">
+          <ScrollArea className="h-[400px] w-full">
             <div className="space-y-0">
               {commissionRecords.map((record: any) => (
                 <CommissionRecordItem key={record.id} record={record} />

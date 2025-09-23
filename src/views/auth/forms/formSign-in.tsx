@@ -19,8 +19,8 @@ export function FormSignIn() {
   const { t } = useTranslation();
   const form = useForm({
     defaultValues: {
-      email: "test@com",
-      password: "1234567899",
+      email: "",
+      password: "",
     },
   });
 
@@ -51,7 +51,7 @@ export function FormSignIn() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t("邮箱地址")}</FormLabel>
               <FormControl>
                 <Input {...field} autoComplete="email" />
               </FormControl>
@@ -64,7 +64,7 @@ export function FormSignIn() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center">
-                Password{" "}
+                {t("密码")}
                 <a
                   href="/#/forgot-password"
                   className="ml-auto inline-block text-xs sm:text-sm underline opacity-75"

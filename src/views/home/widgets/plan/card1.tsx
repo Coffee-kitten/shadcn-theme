@@ -25,7 +25,9 @@ export function Card1() {
           <section className="grid auto-rows-min gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {store.planFetchData.data
               .filter(key[1])
-              .map((plan: any) => Card2(plan))}
+              .map((plan: any, index: number) => (
+                <Card2 key={index} {...plan} />
+              ))}
           </section>
         </TabsContent>
       ))}

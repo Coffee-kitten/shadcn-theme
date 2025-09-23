@@ -14,7 +14,7 @@ export function TicketList({ tickets, onTicketClick }: TicketListProps) {
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       {tickets.map((ticket: any) => {
-        const ticketStatus = getTicketStatus(ticket.reply_status);
+        const ticketStatus = getTicketStatus(ticket.reply_status, t);
 
         return (
           <button

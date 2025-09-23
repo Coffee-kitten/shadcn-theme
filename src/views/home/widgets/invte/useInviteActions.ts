@@ -44,7 +44,7 @@ export const useInviteActions = () => {
       await userTransferPost(Math.floor((transferAmount as any) * 100));
       await fetchAllData(true); // 更新数据
       toast.success(
-        t("成功划转 ¥{transferAmount} 到账户余额", {
+        t("成功划转 ¥{{transferAmount}} 到账户余额", {
           transferAmount,
         })
       );

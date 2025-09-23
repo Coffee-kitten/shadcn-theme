@@ -18,10 +18,14 @@ import remarkGfm from "remark-gfm";
 import { Loading2 } from "@/views/home/widgets/knowledge/loading";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
+import { useClipboard } from "@/utils/copy";
+
 export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
   const { t } = useTranslation();
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const store = useV2boardUserData();
+  const { copyToClipboard } = useClipboard();
+
   return isMobile ? (
     <Drawer
       open={openDrawer}
@@ -65,16 +69,47 @@ export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
             <Separator />
             <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-[90svw] my-4 select-text">
               <ReactMarkdown
-                rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                urlTransform={(url) => url}
                 components={{
-                  img: ({ node, ...props }) => (
-                    <img
-                      {...props}
-                      className="w-1/2 h-auto mx-auto rounded-lg shadow"
-                      loading="lazy"
-                    />
-                  ),
+                  img: ({ node, ...props }) => {
+                    const action = (node as any).properties?.alt;
+                    if (action === "windows") {
+                      return (
+                        <img
+                          {...props}
+                          className="w-full h-auto mx-auto rounded-lg shadow"
+                          loading="lazy"
+                        />
+                      );
+                    }
+                    return (
+                      <img
+                        {...props}
+                        className="w-1/2 h-auto mx-auto rounded-lg shadow"
+                        loading="lazy"
+                      />
+                    );
+                  },
+                  button: ({ node, children, ...props }) => {
+                    const action = (node as any).properties?.dataAction;
+                    const url = (node as any).properties?.dataUrl;
+                    if (action === "copy") {
+                      return (
+                        <button
+                          {...props}
+                          className="text-primary underline font-medium"
+                          onClick={() => {
+                            copyToClipboard(url);
+                          }}
+                        >
+                          {children}
+                        </button>
+                      );
+                    }
+                    return <button {...props}>{children}</button>;
+                  },
                 }}
               >
                 {store.knowledgeFetchIDData.data[selectedId].body}

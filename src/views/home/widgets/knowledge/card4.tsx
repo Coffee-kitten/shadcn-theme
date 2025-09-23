@@ -7,10 +7,11 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { Loading3 } from "@/views/home/widgets/knowledge/loading";
 import { useTranslation } from "react-i18next";
-
+import { useClipboard } from "@/utils/copy";
 export function Card4({ selectedId }: any) {
   const store = useV2boardUserData();
   const { t } = useTranslation();
+  const { copyToClipboard } = useClipboard();
   return (
     <div className="w-full min-h-[65svh] p-6 bg-muted border rounded-lg hidden md:block md:col-span-3">
       {selectedId ? (
@@ -47,16 +48,47 @@ export function Card4({ selectedId }: any) {
             <Separator className="bg-foreground/50" />
             <div className="flex-0 prose prose-sm dark:prose-invert prose-zinc max-w-none my-4 select-text">
               <ReactMarkdown
-                rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                urlTransform={(url) => url}
                 components={{
-                  img: ({ node, ...props }) => (
-                    <img
-                      {...props}
-                      className="w-1/2 h-auto mx-auto rounded-lg shadow"
-                      loading="lazy"
-                    />
-                  ),
+                  img: ({ node, ...props }) => {
+                    const action = (node as any).properties?.alt;
+                    if (action === "windows") {
+                      return (
+                        <img
+                          {...props}
+                          className="w-full h-auto mx-auto rounded-lg shadow"
+                          loading="lazy"
+                        />
+                      );
+                    }
+                    return (
+                      <img
+                        {...props}
+                        className="w-1/2 h-auto mx-auto rounded-lg shadow"
+                        loading="lazy"
+                      />
+                    );
+                  },
+                  button: ({ node, children, ...props }) => {
+                    const action = (node as any).properties?.dataAction;
+                    const url = (node as any).properties?.dataUrl;
+                    if (action === "copy") {
+                      return (
+                        <button
+                          {...props}
+                          className="text-primary underline font-medium"
+                          onClick={() => {
+                            copyToClipboard(url);
+                          }}
+                        >
+                          {children}
+                        </button>
+                      );
+                    }
+                    return <button {...props}>{children}</button>;
+                  },
                 }}
               >
                 {store.knowledgeFetchIDData.data[selectedId].body}

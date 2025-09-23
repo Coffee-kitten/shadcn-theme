@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { RotateCcw } from "lucide-react";
 import { useV2boardUserData } from "@/store/index";
 import { orderSavePost } from "@/utils/common-imports";
 import { useTranslation } from "react-i18next";
@@ -29,6 +30,9 @@ export function Card2() {
   const store = useV2boardUserData();
   const navigate = useNavigate();
   const fetchData = useFetchData();
+  const formatGB = (bytes: number) => (bytes / 1024 ** 3).toFixed(2);
+  const used = store.subscribeData.data.u + store.subscribeData.data.d;
+  const total = store.subscribeData.data.transfer_enable;
   const handleReset = async () => {
     const result = await fetchData(() =>
       orderSavePost("reset_price", store.subscribeData.data.plan.id)
@@ -44,16 +48,27 @@ export function Card2() {
           {t("流量")}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="secondary">{t("重置")}</Button>
+              <Button
+                variant="secondary"
+                disabled={store.subscribeData.data.plan.reset_price == null}
+              >
+                <RotateCcw />
+                {t("重置")}
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>
-                  {t("确认重置本月已用流量？")}
-                </AlertDialogTitle>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20">
+                    <RotateCcw className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <AlertDialogTitle>
+                    {t("确认重置本月已用流量？")}
+                  </AlertDialogTitle>
+                </div>
                 <AlertDialogDescription>
                   {t(
-                    "点击「确定」后将跳转至收银台。完成支付后，系统将自动为阁下重置本月的流量使用记录，流量额度即刻恢复。"
+                    "点击「确定」后将跳转至收银台。完成支付后，系统将自动为阁下重置本周期的流量，流量额度即刻恢复。"
                   )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
@@ -67,19 +82,12 @@ export function Card2() {
           </AlertDialog>
         </CardTitle>
         <CardDescription>
-          {store.subscribeData.data.plan.onetime_price ? (
-            <p>Never</p>
-          ) : store.subscribeData.data.reset_day == 0 ? (
-            <p>{t("已用流量已在今日重置")}</p>
-          ) : (
-            <p>
-              {t("已用流量将在")} {store.subscribeData.data.reset_day}{" "}
-              {t("日后重置")}
-            </p>
-          )}
+          <p>
+            {formatGB(used)} GB Used / {formatGB(total)} GB Total
+          </p>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-2 pb-8">
         <Progress
           value={
             ((store.subscribeData.data.u + store.subscribeData.data.d) /
@@ -89,17 +97,16 @@ export function Card2() {
         />
       </CardContent>
       <CardFooter>
-        <p>
-          {(
-            (store.subscribeData.data.u + store.subscribeData.data.d) /
-            Math.pow(1024, 3)
-          ).toFixed(2)}{" "}
-          GB Used /{" "}
-          {(
-            store.subscribeData.data.transfer_enable / Math.pow(1024, 3)
-          ).toFixed(2)}{" "}
-          GB Total
-        </p>
+        {store.subscribeData.data.plan.onetime_price ? (
+          <p>Never</p>
+        ) : store.subscribeData.data.reset_day == 0 ? (
+          <p>{t("已用流量已在今日重置")}</p>
+        ) : (
+          <p>
+            {t("已用流量将在")} {store.subscribeData.data.reset_day}{" "}
+            {t("日后重置")}
+          </p>
+        )}
       </CardFooter>
     </Card>
   );

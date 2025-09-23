@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -24,7 +23,7 @@ export const Card3 = () => {
   const [loadingTraffic, setLoadingTraffic] = useState(false);
   const [loadingExpire, setLoadingExpire] = useState(false);
 
-  const { fetchAllData, isLoading } = useFetchMultipleData([
+  const { fetchAllData } = useFetchMultipleData([
     {
       fetchFn: infoGet,
       setDataFn: store.setInfoData,

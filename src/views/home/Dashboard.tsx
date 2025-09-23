@@ -17,7 +17,7 @@ import { Loading } from "@/views/home/widgets/dashboard/Loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-
+import { BarChart3 } from "lucide-react";
 export function Dashboard() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
@@ -49,7 +49,12 @@ export function Dashboard() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge={t("仪表盘")} />
+      <Head
+        badge={t("仪表盘")}
+        footer={t("数据概览")}
+        IconComponent={BarChart3}
+      />
+
       {store.subscribeData.data.plan ? (
         dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at)) &&
         store.subscribeData.data.expired_at ? (

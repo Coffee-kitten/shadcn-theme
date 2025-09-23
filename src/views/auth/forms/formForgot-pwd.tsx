@@ -7,7 +7,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -92,7 +91,7 @@ export const FormForgotPwd = () => {
       startCountdown();
       toast({
         title: t("发送成功"),
-        description: "如果没有收到验证码请检查垃圾箱。",
+        description: t("如果没有收到验证码请检查垃圾箱。"),
       });
     } catch (error: any) {
       const errorMessage =
@@ -115,7 +114,7 @@ export const FormForgotPwd = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t("邮箱地址")}</FormLabel>
               <FormControl>
                 <Input type="email" {...field} autoComplete="email" />
               </FormControl>
@@ -128,7 +127,7 @@ export const FormForgotPwd = () => {
           name="email_code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Verification code</FormLabel>
+              <FormLabel>{t("邮箱验证码")}</FormLabel>
               <FormControl>
                 <div className="flex gap-2">
                   <Input {...field} autoComplete="one-time-code" />
@@ -141,10 +140,6 @@ export const FormForgotPwd = () => {
                   </Button>
                 </div>
               </FormControl>
-
-              <FormDescription className="text-xs sm:text-sm">
-                {t("请输入发送到您邮箱的一次性验证码")}
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -155,7 +150,7 @@ export const FormForgotPwd = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t("新密码")}</FormLabel>
               <FormControl>
                 <Input {...field} type="password" autoComplete="new-password" />
               </FormControl>
@@ -167,8 +162,7 @@ export const FormForgotPwd = () => {
           name="check_pwd"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-
+              <FormLabel>{t("确认密码")}</FormLabel>
               <FormControl>
                 <Input {...field} type="password" autoComplete="new-password" />
               </FormControl>

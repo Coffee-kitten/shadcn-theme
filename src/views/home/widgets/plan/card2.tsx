@@ -23,14 +23,13 @@ import {
   Gamepad2,
   GraduationCap,
 } from "lucide-react";
-import { availablePeriods } from "@/hooks/price";
+import { useAvailablePeriods } from "@/hooks/price";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
 import { useTranslation } from "react-i18next";
 
 export function Card2(plan: any) {
   const { t } = useTranslation();
-  const periodOptions = availablePeriods(plan);
-
+  const periodOptions = useAvailablePeriods(plan);
   // 图标映射
   const iconMap: { [key: string]: any } = {
     Globe,
@@ -104,7 +103,7 @@ export function Card2(plan: any) {
               {periodOptions[0].price}
             </span>
             <span className="text-sm text-muted-foreground font-medium">
-              /{periodOptions[0].period}
+              /{periodOptions[0].period.short}
             </span>
           </div>
           {plan.transfer_enable && (

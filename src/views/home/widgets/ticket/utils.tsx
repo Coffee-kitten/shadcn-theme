@@ -1,6 +1,5 @@
 import React from "react";
 import { Clock, CheckCircle, AlertTriangle, CheckCircle2 } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 // 解码Unicode字符串
 // export const decodeUnicode = (str: string) => {
@@ -14,8 +13,7 @@ import { useTranslation } from "react-i18next";
 // };
 
 // 获取工单状态信息
-export const getTicketStatus = (status: number) => {
-  const { t } = useTranslation();
+export const getTicketStatus = (status: number, t: (key: string) => string) => {
   const statusMap: Record<
     number,
     {
@@ -56,12 +54,11 @@ export const getTicketStatus = (status: number) => {
 };
 
 // 获取优先级文本和样式
-export const getPriorityText = (level: number) => {
-  const { t } = useTranslation();
+export const getPriorityText = (level: number, t: (key: string) => string) => {
   const priorityMap: Record<number, { text: string; color: string }> = {
-    0: { text: "低", color: "text-green-600" },
-    1: { text: "中", color: "text-yellow-600" },
-    2: { text: "高", color: "text-red-600" },
+    0: { text: t("低"), color: "text-green-600" },
+    1: { text: t("中"), color: "text-yellow-600" },
+    2: { text: t("高"), color: "text-red-600" },
   };
 
   return priorityMap[level] || { text: t("未知"), color: "text-gray-600" };

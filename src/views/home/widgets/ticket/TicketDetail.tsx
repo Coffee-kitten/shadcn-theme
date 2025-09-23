@@ -27,12 +27,8 @@ export function TicketDetail({
     if (!shouldPoll) return;
 
     const intervalId = setInterval(async () => {
-      try {
-        const response = await ticketFetchIdGet(ticketMessages.id);
-        setTicketMessages(response.data.data);
-      } catch (error) {
-        console.error("Failed to fetch ticket data:", error);
-      }
+      const response = await ticketFetchIdGet(ticketMessages.id);
+      setTicketMessages(response.data.data);
     }, 10000);
 
     return () => clearInterval(intervalId);
@@ -41,8 +37,8 @@ export function TicketDetail({
   if (!ticketMessages) return <Loading2 />;
   const statusInfo =
     ticketMessages.status == 1
-      ? { ...getTicketStatus(2), text: t("已完成") }
-      : getTicketStatus(ticketMessages.reply_status);
+      ? { ...getTicketStatus(2, t), text: t("已完成") }
+      : getTicketStatus(ticketMessages.reply_status, t);
   const handleReply = async () => {
     try {
       setIsReplyLoading(true);
@@ -89,7 +85,7 @@ export function TicketDetail({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <TicketInfoRow
             label={t("优先级")}
-            value={getPriorityText(ticketMessages.level).text}
+            value={getPriorityText(ticketMessages.level, t).text}
           />
           <TicketInfoRow
             label={t("创建时间")}

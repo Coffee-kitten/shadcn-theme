@@ -9,6 +9,7 @@ import { Card1 } from "@/views/home/widgets/announcements/Card1";
 import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import { useTranslation } from "react-i18next";
+import { FileText } from "lucide-react";
 
 export function Announcements() {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ export function Announcements() {
   }, []);
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head badge={t("公告")} />
+      <Head badge={t("报告")} footer={t("报告列表")} IconComponent={FileText} />
       <Card1 />
     </PageContainer>
   );

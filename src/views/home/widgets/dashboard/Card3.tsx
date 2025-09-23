@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useV2boardUserData } from "@/store/index";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
 import { useTranslation } from "react-i18next";

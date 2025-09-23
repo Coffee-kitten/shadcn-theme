@@ -8,7 +8,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import dayjs from "dayjs";
 import { Package } from "lucide-react";
 import {
@@ -28,7 +27,7 @@ import {
   orderFetchGet,
   orderCancelPost,
 } from "@/utils/common-imports";
-import { OrderperiodMap } from "@/hooks/price";
+import { usePeriodMap } from "@/hooks/price";
 import { useTranslation } from "react-i18next";
 
 export function Card1() {
@@ -37,6 +36,7 @@ export function Card1() {
   const fetchData = useFetchData();
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  const periodMap = usePeriodMap();
   const handlePayment = (tardeNo: string) => {
     navigate("/order/" + tardeNo);
   };
@@ -67,9 +67,7 @@ export function Card1() {
               <button className="p-4 md:p-6 flex bg-muted/50 rounded-lg justify-between transition-all active:scale-[0.98] active:bg-muted/70 hover:bg-muted/60">
                 <div className="space-y-2 flex-1 min-w-0">
                   <div className="text-start flex gap-2 items-center text-base md:text-lg font-medium">
-                    <p className="line-clamp-1 flex-1 min-w-0">
-                      {item.trade_no}
-                    </p>
+                    <p className="flex-1 min-w-0 truncate">{item.trade_no}</p>
                     <Package className="flex-shrink-0" />
                   </div>
                   <div className="text-sm text-start flex flex-col sm:flex-row sm:gap-2 sm:items-center text-muted-foreground">
@@ -118,11 +116,13 @@ export function Card1() {
                   <OrderInfoRow label={t("订阅名称")} value={item.plan?.name} />
                   <OrderInfoRow
                     label={t("订阅类型/周期")}
-                    value={OrderperiodMap[item.period]}
+                    value={
+                      periodMap[item.period as keyof typeof periodMap]?.long
+                    }
                   />
                   <OrderInfoRow
                     label={t("订阅流量")}
-                    value={`${item.plan?.transfer_enable} GiB`}
+                    value={`${item.plan?.transfer_enable} GB`}
                   />
                 </OrderSection>
                 <OrderSection title={t("订阅信息")}>

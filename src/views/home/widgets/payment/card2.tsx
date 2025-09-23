@@ -127,8 +127,6 @@ export function Card2() {
           )}
         </div>
 
-        <Separator />
-
         {/* 实付金额 */}
         <div className="flex items-center justify-between bg-muted/30 rounded-lg p-3">
           <span className="font-semibold">{t("实付金额")}</span>

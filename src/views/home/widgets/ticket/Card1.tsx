@@ -1,17 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -224,7 +215,7 @@ export const Card1 = ({ onTicketCreated }: any) => {
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground text-sm">
-          遇到问题？创建工单获得技术支持，我们会尽快为您解决。
+          {t("遇到问题？创建工单获得技术支持，我们会尽快为您解决。")}
         </p>
       </CardContent>
     </Card>

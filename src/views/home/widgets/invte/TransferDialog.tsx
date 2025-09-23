@@ -27,7 +27,6 @@ export const TransferDialog = ({ currentBalance }: any) => {
   } = useInviteActions();
   const handleTransfer = () => {
     handleTransferToBalance();
-    setTransferAmount("");
   };
 
   return (

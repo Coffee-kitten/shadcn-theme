@@ -23,5 +23,5 @@ export * from "@/api/invite";
 export * from "@/api/ticket";
 
 // 常用的布局组件
-export { PageContainer } from "@/views/home/page-container";
-export { Head } from "@/views/home/head";
+export { PageContainer } from "@/views/home/Page-container";
+export { Head } from "@/views/home/Head";

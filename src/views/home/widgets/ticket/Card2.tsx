@@ -14,13 +14,9 @@ export function Card2({ currentView, setCurrentView, onTicketCreated }: any) {
   const [shouldPoll, setShouldPoll] = useState(false);
   // 获取真实的工单数据
   const handleTicketClick = async (ticket: any) => {
-    try {
-      setCurrentView("detail");
-      setTicketMessages((await ticketFetchIdGet(ticket)).data.data);
-      setShouldPoll(true);
-    } catch (error) {
-      console.error("获取工单详情失败:", error);
-    }
+    setCurrentView("detail");
+    setTicketMessages((await ticketFetchIdGet(ticket)).data.data);
+    setShouldPoll(true);
   };
 
   const handleBackToList = () => {

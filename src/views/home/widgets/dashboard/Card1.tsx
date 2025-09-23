@@ -23,7 +23,7 @@ export function Card1() {
             <div className="p-2 rounded-full bg-primary/10">
               <Bell className="h-4 w-4 text-primary" />
             </div>
-            {t("最新公告")}
+            {t("最新报告")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -56,7 +56,7 @@ export function Card1() {
             <div className="p-2 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
               <Bell className="h-4 w-4 text-primary animate-pulse" />
             </div>
-            {t("最新公告")}
+            {t("最新报告")}
             <Badge variant="secondary">NEW</Badge>
           </CardTitle>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">

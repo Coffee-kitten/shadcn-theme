@@ -7,10 +7,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
 import {
   Select,
@@ -24,12 +24,19 @@ import { useTranslation } from "react-i18next";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { LogIn } from "lucide-react";
 import { useV2boardUserData } from "@/store/index";
+import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 export default function FormSignUp() {
   const store = useV2boardUserData();
   const [isLoading, setIsLoading] = useState(false);
   const [sendMailcode, setSendMailcode] = useState(false);
+  const [tosAgreed, setTosAgreed] = useState(false);
   const [countdownSeconds, setCountdownSeconds] = useState<number>(60);
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const codeFromQuery = searchParams.get("code");
   const form = useForm({
     defaultValues: {
       email: "",
@@ -37,7 +44,7 @@ export default function FormSignUp() {
       email_code: "",
       password: "",
       check_pwd: "",
-      invite_code: "",
+      invite_code: codeFromQuery || "",
     },
   });
 
@@ -58,6 +65,11 @@ export default function FormSignUp() {
           description: t("两次密码输入不同"),
         });
       }
+      toast({
+        title: t("注册成功"),
+        description: t("无声，却始终可靠"),
+      });
+      navigate("/dashboard");
     } catch (error: any) {
       const errorMessage =
         error?.data?.errors?.email?.[0] ||
@@ -115,20 +127,15 @@ export default function FormSignUp() {
       <form onSubmit={form.handleSubmit(handleSignUp)} className="grid gap-4">
         {!!store.registerData.data.email_whitelist_suffix ? (
           <>
-            <FormLabel>Email</FormLabel>
-            <div className="flex">
+            <FormLabel>{t("邮箱地址")}</FormLabel>
+            <div className="flex gap-1.5">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem className="flex-[2_1_]">
                     <FormControl>
-                      <Input
-                        type="text"
-                        className="rounded-r-none"
-                        {...field}
-                        autoComplete="email"
-                      />
+                      <Input type="text" {...field} autoComplete="email" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -143,7 +150,7 @@ export default function FormSignUp() {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="rounded-l-none">
+                        <SelectTrigger>
                           <SelectValue placeholder="select" />
                         </SelectTrigger>
                       </FormControl>
@@ -163,9 +170,6 @@ export default function FormSignUp() {
                 )}
               />
             </div>
-            <FormDescription className="text-xs sm:text-sm">
-              {t("你的邮箱必须符合下拉框中的选项")}
-            </FormDescription>
           </>
         ) : (
           <FormField
@@ -173,7 +177,7 @@ export default function FormSignUp() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("邮箱地址")}</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} autoComplete="email" />
                 </FormControl>
@@ -188,7 +192,7 @@ export default function FormSignUp() {
             name="email_code"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Verification code</FormLabel>
+                <FormLabel>{t("邮箱验证码")}</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
                     <Input {...field} autoComplete="one-time-code" />
@@ -201,10 +205,6 @@ export default function FormSignUp() {
                     </Button>
                   </div>
                 </FormControl>
-
-                <FormDescription className="text-xs sm:text-sm">
-                  {t("请输入发送到您邮箱的一次性验证码")}
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -216,7 +216,7 @@ export default function FormSignUp() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t("密码")}</FormLabel>
               <FormControl>
                 <Input {...field} type="password" autoComplete="new-password" />
               </FormControl>
@@ -228,7 +228,7 @@ export default function FormSignUp() {
           name="check_pwd"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>{t("确认密码")}</FormLabel>
 
               <FormControl>
                 <Input {...field} type="password" autoComplete="new-password" />
@@ -241,21 +241,40 @@ export default function FormSignUp() {
           name="invite_code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Invitation code</FormLabel>
+              <FormLabel>
+                {t("邀请码") +
+                  (store.registerData.data.is_invite_force ? "" : t("可选"))}
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder={
-                    t("邀请码") +
-                    (store.registerData.data.is_invite_force ? "" : t("选填"))
-                  }
                   autoComplete="off"
+                  disabled={!!codeFromQuery}
                 />
               </FormControl>
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
+        {!!store.registerData.data.tos_url && (
+          <div className="flex gap-2 items-center">
+            <Checkbox
+              id="tos"
+              checked={tosAgreed}
+              onCheckedChange={(checked) => setTosAgreed(checked === true)}
+            />
+            <label htmlFor="tos" className="text-sm text-muted-foreground">
+              {t("我已阅读并同意")}{" "}
+              <a
+                href={store.registerData.data.tos_url}
+                target="_blank"
+                className="font-medium text-primary hover:underline"
+              >
+                {t("服务条款")}
+              </a>
+            </label>
+          </div>
+        )}
+        <Button type="submit" disabled={isLoading || !tosAgreed}>
           {isLoading ? (
             <>
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

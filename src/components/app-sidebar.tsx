@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Command,
   Frame,
-  LifeBuoy,
   Map,
   SendHorizontal,
   ShoppingCart,
@@ -39,7 +38,7 @@ const getSidebarData = () => {
     navSecondary: [
       {
         title: "Telegram",
-        url: store.configData.data.telegram_discuss_link,
+        url: import.meta.env.VITE_APP_TG,
         icon: SendHorizontal,
       },
     ],

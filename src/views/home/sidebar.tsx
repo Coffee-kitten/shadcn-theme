@@ -4,8 +4,6 @@ import {
   useV2boardUserData,
   subscribeGet,
   infoGet,
-  commConfigGet,
-  paymentDetailGet,
 } from "@/utils/common-imports";
 import { Outlet } from "react-router-dom";
 import {
@@ -28,10 +26,6 @@ export function Sidebar() {
     {
       fetchFn: subscribeGet,
       setDataFn: store.setSubscribeData,
-    },
-    {
-      fetchFn: commConfigGet,
-      setDataFn: store.setConfigData,
     },
   ]);
   useEffect(() => {
