@@ -12,7 +12,6 @@ export const useFetchMultipleData = (
 ) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
-
   const fetchAllData = async (silent: boolean = false) => {
     try {
       if (!silent) {
@@ -30,11 +29,8 @@ export const useFetchMultipleData = (
       if (!silent) {
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       handleError(error, t);
-      if (!silent) {
-        setIsLoading(false);
-      }
     }
   };
 
@@ -69,6 +65,7 @@ const handleError = (error: any, t: (key: string) => string) => {
       ? t("请尝试重新请求")
       : error.data?.errors?.period?.[0] ||
         error.data?.message ||
+        error.message ||
         t("遇到了一些问题"),
   });
 };

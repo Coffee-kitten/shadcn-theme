@@ -160,7 +160,7 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="pl-10"
-                  inputMode="none"
+                  tabIndex={-1}
                 />
               </div>
               <Button

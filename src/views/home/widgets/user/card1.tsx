@@ -10,7 +10,7 @@ export const Card1 = () => {
 
   return (
     <div className="rounded-xl border text-card-foreground shadow bg-muted/30 p-6 space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
             <Mail className="w-5 h-5 text-primary" />
@@ -21,16 +21,16 @@ export const Card1 = () => {
             </h3>
             <Badge
               variant="secondary"
-              className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30"
+              className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 dark:hover:bg-green-900/30"
             >
               {t("已验证")}
             </Badge>
           </div>
         </div>
-        <Badge variant="outline">{store.infoData.data.email}</Badge>
+        <Badge variant="outline" className="w-fit">{store.infoData.data.email}</Badge>
       </div>
       <Separator />
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
             <Hash className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -39,7 +39,7 @@ export const Card1 = () => {
             <h3 className="text-sm font-semibold text-foreground">UUID</h3>
             <Badge
               variant="secondary"
-              className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+              className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/30"
             >
               {t("唯一标识")}
             </Badge>
@@ -61,7 +61,7 @@ export const Card1 = () => {
             </h3>
             <Badge
               variant="secondary"
-              className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+              className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
             >
               {t("可用")}
             </Badge>

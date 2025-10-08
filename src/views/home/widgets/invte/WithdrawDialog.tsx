@@ -34,7 +34,7 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="sm" className="w-full">
           <Banknote />
           {t("提现")}
         </Button>

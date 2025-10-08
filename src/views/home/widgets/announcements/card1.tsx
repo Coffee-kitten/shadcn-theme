@@ -33,7 +33,7 @@ export function Card1() {
               </CardDescription>
             </CardHeader>
             <Button variant="link" onClick={() => setSelectedNotice(item)}>
-              {t("查看公告")}
+              {t("查看报告")}
               <ArrowBigRight />
             </Button>
           </Card>

@@ -82,7 +82,9 @@ export function Card5() {
   return (
     <div className="rounded-xl border text-card-foreground shadow bg-muted/25 p-4 md:p-6 overflow-clip group transition-all duration-300 hover:shadow-lg hover:bg-muted/40 flex items-start justify-between">
       <div className="shrink-0 mt-auto">
-        <div className="text-sm md:text-xl font-medium line-clamp-1">{t("流量记录")}</div>
+        <div className="text-sm md:text-xl font-medium line-clamp-1">
+          {t("流量记录")}
+        </div>
       </div>
       <ChartContainer
         config={chartConfig}

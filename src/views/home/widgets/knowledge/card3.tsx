@@ -1,5 +1,3 @@
-import { useMediaQuery } from "react-responsive";
-
 import {
   Drawer,
   DrawerContent,
@@ -19,10 +17,10 @@ import { Loading2 } from "@/views/home/widgets/knowledge/loading";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import { useClipboard } from "@/utils/copy";
-
+import { useIsMobile } from "@/hooks/use-mobile";
 export function Card3({ openDrawer, setOpenDrawer, selectedId }: any) {
   const { t } = useTranslation();
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useIsMobile();
   const store = useV2boardUserData();
   const { copyToClipboard } = useClipboard();
 

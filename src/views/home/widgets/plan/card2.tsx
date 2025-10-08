@@ -22,6 +22,7 @@ import {
   MapPin,
   Gamepad2,
   GraduationCap,
+  BotMessageSquare,
 } from "lucide-react";
 import { useAvailablePeriods } from "@/hooks/price";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
@@ -44,6 +45,7 @@ export function Card2(plan: any) {
     MapPin,
     Gamepad2,
     GraduationCap,
+    BotMessageSquare,
   };
 
   const parseHtmlToData = (htmlString: string) => {

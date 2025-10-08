@@ -8,6 +8,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -37,6 +38,7 @@ export default function FormSignUp() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const codeFromQuery = searchParams.get("code");
+  const [currentStep, setCurrentStep] = useState(1);
   const form = useForm({
     defaultValues: {
       email: "",
@@ -58,6 +60,11 @@ export default function FormSignUp() {
           form.getValues("email_code"),
           form.getValues("invite_code")
         );
+        toast({
+          title: t("注册成功"),
+          description: t("无声，却始终可靠"),
+        });
+        navigate("/dashboard", { replace: true });
       } else {
         toast({
           variant: "destructive",
@@ -65,11 +72,6 @@ export default function FormSignUp() {
           description: t("两次密码输入不同"),
         });
       }
-      toast({
-        title: t("注册成功"),
-        description: t("无声，却始终可靠"),
-      });
-      navigate("/dashboard");
     } catch (error: any) {
       const errorMessage =
         error?.data?.errors?.email?.[0] ||
@@ -110,11 +112,13 @@ export default function FormSignUp() {
       startCountdown();
       toast({
         title: t("发送成功"),
-        description: "如果没有收到验证码请检查垃圾箱。",
+        description: t("如果没有收到验证码请检查垃圾箱。"),
       });
     } catch (error: any) {
       const errorMessage =
-        error?.data?.errors?.email?.[0] || error?.data?.message;
+        error?.data?.errors?.email?.[0] ||
+        error?.data?.message ||
+        error?.message;
       toast({
         variant: "destructive",
         title: t("请求失败"),
@@ -125,168 +129,254 @@ export default function FormSignUp() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSignUp)} className="grid gap-4">
-        {!!store.registerData.data.email_whitelist_suffix ? (
+        {currentStep === 1 && (
           <>
-            <FormLabel>{t("邮箱地址")}</FormLabel>
-            <div className="flex gap-1.5">
+            {!!store.registerData.data.email_whitelist_suffix ? (
+              <>
+                <FormLabel>{t("邮箱地址")}</FormLabel>
+                <div className="flex gap-1.5">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="flex-[2_1_]">
+                        <FormControl>
+                          <Input type="text" {...field} autoComplete="email" />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email_domain"
+                    render={({ field }) => (
+                      <FormItem className="flex-[1_1]">
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {store.registerData.data.email_whitelist_suffix.map(
+                              (suffix: any, index: any) => (
+                                <SelectItem key={index} value={"@" + suffix}>
+                                  {"@" + suffix}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormDescription>
+                  {t("阁下邮箱必须符合下拉框选项")}
+                </FormDescription>
+              </>
+            ) : (
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="flex-[2_1_]">
+                  <FormItem>
+                    <FormLabel>{t("邮箱地址")}</FormLabel>
                     <FormControl>
-                      <Input type="text" {...field} autoComplete="email" />
+                      <Input type="email" {...field} autoComplete="email" />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="email_domain"
-                render={({ field }) => (
-                  <FormItem className="flex-[1_1]">
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {store.registerData.data.email_whitelist_suffix.map(
-                          (suffix: any, index: any) => (
-                            <SelectItem key={index} value={"@" + suffix}>
-                              {"@" + suffix}
-                            </SelectItem>
-                          )
-                        )}
-                      </SelectContent>
-                    </Select>
+            )}
+            <FormField
+              control={form.control}
+              name="invite_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t("邀请码") +
+                      (store.registerData.data.is_invite_force
+                        ? ""
+                        : t("可选"))}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      autoComplete="off"
+                      disabled={!!codeFromQuery}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            {!!store.registerData.data.is_email_verify ? (
+              <Button
+                onClick={() => setCurrentStep(2)}
+                disabled={
+                  !form.getValues("email") ||
+                  (store.registerData.data.is_invite_force &&
+                    !form.getValues("invite_code")) ||
+                  !form.getValues("email_domain")
+                }
+              >
+                {t("继续")}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => setCurrentStep(3)}
+                disabled={
+                  !form.getValues("email") ||
+                  (store.registerData.data.is_invite_force &&
+                    !form.getValues("invite_code")) ||
+                  !form.getValues("email_domain")
+                }
+              >
+                {t("继续")}
+              </Button>
+            )}
+          </>
+        )}
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        {!!store.registerData.data.is_email_verify && currentStep == 2 && (
+          <>
+            <FormField
+              control={form.control}
+              name="email_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("邮箱验证码")}</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2">
+                      <Input
+                        {...field}
+                        type="number"
+                        autoComplete="one-time-code"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleSignUp_Mail}
+                        disabled={sendMailcode}
+                      >
+                        {sendMailcode ? countdownSeconds : t("发送")}
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-[1]"
+                onClick={() => setCurrentStep(1)}
+              >
+                {t("返回")}
+              </Button>
+              <Button
+                className="flex-[2]"
+                onClick={() => setCurrentStep(3)}
+                disabled={!form.getValues("email_code")}
+              >
+                {t("继续")}
+              </Button>
             </div>
           </>
-        ) : (
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("邮箱地址")}</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} autoComplete="email" />
-                </FormControl>
-              </FormItem>
-            )}
-          />
         )}
 
-        {!!store.registerData.data.is_email_verify && (
-          <FormField
-            control={form.control}
-            name="email_code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("邮箱验证码")}</FormLabel>
-                <FormControl>
-                  <div className="flex gap-2">
-                    <Input {...field} autoComplete="one-time-code" />
-                    <Button
-                      type="button"
-                      onClick={handleSignUp_Mail}
-                      disabled={sendMailcode}
-                    >
-                      {sendMailcode ? countdownSeconds : t("发送")}
-                    </Button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("密码")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="check_pwd"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("确认密码")}</FormLabel>
-
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="invite_code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                {t("邀请码") +
-                  (store.registerData.data.is_invite_force ? "" : t("可选"))}
-              </FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  autoComplete="off"
-                  disabled={!!codeFromQuery}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        {!!store.registerData.data.tos_url && (
-          <div className="flex gap-2 items-center">
-            <Checkbox
-              id="tos"
-              checked={tosAgreed}
-              onCheckedChange={(checked) => setTosAgreed(checked === true)}
+        {currentStep == 3 && (
+          <>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("密码")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-            <label htmlFor="tos" className="text-sm text-muted-foreground">
-              {t("我已阅读并同意")}{" "}
-              <a
-                href={store.registerData.data.tos_url}
-                target="_blank"
-                className="font-medium text-primary hover:underline"
+            <FormField
+              control={form.control}
+              name="check_pwd"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("确认密码")}</FormLabel>
+
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            {!!store.registerData.data.tos_url && (
+              <div className="flex gap-2 items-center">
+                <Checkbox
+                  id="tos"
+                  checked={tosAgreed}
+                  onCheckedChange={(checked) => setTosAgreed(checked === true)}
+                />
+                <label htmlFor="tos" className="text-sm text-muted-foreground">
+                  {t("我已阅读并同意")}{" "}
+                  <a
+                    href={store.registerData.data.tos_url}
+                    target="_blank"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {t("服务条款")}
+                  </a>
+                </label>
+              </div>
+            )}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-[1]"
+                onClick={() => setCurrentStep(2)}
               >
-                {t("服务条款")}
-              </a>
-            </label>
-          </div>
+                {t("返回")}
+              </Button>
+              <Button
+                className="flex-[3]"
+                type="submit"
+                disabled={
+                  isLoading ||
+                  !form.getValues("password") ||
+                  !form.getValues("check_pwd") ||
+                  (!!store.registerData.data.tos_url && !tosAgreed)
+                }
+              >
+                {isLoading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    {t("注册")}
+                  </>
+                )}
+              </Button>
+            </div>
+          </>
         )}
-        <Button type="submit" disabled={isLoading || !tosAgreed}>
-          {isLoading ? (
-            <>
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </>
-          ) : (
-            <>
-              <LogIn className="mr-2 h-4 w-4" />
-              {t("注册")}
-            </>
-          )}
-        </Button>
       </form>
     </Form>
   );

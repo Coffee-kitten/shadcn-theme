@@ -28,11 +28,14 @@ v2boardRequest.interceptors.response.use(
       window.localStorage.setItem("authorization", request.data.data.auth_data);
       window.location.assign("/#/dashboard");
     }
-
     return request;
   },
   (error) => {
-    if (error.message.includes("timeout")) {
+    if (
+      error.message.includes("timeout") ||
+      error.message.includes("aborted") ||
+      error.message.includes("Network Error")
+    ) {
       return Promise.reject(error);
     }
 

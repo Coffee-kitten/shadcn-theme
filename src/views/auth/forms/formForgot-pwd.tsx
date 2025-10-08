@@ -21,6 +21,7 @@ export const FormForgotPwd = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sendMailcode, setSendMailcode] = useState(false);
   const [countdownSeconds, setCountdownSeconds] = useState<number>(60);
+  const [currentStep, setCurrentStep] = useState(1);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const form = useForm({
@@ -95,7 +96,9 @@ export const FormForgotPwd = () => {
       });
     } catch (error: any) {
       const errorMessage =
-        error?.data?.errors?.email?.[0] || error?.data?.message;
+        error?.data?.errors?.email?.[0] ||
+        error?.data?.message ||
+        error?.message;
       toast({
         variant: "destructive",
         title: t("请求失败"),
@@ -109,80 +112,124 @@ export const FormForgotPwd = () => {
         onSubmit={form.handleSubmit(handleForgotPwd)}
         className="grid gap-4"
       >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("邮箱地址")}</FormLabel>
-              <FormControl>
-                <Input type="email" {...field} autoComplete="email" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        {currentStep == 1 && (
+          <>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("邮箱地址")}</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} autoComplete="email" />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="email_code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("邮箱验证码")}</FormLabel>
-              <FormControl>
-                <div className="flex gap-2">
-                  <Input {...field} autoComplete="one-time-code" />
-                  <Button
-                    type="button"
-                    onClick={handleSendMailcode}
-                    disabled={sendMailcode}
-                  >
-                    {sendMailcode ? countdownSeconds : t("发送")}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="email_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("邮箱验证码")}</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2">
+                      <Input
+                        {...field}
+                        type="number"
+                        autoComplete="one-time-code"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleSendMailcode}
+                        disabled={sendMailcode}
+                      >
+                        {sendMailcode ? countdownSeconds : t("发送")}
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              onClick={() => setCurrentStep(2)}
+              disabled={
+                !form.getValues("email") || !form.getValues("email_code")
+              }
+            >
+              {t("继续")}
+            </Button>
+          </>
+        )}
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("新密码")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="check_pwd"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("确认密码")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? (
-            <>
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </>
-          ) : (
-            <>
-              <KeyRound className="mr-2 h-4 w-4" />
-              {t("重置密码")}
-            </>
-          )}
-        </Button>
+        {currentStep == 2 && (
+          <>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("新密码")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="check_pwd"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("确认密码")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-[1]"
+                onClick={() => setCurrentStep(1)}
+              >
+                {t("返回")}
+              </Button>
+              <Button
+                className="flex-[3]"
+                type="submit"
+                disabled={
+                  isLoading ||
+                  !form.getValues("password") ||
+                  !form.getValues("check_pwd")
+                }
+              >
+                {isLoading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : (
+                  <>
+                    <KeyRound className="mr-2 h-4 w-4" />
+                    {t("重置密码")}
+                  </>
+                )}
+              </Button>
+            </div>
+          </>
+        )}
       </form>
     </Form>
   );

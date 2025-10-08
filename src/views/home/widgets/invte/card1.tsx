@@ -18,7 +18,6 @@ import { TransferDialog } from "./TransferDialog";
 import { WithdrawDialog } from "./WithdrawDialog";
 import { useInviteActions } from "./useInviteActions";
 import { useTranslation } from "react-i18next";
-
 export const Card1 = () => {
   const { t } = useTranslation();
   const store = useV2boardUserData();
@@ -70,19 +69,9 @@ export const Card1 = () => {
           iconColor="text-green-600 dark:text-green-400"
           title={t("剩余佣金")}
           content={
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1 sm:flex-row flex-col">
-                <TransferDialog
-                  currentBalance={store.inviteFetchData.data.stat[4]}
-                />
-                <WithdrawDialog
-                  currentBalance={store.inviteFetchData.data.stat[4]}
-                />
-              </div>
-              <Badge variant="outline">
-                ¥ {store.inviteFetchData.data.stat[4] / 100}
-              </Badge>
-            </div>
+            <Badge variant="outline">
+              ¥ {store.inviteFetchData.data.stat[4] / 100}
+            </Badge>
           }
         />
         <Separator />
@@ -117,6 +106,11 @@ export const Card1 = () => {
             </Badge>
           }
         />
+        <Separator />
+        <div className="flex gap-2">
+          <TransferDialog currentBalance={store.inviteFetchData.data.stat[4]} />
+          <WithdrawDialog currentBalance={store.inviteFetchData.data.stat[4]} />
+        </div>
       </CardHeader>
       <Separator />
       <CardContent className="space-y-6 pt-6">
@@ -126,9 +120,7 @@ export const Card1 = () => {
               <Link className="w-4 h-4 text-primary" />
             </div>
             <div>
-              <h4 className="text-sm font-medium text-foreground">
-                {t("邀请码")}
-              </h4>
+              <h4 className="text-sm font-medium">{t("邀请码")}</h4>
               <p className="text-xs text-muted-foreground">
                 {t("分享邀请码给好友完成注册")}
               </p>
@@ -142,7 +134,7 @@ export const Card1 = () => {
                   <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
-                        <Link className="h-4 w-4 text-primary" />
+                        <Link className="h-4 w-4" />
                       </div>
                       <div className="flex flex-col">
                         <span className="text-sm font-medium font-mono tracking-wider">

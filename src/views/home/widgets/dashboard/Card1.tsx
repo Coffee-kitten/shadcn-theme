@@ -6,15 +6,15 @@ import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Card1() {
   const { t } = useTranslation();
   const store = useV2boardUserData();
   const [isExpanded, setIsExpanded] = useState(false);
-
-  // 获取第一个公告
+  const isMobile = useIsMobile();
+  // 获取第一个报告
   const firstAnnouncement = store.noticeFetchData?.data?.[0];
-
   if (!firstAnnouncement) {
     return (
       <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
@@ -27,7 +27,7 @@ export function Card1() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground text-sm">{t("暂无公告")}</p>
+          <p className="text-muted-foreground text-sm">{t("暂无报告")}</p>
         </CardContent>
       </Card>
     );
@@ -36,9 +36,9 @@ export function Card1() {
   // 使用 whitespace-pre-wrap 处理换行符
   const formatText = (text: string, expanded = false) => {
     // const normalized = text.replace(/\\[rn]/g, "\n").replace(/\r\n?/g, "\n");
-
-    if (!expanded && text.length > 90) {
-      return text.slice(0, 90) + "...";
+    const maxLength = isMobile ? 18 : 70;
+    if (!expanded && text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
     }
 
     return text;

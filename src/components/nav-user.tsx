@@ -36,7 +36,8 @@ export function NavUser({
   const handleLogout = () => {
     localStorage.removeItem("authorization");
     toast.info(t("已退出登录"));
-    navigate("/login");
+    navigate("/login", { replace: true });
+    document.body.removeAttribute("style");
   };
   return (
     <SidebarMenu>

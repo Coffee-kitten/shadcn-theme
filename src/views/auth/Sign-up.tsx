@@ -6,39 +6,33 @@ import { signUpGet } from "@/api/auth";
 
 import { useV2boardUserData } from "@/store/index";
 
-import { toast } from "@/components/ui/use-toast";
 import { SignUpLoading } from "@/views/auth/SignUpLoading";
 import { Separator } from "@/components/ui/separator";
+import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 export function SignUp() {
   //   const { id } = useParams();
 
   const store = useV2boardUserData();
 
+  const { fetchAllData, isLoading } = useFetchMultipleData([
+    {
+      fetchFn: signUpGet,
+      setDataFn: store.setRegisterData,
+    },
+  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        store.setRegisterData((await signUpGet()).data);
-      } catch {
-        toast({
-          variant: "destructive",
-          title: t("请求失败"),
-          description: t("遇到了一些问题"),
-        });
-      }
-    };
-
-    fetchData();
+    fetchAllData();
   }, []);
 
   const { t } = useTranslation();
-  if (!store.registerData.data) {
+  if (isLoading) {
     return <SignUpLoading />;
   }
   return (
     <div className="mx-auto grid w-[350px] gap-6 px-2">
       <div className="grid gap-0.5 text-center">
         <h3 className="scroll-m-20 text-xl font-semibold tracking-tight">
-          {t("快速获取OnePixel服务")}
+          {t("快速获取服务", { appName: import.meta.env.VITE_APP_NAME })}
         </h3>
         <p className="text-sm lg:text-base text-balance text-muted-foreground leading-7">
           Sign up in seconds!

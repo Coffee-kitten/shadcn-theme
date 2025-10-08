@@ -12,7 +12,7 @@ interface TicketListProps {
 export function TicketList({ tickets, onTicketClick }: TicketListProps) {
   const { t } = useTranslation();
   return (
-    <div className="grid lg:grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-2 gap-4">
       {tickets.map((ticket: any) => {
         const ticketStatus = getTicketStatus(ticket.reply_status, t);
 
