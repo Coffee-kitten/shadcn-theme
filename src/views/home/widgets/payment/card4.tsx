@@ -1,12 +1,11 @@
 import { getOrderStatus } from "@/views/home/widgets/order/card2";
-import { useV2boardUserData } from "@/store";
 import { useTranslation } from "react-i18next";
-
-export function Card4() {
+import { paymentDetailGet } from "@/api/v1/payment";
+export function Card4({ id }: any) {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const paymentData = store.paymentDetailData.data;
-  const orderStatus = getOrderStatus(store.paymentDetailData.data.status);
+  const { data } = paymentDetailGet(id);
+  const paymentData = data?.data.data;
+  const orderStatus = getOrderStatus(data?.data.data.status, t);
   // 获取标题和描述文本
   const statusMap: Record<number, { title: string; description: string }> = {
     0: { title: t("等待支付"), description: t("请尽快完成支付以激活您的服务") },

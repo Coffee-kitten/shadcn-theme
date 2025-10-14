@@ -23,13 +23,19 @@ import {
 import { signUpPost, signUpMailPost } from "@/api/auth";
 import { useTranslation } from "react-i18next";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { LogIn } from "lucide-react";
-import { useV2boardUserData } from "@/store/index";
+import { LogIn, ShieldQuestion } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { signUpGet } from "@/api/v1/auth";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 export default function FormSignUp() {
-  const store = useV2boardUserData();
+  const { data } = signUpGet();
   const [isLoading, setIsLoading] = useState(false);
   const [sendMailcode, setSendMailcode] = useState(false);
   const [tosAgreed, setTosAgreed] = useState(false);
@@ -131,7 +137,7 @@ export default function FormSignUp() {
       <form onSubmit={form.handleSubmit(handleSignUp)} className="grid gap-4">
         {currentStep === 1 && (
           <>
-            {!!store.registerData.data.email_whitelist_suffix ? (
+            {!!data?.data.data.email_whitelist_suffix ? (
               <>
                 <FormLabel>{t("邮箱地址")}</FormLabel>
                 <div className="flex gap-1.5">
@@ -161,7 +167,7 @@ export default function FormSignUp() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {store.registerData.data.email_whitelist_suffix.map(
+                            {data?.data.data.email_whitelist_suffix.map(
                               (suffix: any, index: any) => (
                                 <SelectItem key={index} value={"@" + suffix}>
                                   {"@" + suffix}
@@ -201,9 +207,7 @@ export default function FormSignUp() {
                 <FormItem>
                   <FormLabel>
                     {t("邀请码") +
-                      (store.registerData.data.is_invite_force
-                        ? ""
-                        : t("可选"))}
+                      (data?.data.data.is_invite_force ? "" : t("可选"))}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -215,12 +219,22 @@ export default function FormSignUp() {
                 </FormItem>
               )}
             />
-            {!!store.registerData.data.is_email_verify ? (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <ShieldQuestion />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add to library</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {!!data?.data.data.is_email_verify ? (
               <Button
                 onClick={() => setCurrentStep(2)}
                 disabled={
                   !form.getValues("email") ||
-                  (store.registerData.data.is_invite_force &&
+                  (data?.data.data.is_invite_force &&
                     !form.getValues("invite_code")) ||
                   !form.getValues("email_domain")
                 }
@@ -232,7 +246,7 @@ export default function FormSignUp() {
                 onClick={() => setCurrentStep(3)}
                 disabled={
                   !form.getValues("email") ||
-                  (store.registerData.data.is_invite_force &&
+                  (data?.data.data.is_invite_force &&
                     !form.getValues("invite_code")) ||
                   !form.getValues("email_domain")
                 }
@@ -243,7 +257,7 @@ export default function FormSignUp() {
           </>
         )}
 
-        {!!store.registerData.data.is_email_verify && currentStep == 2 && (
+        {!!data?.data.data.is_email_verify && currentStep == 2 && (
           <>
             <FormField
               control={form.control}
@@ -325,7 +339,7 @@ export default function FormSignUp() {
                 </FormItem>
               )}
             />
-            {!!store.registerData.data.tos_url && (
+            {!!data?.data.data.tos_url && (
               <div className="flex gap-2 items-center">
                 <Checkbox
                   id="tos"
@@ -335,7 +349,7 @@ export default function FormSignUp() {
                 <label htmlFor="tos" className="text-sm text-muted-foreground">
                   {t("我已阅读并同意")}{" "}
                   <a
-                    href={store.registerData.data.tos_url}
+                    href={data?.data.data.tos_url}
                     target="_blank"
                     className="font-medium text-primary hover:underline"
                   >
@@ -359,7 +373,7 @@ export default function FormSignUp() {
                   isLoading ||
                   !form.getValues("password") ||
                   !form.getValues("check_pwd") ||
-                  (!!store.registerData.data.tos_url && !tosAgreed)
+                  (!!data?.data.data.tos_url && !tosAgreed)
                 }
               >
                 {isLoading ? (

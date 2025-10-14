@@ -1,35 +1,15 @@
-import {
-  useEffect,
-  useV2boardUserData,
-  serverFetchGet,
-  PageContainer,
-  Head,
-  useTranslation,
-} from "@/utils/common-imports";
+import { PageContainer, Head, useTranslation } from "@/utils/common-imports";
 import { Card1 } from "@/views/home/widgets/server/card1";
 import { Card2 } from "@/views/home/widgets/server/card2";
 import { Loading } from "@/views/home/widgets/server/loading";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import { Server } from "lucide-react";
+import { serverFetchGet } from "@/api/v1/server";
 export function ServerPage() {
-  const store = useV2boardUserData();
   const { t } = useTranslation();
-  const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: serverFetchGet,
-      setDataFn: store.setServerFetchData,
-    },
-  ]);
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  const { isLoading } = serverFetchGet();
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head
-        badge={t("节点状态")}
-        IconComponent={Server}
-        footer={t("节点列表")}
-      />
+      <Head badge={t("节点状态")} IconComponent={Server} />
       <Card2 />
       <Card1 />
     </PageContainer>

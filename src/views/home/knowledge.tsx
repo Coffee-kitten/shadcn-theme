@@ -1,34 +1,15 @@
-import {
-  useEffect,
-  useV2boardUserData,
-  PageContainer,
-  Head,
-} from "@/utils/common-imports";
-import { knowledgeFetchGet } from "@/api/knowledge";
+import { PageContainer, Head } from "@/utils/common-imports";
 import { Card2 } from "@/views/home/widgets/knowledge/card2";
 import { Loading1 } from "@/views/home/widgets/knowledge/loading";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import { useTranslation } from "react-i18next";
-import { BookOpen } from "lucide-react";
+import { Map } from "lucide-react";
+import { knowledgeFetchGet } from "@/api/v1/knowledge";
 export function Knowledge() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: knowledgeFetchGet,
-      setDataFn: store.setKnowledgeFetchData,
-    },
-  ]);
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  const { isLoading } = knowledgeFetchGet();
   return (
     <PageContainer loading={isLoading} LoadingComponent={Loading1}>
-      <Head
-        badge={t("知识库")}
-        IconComponent={BookOpen}
-        footer={t("使用文档")}
-      />
+      <Head badge={t("知识库")} IconComponent={Map} />
       <Card2 />
     </PageContainer>
   );

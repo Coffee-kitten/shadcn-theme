@@ -1,57 +1,78 @@
 import { useState } from "react";
-import { useV2boardUserData } from "@/store";
-import { ticketFetchIdGet, ticketClosePost } from "@/api/ticket";
-import { TicketList } from "./TicketList";
-import { TicketDetail } from "./TicketDetail";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
 
-export function Card2({ currentView, setCurrentView, onTicketCreated }: any) {
+import { TicketDetail } from "./TicketDetail";
+
+import { useTranslation } from "react-i18next";
+import { ticketFetchGet } from "@/api/v1/ticket";
+import { Badge } from "@/components/ui/badge";
+import { MessageCircle } from "lucide-react";
+import dayjs from "dayjs";
+import { getTicketStatus } from "./utils";
+export function Card2({ currentView, setCurrentView }: any) {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const [isLoading, setIsLoading] = useState(false);
-  const [ticketMessages, setTicketMessages] = useState<any>(null);
-  const [shouldPoll, setShouldPoll] = useState(false);
-  // 获取真实的工单数据
-  const handleTicketClick = async (ticket: any) => {
-    setCurrentView("detail");
-    setTicketMessages((await ticketFetchIdGet(ticket)).data.data);
-    setShouldPoll(true);
-  };
+  const { data } = ticketFetchGet();
+  const [ticketID, setTicketID] = useState<any>(null);
 
   const handleBackToList = () => {
     setCurrentView("list");
-    setTicketMessages(null);
-    setShouldPoll(false);
-    onTicketCreated();
-  };
-
-  const handleCloseTicket = async (ticketId: number) => {
-    try {
-      setIsLoading(true);
-      await ticketClosePost(ticketId);
-      setShouldPoll(false);
-    } catch (error) {
-      toast.error(t("工单关闭失败，请重试"));
-    } finally {
-      setTicketMessages((await ticketFetchIdGet(ticketId)).data.data);
-      setIsLoading(false);
-    }
   };
 
   return currentView == "detail" ? (
-    <TicketDetail
-      setTicketMessages={setTicketMessages}
-      ticketMessages={ticketMessages}
-      isLoading={isLoading}
-      onCloseTicket={handleCloseTicket}
-      onBack={handleBackToList}
-      shouldPoll={shouldPoll}
-    />
+    <TicketDetail onBack={handleBackToList} ticketID={ticketID} />
   ) : (
-    <TicketList
-      tickets={store.ticketFetchData?.data}
-      onTicketClick={handleTicketClick}
-    />
+    <div className="grid md:grid-cols-2 gap-4">
+      {data?.data.data.map((ticket: any) => {
+        const ticketStatus = getTicketStatus(ticket.reply_status, t);
+        return (
+          <button
+            key={ticket.id}
+            className="group p-5 bg-card border border-border/50 rounded-xl hover:border-border hover:shadow-sm transition-all duration-200 w-full"
+            onClick={(e) => {
+              e.preventDefault();
+              setCurrentView("detail");
+              setTicketID(ticket.id);
+            }}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1 text-left space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-md bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                    <MessageCircle className="h-3.5 w-3.5 text-primary" />
+                  </div>
+                  <h3 className="font-medium text-foreground line-clamp-1 text-sm">
+                    {ticket.subject}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {ticket.status == 1 ? (
+                    <Badge
+                      variant="secondary"
+                      className="text-xs px-2 py-0.5 font-normal"
+                    >
+                      {t("已完成")}
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant={ticketStatus.variant}
+                      className="text-xs px-2 py-0.5 font-normal"
+                    >
+                      {ticketStatus.text}
+                    </Badge>
+                  )}
+                  <span className="text-xs text-muted-foreground">
+                    {dayjs.unix(ticket.created_at).format("MM-DD HH:mm")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="ml-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30"></div>
+              </div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
   );
 }

@@ -1,12 +1,4 @@
-import {
-  useEffect,
-  useV2boardUserData,
-  trafficLogGet,
-  announcementsFetchGet,
-  PageContainer,
-  Head,
-  subscribeGet,
-} from "@/utils/common-imports";
+import { PageContainer, Head } from "@/utils/common-imports";
 import { Card1 } from "@/views/home/widgets/dashboard/Card1";
 import { Card2 } from "@/views/home/widgets/dashboard/Card2";
 import { Card3 } from "@/views/home/widgets/dashboard/Card3";
@@ -14,53 +6,55 @@ import { Card4 } from "@/views/home/widgets/dashboard/Card4";
 import { Card5 } from "@/views/home/widgets/dashboard/Card5";
 import { ExpiredAt, BuyPlan } from "@/views/home/widgets/dashboard/Plan";
 import { Loading } from "@/views/home/widgets/dashboard/Loading";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BarChart3 } from "lucide-react";
+import { Frame } from "lucide-react";
+import { trafficLogGet, announcementsFetchGet } from "@/api/v1/dashboard";
+import { subscribeGet } from "@/api/v1/base";
 export function Dashboard() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: trafficLogGet,
-      setDataFn: store.setTrafficLogData,
-    },
-    {
-      fetchFn: announcementsFetchGet,
-      setDataFn: store.setNoticeFetchData,
-    },
-    {
-      fetchFn: subscribeGet,
-      setDataFn: store.setSubscribeData,
-    },
-  ]);
+  const { isLoading: trafficLogLoading } = trafficLogGet();
+  const { isLoading: noticeLoading } = announcementsFetchGet();
+  const { data, isLoading: subscribeLoading } = subscribeGet();
+  // const { fetchAllData, isLoading } = useFetchMultipleData([
+  //   {
+  //     fetchFn: trafficLogGet,
+  //     setDataFn: store.setTrafficLogData,
+  //   },
+  //   {
+  //     fetchFn: announcementsFetchGet,
+  //     setDataFn: store.setNoticeFetchData,
+  //   },
+  //   {
+  //     fetchFn: subscribeGet,
+  //     setDataFn: store.setSubscribeData,
+  //   },
+  // ]);
 
   // 根据订阅状态选择加载组件
   // const getLoadingComponent = () => {
-  //   if (dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at))) {
+  //   if (dayjs().isAfter(dayjs.unix(data?.data.data.expired_at))) {
   //     return Loading2;
   //   }
   //   return Loading;
   // };
 
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  // useEffect(() => {
+  //   fetchAllData();
+  // }, []);
   return (
-    <PageContainer loading={isLoading} LoadingComponent={Loading}>
-      <Head
-        badge={t("仪表盘")}
-        footer={t("数据概览")}
-        IconComponent={BarChart3}
-      />
+    <PageContainer
+      loading={trafficLogLoading || noticeLoading || subscribeLoading}
+      LoadingComponent={Loading}
+    >
+      <Head badge={t("仪表盘")} IconComponent={Frame} />
 
-      {store.subscribeData.data.plan ? (
-        dayjs().isAfter(dayjs.unix(store.subscribeData.data.expired_at)) &&
-        store.subscribeData.data.expired_at ? (
+      {data?.data.data.plan ? (
+        dayjs().isAfter(dayjs.unix(data?.data.data.expired_at)) &&
+        data?.data.data.expired_at ? (
           <ExpiredAt
             expiredAt={dayjs
-              .unix(store.subscribeData.data.expired_at)
+              .unix(data?.data.data.expired_at)
               .format("YYYY-MM-DD HH:mm")}
           />
         ) : (

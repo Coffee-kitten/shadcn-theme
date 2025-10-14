@@ -1,4 +1,3 @@
-import { useV2boardUserData } from "@/store/index";
 import { Select } from "@/views/home/widgets/knowledge/select";
 import { Separator } from "@/components/ui/separator";
 import dayjs from "dayjs";
@@ -8,28 +7,29 @@ import remarkGfm from "remark-gfm";
 import { Loading3 } from "@/views/home/widgets/knowledge/loading";
 import { useTranslation } from "react-i18next";
 import { useClipboard } from "@/utils/copy";
+import { knowledgeFetchIDGet } from "@/api/v1/knowledge";
 export function Card4({ selectedId }: any) {
-  const store = useV2boardUserData();
+  const { data, isLoading } = knowledgeFetchIDGet(selectedId);
   const { t } = useTranslation();
   const { copyToClipboard } = useClipboard();
   return (
     <div className="w-full min-h-[65svh] p-6 bg-muted border rounded-lg hidden md:block md:col-span-3">
       {selectedId ? (
-        store.knowledgeFetchIDData.data?.[selectedId] ? (
+        isLoading ? (
+          <Loading3 />
+        ) : (
           <div className="flex flex-col gap-1">
             {/* <pre>{JSON.stringify(store.knowledgeFetchIDData, null, 2)}</pre> */}
             <div className="space-y-0.5">
               <div className="text-2xl font-semibold select-text">
-                {store.knowledgeFetchIDData.data[selectedId].title}
+                {data?.data.data.title}
               </div>
               <div className="flex flex-col md:flex-row gap-0.5 md:gap-2 text-sm text-muted-foreground">
                 <div className="space-x-1">
                   <span className="font-medium">{t("创建于")}</span>
                   <span className="select-text">
                     {dayjs
-                      .unix(
-                        store.knowledgeFetchIDData.data[selectedId].created_at
-                      )
+                      .unix(data?.data.data.created_at)
                       .format("YYYY-MM-DD")}
                   </span>
                 </div>
@@ -37,9 +37,7 @@ export function Card4({ selectedId }: any) {
                   <span className="font-medium">{t("更新于")}</span>
                   <span className="select-text">
                     {dayjs
-                      .unix(
-                        store.knowledgeFetchIDData.data[selectedId].updated_at
-                      )
+                      .unix(data?.data.data.updated_at)
                       .format("YYYY-MM-DD")}
                   </span>
                 </div>
@@ -91,12 +89,10 @@ export function Card4({ selectedId }: any) {
                   },
                 }}
               >
-                {store.knowledgeFetchIDData.data[selectedId].body}
+                {data?.data.data.body}
               </ReactMarkdown>
             </div>
           </div>
-        ) : (
-          <Loading3 />
         )
       ) : (
         <Select />

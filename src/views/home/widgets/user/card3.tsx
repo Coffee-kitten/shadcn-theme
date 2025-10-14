@@ -5,30 +5,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  useState,
-  useV2boardUserData,
-  useFetchData,
-  useFetchMultipleData,
-  userUpdatePost,
-  infoGet,
-} from "@/utils/common-imports";
+import { useState, userUpdatePost } from "@/utils/common-imports";
 import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
-
+import { infoGet } from "@/api/v1/base";
 export const Card3 = () => {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const fetchData = useFetchData();
   const [loadingTraffic, setLoadingTraffic] = useState(false);
   const [loadingExpire, setLoadingExpire] = useState(false);
-
-  const { fetchAllData } = useFetchMultipleData([
-    {
-      fetchFn: infoGet,
-      setDataFn: store.setInfoData,
-    },
-  ]);
+  const { data, mutate } = infoGet();
 
   const handleChange = async (
     key: "remind_traffic" | "remind_expire",
@@ -38,8 +23,11 @@ export const Card3 = () => {
       key == "remind_traffic" ? setLoadingTraffic : setLoadingExpire;
 
     setLoading(true);
-    await fetchData(() => userUpdatePost(key, value));
-    await fetchAllData();
+    await userUpdatePost(key, value);
+
+    // 刷新 infoGet 数据
+    mutate();
+
     setLoading(false);
   };
   return (
@@ -54,7 +42,7 @@ export const Card3 = () => {
             <div className="flex justify-between items-center">
               <CardTitle>{t("到期邮件提醒")}</CardTitle>
               <Switch
-                checked={store.infoData.data.remind_expire}
+                checked={data?.data.data.remind_expire}
                 disabled={loadingExpire}
                 onCheckedChange={(checked) =>
                   handleChange("remind_expire", checked ? 1 : 0)
@@ -68,7 +56,7 @@ export const Card3 = () => {
             <div className="flex justify-between items-center">
               <CardTitle>{t("流量邮件提醒")}</CardTitle>
               <Switch
-                checked={store.infoData.data.remind_traffic}
+                checked={data?.data.data.remind_traffic}
                 disabled={loadingTraffic}
                 onCheckedChange={(checked) =>
                   handleChange("remind_traffic", checked ? 1 : 0)

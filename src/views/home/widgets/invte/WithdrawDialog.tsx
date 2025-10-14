@@ -21,15 +21,14 @@ import {
 } from "@/components/ui/select";
 import { Banknote } from "lucide-react";
 import { useState } from "react";
-import { useV2boardUserData } from "@/store/index";
 import { useInviteActions } from "./useInviteActions";
 import { useTranslation } from "react-i18next";
-
+import { commConfigGet } from "@/api/v1/invite";
 export const WithdrawDialog = ({ currentBalance }: any) => {
   const { t } = useTranslation();
+  const { data } = commConfigGet();
   const [withdrawMethod, setWithdrawMethod] = useState("");
   const [withdrawAccount, setWithdrawAccount] = useState("");
-  const store = useV2boardUserData();
   const { handleWithdrawCommission, withdrawLoading } = useInviteActions();
   return (
     <Dialog>
@@ -57,7 +56,7 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {store.configData.data.withdraw_methods.map((method: any) => (
+                  {data?.data.data.withdraw_methods.map((method: any) => (
                     <SelectItem key={method} value={method}>
                       {method}
                     </SelectItem>

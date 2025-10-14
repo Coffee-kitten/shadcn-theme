@@ -7,12 +7,13 @@ import {
   ChartLegendContent,
   ChartLegend,
 } from "@/components/ui/chart";
-import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { ChartArea } from "lucide-react";
+import { trafficLogGet } from "@/api/v1/dashboard";
 export function Card5() {
   const { t } = useTranslation();
+  const { data } = trafficLogGet();
   const formatBytesAuto = (bytes: number, decimals = 2): string => {
     if (bytes === 0) return "0 B";
 
@@ -45,9 +46,8 @@ export function Card5() {
     // },
   } satisfies ChartConfig;
 
-  const store = useV2boardUserData();
   // const chartData = Array.from(
-  //   store.trafficLogData.data
+  //   data?.data.data
   //     .reduce((map: any, item: any) => {
   //       const date = item.record_at;
   //       const { u, d } = item;
@@ -66,7 +66,7 @@ export function Card5() {
   //     }, new Map())
   //     .values()
   // ).reverse();
-  const chartData = store.trafficLogData.data
+  const chartData = data?.data.data
     .map((item: any) => ({
       date: dayjs.unix(item.record_at).format("YYYY-MM-DD"),
       u: item.u,

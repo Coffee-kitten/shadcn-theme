@@ -6,51 +6,63 @@ import { ArrowLeft } from "lucide-react";
 import dayjs from "dayjs";
 import { getTicketStatus, getPriorityText, TicketInfoRow } from "./utils";
 import { Loading2 } from "./Loading2";
-import { useState, useEffect } from "react";
-import { ticketReplyPost, ticketFetchIdGet } from "@/api/ticket";
+import { useState } from "react";
+import { ticketReplyPost } from "@/api/ticket";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-
-export function TicketDetail({
-  setTicketMessages,
-  ticketMessages,
-  isLoading,
-  onCloseTicket,
-  onBack,
-  shouldPoll,
-}: any) {
+import { ticketFetchIdGet, ticketFetchGet } from "@/api/v1/ticket";
+import { ticketClosePost } from "@/api/ticket";
+export function TicketDetail({ onBack, ticketID }: any) {
   const { t } = useTranslation();
   const [replyMessage, setReplyMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isReplyLoading, setIsReplyLoading] = useState(false);
+  const {
+    data,
+    isLoading: isLoadingDetail,
+    mutate,
+  } = ticketFetchIdGet(ticketID);
+  const { mutate: mutateList } = ticketFetchGet();
+  // useEffect(() => {
+  //   if (!shouldPoll) return;
 
-  useEffect(() => {
-    if (!shouldPoll) return;
+  //   const intervalId = setInterval(async () => {
+  //     const response = await ticketFetchIdGet(data?.data.data.id);
+  //     setTicketMessages(response.data.data);
+  //   }, 10000);
 
-    const intervalId = setInterval(async () => {
-      const response = await ticketFetchIdGet(ticketMessages.id);
-      setTicketMessages(response.data.data);
-    }, 10000);
+  //   return () => clearInterval(intervalId);
+  // }, [shouldPoll]);
 
-    return () => clearInterval(intervalId);
-  }, [shouldPoll]);
-
-  if (!ticketMessages) return <Loading2 />;
+  if (isLoadingDetail) return <Loading2 />;
   const statusInfo =
-    ticketMessages.status == 1
+    data?.data.data.status == 1
       ? { ...getTicketStatus(2, t), text: t("已完成") }
-      : getTicketStatus(ticketMessages.reply_status, t);
+      : getTicketStatus(data?.data.data.reply_status, t);
   const handleReply = async () => {
     try {
       setIsReplyLoading(true);
-      await ticketReplyPost(ticketMessages.id, replyMessage);
-      setTicketMessages((await ticketFetchIdGet(ticketMessages.id)).data.data);
+      await ticketReplyPost(data?.data.data.id, replyMessage);
+      await mutate();
     } catch (error: any) {
       toast.error(error?.data?.message);
     } finally {
       setIsReplyLoading(false);
     }
   };
-
+  const handleCloseTicket = async (ticketId: number) => {
+    try {
+      setIsLoading(true);
+      await ticketClosePost(ticketId);
+      await mutate();
+      await mutateList();
+    } catch (error) {
+      toast.error(t("工单关闭失败，请重试"));
+    } finally {
+      // setTicketMessages((await ticketFetchIdGet(ticketId)).data.data);
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
@@ -62,10 +74,10 @@ export function TicketDetail({
       <div className="bg-card border rounded-lg p-6 space-y-4">
         <div className="space-y-2">
           <h2 className="text-lg font-semibold leading-none tracking-tight">
-            #{ticketMessages.id}
+            #{data?.data.data.id}
           </h2>
           <p className="text-sm text-muted-foreground">
-            {ticketMessages.subject}
+            {data?.data.data.subject}
           </p>
         </div>
 
@@ -76,7 +88,7 @@ export function TicketDetail({
               {statusInfo.text}
             </div>
             <div className="text-xs text-muted-foreground mt-0.5">
-              {t("工单编号")}: {ticketMessages.id}
+              {t("工单编号")}: {data?.data.data.id}
             </div>
           </div>
         </div>
@@ -85,18 +97,18 @@ export function TicketDetail({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <TicketInfoRow
             label={t("优先级")}
-            value={getPriorityText(ticketMessages.level, t).text}
+            value={getPriorityText(data?.data.data.level, t).text}
           />
           <TicketInfoRow
             label={t("创建时间")}
             value={dayjs
-              .unix(ticketMessages.created_at)
+              .unix(data?.data.data.created_at)
               .format("YYYY-MM-DD HH:mm")}
           />
           <TicketInfoRow
             label={t("更新时间")}
             value={dayjs
-              .unix(ticketMessages.updated_at)
+              .unix(data?.data.data.updated_at)
               .format("YYYY-MM-DD HH:mm")}
           />
         </div>
@@ -106,7 +118,7 @@ export function TicketDetail({
           </div>
           <ScrollArea className="h-64 w-full border rounded-lg">
             <div className="p-4 space-y-4">
-              {ticketMessages.message.map((message: any) => (
+              {data?.data.data.message.map((message: any) => (
                 <div
                   key={message.id}
                   className={`flex ${
@@ -129,7 +141,7 @@ export function TicketDetail({
             </div>
           </ScrollArea>
         </div>
-        {ticketMessages.status != 1 && (
+        {data?.data.data.status != 1 && (
           <div className="space-y-3">
             <div className="flex w-full gap-2">
               <Textarea
@@ -151,7 +163,7 @@ export function TicketDetail({
               <Button
                 size="sm"
                 variant="destructive"
-                onClick={() => onCloseTicket(ticketMessages.id)}
+                onClick={() => handleCloseTicket(data?.data.data.id)}
                 disabled={isLoading || isReplyLoading}
               >
                 {t("关闭工单")}

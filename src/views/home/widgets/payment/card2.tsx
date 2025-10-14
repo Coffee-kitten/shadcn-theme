@@ -7,14 +7,13 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { useV2boardUserData } from "@/store/index";
 import { Minus, Wallet, CreditCard } from "lucide-react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-
-export function Card2() {
+import { paymentDetailGet } from "@/api/v1/payment";
+export function Card2({ id }: any) {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = paymentDetailGet(id);
   return (
     <Card>
       <CardHeader>
@@ -24,14 +23,14 @@ export function Card2() {
       <CardContent className="space-y-4">
         <div className="grid gap-2">
           <div className="flex items-center justify-between">
-            <span>{t("订单号")}</span>
-            <span>{store.paymentDetailData.data.trade_no}</span>
+            <span>{t("订单号：")}</span>
+            <span>{data?.data.data.trade_no}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span>{t("创建时间")}</span>
+            <span>{t("创建时间：")}</span>
             <span>
               {dayjs
-                .unix(store.paymentDetailData.data.created_at)
+                .unix(data?.data.data.created_at)
                 .format("YYYY-MM-DD HH:mm:ss")}
             </span>
           </div>
@@ -41,7 +40,7 @@ export function Card2() {
         {/* 金额明细 */}
         <div className="space-y-3">
           {/* 优惠金额 */}
-          {store.paymentDetailData.data.discount_amount && (
+          {data?.data.data.discount_amount && (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Minus className="h-4 w-4 text-green-500" />
@@ -52,15 +51,13 @@ export function Card2() {
                 className="text-green-600 dark:text-green-400 border-green-200 dark:border-green-800"
               >
                 -¥
-                {(store.paymentDetailData.data.discount_amount / 100).toFixed(
-                  2
-                )}
+                {(data?.data.data.discount_amount / 100).toFixed(2)}
               </Badge>
             </div>
           )}
 
           {/* 余额支付 */}
-          {store.paymentDetailData.data.balance_amount && (
+          {data?.data.data.balance_amount && (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Wallet className="h-4 w-4 text-blue-500" />
@@ -71,13 +68,13 @@ export function Card2() {
                 className="text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
               >
                 -¥
-                {(store.paymentDetailData.data.balance_amount / 100).toFixed(2)}
+                {(data?.data.data.balance_amount / 100).toFixed(2)}
               </Badge>
             </div>
           )}
 
           {/* 手续费 */}
-          {store.paymentDetailData.data.handling_amount && (
+          {data?.data.data.handling_amount && (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <CreditCard className="h-4 w-4 text-orange-500" />
@@ -88,15 +85,13 @@ export function Card2() {
                 className="text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-800"
               >
                 +¥
-                {(store.paymentDetailData.data.handling_amount / 100).toFixed(
-                  2
-                )}
+                {(data?.data.data.handling_amount / 100).toFixed(2)}
               </Badge>
             </div>
           )}
 
           {/* 剩余金额 */}
-          {store.paymentDetailData.data.surplus_amount && (
+          {data?.data.data.surplus_amount && (
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">
                 {t("剩余待付")}
@@ -105,14 +100,13 @@ export function Card2() {
                 variant="outline"
                 className="text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-800"
               >
-                ¥
-                {(store.paymentDetailData.data.surplus_amount / 100).toFixed(2)}
+                ¥{(data?.data.data.surplus_amount / 100).toFixed(2)}
               </Badge>
             </div>
           )}
 
           {/* 退款金额 */}
-          {store.paymentDetailData.data.refund_amount && (
+          {data?.data.data.refund_amount && (
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">
                 {t("已退款")}
@@ -121,7 +115,7 @@ export function Card2() {
                 variant="outline"
                 className="text-red-600 dark:text-red-400 border-red-200 dark:border-red-800"
               >
-                ¥{(store.paymentDetailData.data.refund_amount / 100).toFixed(2)}
+                ¥{(data?.data.data.refund_amount / 100).toFixed(2)}
               </Badge>
             </div>
           )}
@@ -131,7 +125,7 @@ export function Card2() {
         <div className="flex items-center justify-between bg-muted/30 rounded-lg p-3">
           <span className="font-semibold">{t("实付金额")}</span>
           <span className="text-xl font-bold text-primary">
-            ¥{(store.paymentDetailData.data.total_amount / 100).toFixed(2)}
+            ¥{(data?.data.data.total_amount / 100).toFixed(2)}
           </span>
         </div>
       </CardContent>

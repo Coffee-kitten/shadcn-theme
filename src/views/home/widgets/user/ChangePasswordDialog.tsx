@@ -86,8 +86,8 @@ export const ChangePasswordDialog = () => {
       return;
     }
 
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       await changePasswordPost(formData.oldPassword, formData.newPassword);
       toast.success(t("修改成功"));
       setIsDialogOpen(false);

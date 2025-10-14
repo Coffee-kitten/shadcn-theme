@@ -10,14 +10,13 @@ import { Qrcode } from "@/views/home/widgets/dashboard/qrcode";
 import { useClipboard } from "@/utils/copy";
 import { redirectToUrl } from "@/utils/url";
 import { useTranslation } from "react-i18next";
-import { useV2boardUserData } from "@/store/index";
 import { Settings } from "lucide-react";
-
+import { subscribeGet } from "@/api/v1/base";
 const iconClasses =
   "font-[metron] text-[1.3rem] antialiased not-italic font-normal";
 export function Card4() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = subscribeGet();
   const { copyToClipboard } = useClipboard();
   const buttonData = [
     {
@@ -25,9 +24,7 @@ export function Card4() {
       label: "ClashMeta",
       url:
         "clash://install-config?url=" +
-        encodeURIComponent(
-          store.subscribeData.data.subscribe_url + "&flag=clashmeta"
-        ) +
+        encodeURIComponent(data?.data.data.subscribe_url + "&flag=clashmeta") +
         "&name=" +
         import.meta.env.VITE_APP_NAME,
     },
@@ -36,7 +33,7 @@ export function Card4() {
       label: "Shadowrocket",
       url:
         "shadowrocket://add/sub://" +
-        window.btoa(store.subscribeData.data.subscribe_url),
+        window.btoa(data?.data.data.subscribe_url),
     },
   ];
   return (
@@ -50,9 +47,7 @@ export function Card4() {
         <div className="flex flex-wrap gap-5">
           <Button
             className="rounded-full"
-            onClick={() =>
-              copyToClipboard(store.subscribeData.data.subscribe_url)
-            }
+            onClick={() => copyToClipboard(data?.data.data.subscribe_url)}
           >
             <i className={`${iconClasses} metron-copy`} />
             {t("复制")}

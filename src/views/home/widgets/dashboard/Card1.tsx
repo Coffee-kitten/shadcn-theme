@@ -2,19 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bell, Calendar, ArrowRight } from "lucide-react";
-import { useV2boardUserData } from "@/store/index";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsMobile } from "@/hooks/use-mobile";
-
+import { announcementsFetchGet } from "@/api/v1/dashboard";
 export function Card1() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = announcementsFetchGet();
   const [isExpanded, setIsExpanded] = useState(false);
   const isMobile = useIsMobile();
   // 获取第一个报告
-  const firstAnnouncement = store.noticeFetchData?.data?.[0];
+  const firstAnnouncement = data?.data.data?.[0];
   if (!firstAnnouncement) {
     return (
       <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">

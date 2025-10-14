@@ -18,49 +18,36 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useFetchData } from "@/hooks/use-fetch-data";
 import { toast } from "sonner";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
-import {
-  useState,
-  useV2boardUserData,
-  orderFetchGet,
-  orderCancelPost,
-} from "@/utils/common-imports";
+import { useState, orderCancelPost } from "@/utils/common-imports";
 import { usePeriodMap } from "@/hooks/price";
 import { useTranslation } from "react-i18next";
-
+import { orderFetchGet } from "@/api/v1/order";
 export function Card1() {
-  const store = useV2boardUserData();
+  const { data, mutate } = orderFetchGet();
   const navigate = useNavigate();
-  const fetchData = useFetchData();
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const periodMap = usePeriodMap();
   const handlePayment = (tardeNo: string) => {
     navigate("/order/" + tardeNo);
   };
-  const { fetchAllData } = useFetchMultipleData([
-    {
-      fetchFn: orderFetchGet,
-      setDataFn: store.setOrderFetchData,
-    },
-  ]);
   const handleCancel = async (tardeNo: string) => {
-    setIsLoading(true);
-    const result = await fetchData(() => orderCancelPost(tardeNo));
-
-    if (result?.data) {
-      await fetchAllData();
+    try {
+      setIsLoading(true);
+      await orderCancelPost(tardeNo);
+      await mutate();
       toast.success(t("订单已取消"));
+    } catch (error: any) {
+      toast.error(error.data.message);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {store.orderFetchData.data.map((item: any) => {
-        const orderStatus = getOrderStatus(item.status);
+      {data?.data.data.map((item: any) => {
+        const orderStatus = getOrderStatus(item.status, t);
         return (
           <Dialog key={item.trade_no}>
             <DialogTrigger asChild>

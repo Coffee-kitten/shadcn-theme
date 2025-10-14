@@ -14,18 +14,15 @@ import {
 import { resetSecurityGet } from "@/api/user";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-
-export const Card2 = ({
-  fetchAllData,
-}: {
-  fetchAllData: () => Promise<void>;
-}) => {
+import { infoGet } from "@/api/v1/base";
+export const Card2 = () => {
   const { t } = useTranslation();
+  const { mutate } = infoGet();
   const onClickReset = async () => {
     try {
       await resetSecurityGet();
+      mutate();
       toast.success(t("重置成功"));
-      fetchAllData();
     } catch {
       toast.error(t("重置失败"));
     }

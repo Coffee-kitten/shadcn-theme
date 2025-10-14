@@ -1,12 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useV2boardUserData } from "@/store/index";
 import { Mail, Shield, Wallet, Hash } from "lucide-react";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
 import { useTranslation } from "react-i18next";
+import { infoGet } from "@/api/v1/base";
 export const Card1 = () => {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = infoGet();
 
   return (
     <div className="rounded-xl border text-card-foreground shadow bg-muted/30 p-6 space-y-4">
@@ -27,7 +27,9 @@ export const Card1 = () => {
             </Badge>
           </div>
         </div>
-        <Badge variant="outline" className="w-fit">{store.infoData.data.email}</Badge>
+        <Badge variant="outline" className="w-fit">
+          {data?.data.data.email}
+        </Badge>
       </div>
       <Separator />
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -46,7 +48,7 @@ export const Card1 = () => {
           </div>
         </div>
         <Badge variant="outline" className="w-fit">
-          {store.infoData.data.uuid || "N/A"}
+          {data?.data.data.uuid || "N/A"}
         </Badge>
       </div>
       <Separator />
@@ -70,8 +72,8 @@ export const Card1 = () => {
         <Badge variant="outline">
           {" "}
           ¥{" "}
-          {store.infoData.data?.balance
-            ? (store.infoData.data.balance / 100).toFixed(2)
+          {data?.data.data?.balance
+            ? (data?.data.data.balance / 100).toFixed(2)
             : "0.00"}
         </Badge>
       </div>

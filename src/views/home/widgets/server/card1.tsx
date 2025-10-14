@@ -5,16 +5,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { useV2boardUserData } from "@/store/index";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 import { Signal1, Signal2 } from "@/views/svg/signal";
+import { serverFetchGet } from "@/api/v1/server";
 export function Card1() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = serverFetchGet();
   return (
     <div className="grid lg:grid-cols-2 gap-4 lg:gap-5">
-      {store.serverFetchData.data.map((item: any, index: any) => (
+      {data?.data.data.map((item: any, index: any) => (
         <TooltipProvider key={index}>
           <Tooltip>
             <TooltipTrigger asChild>

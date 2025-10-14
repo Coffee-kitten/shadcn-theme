@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
-import { useV2boardUserData } from "@/store";
 import { useTranslation } from "react-i18next";
-
+import { subscribeGet } from "@/api/v1/base";
 export const ExpiredAt = ({ expiredAt }: { expiredAt: string }) => {
-  const store = useV2boardUserData();
+  const { data } = subscribeGet();
   const { t } = useTranslation();
   return (
     <div className="grid w-full h-full bg-muted/75 border rounded-lg">
@@ -18,7 +17,7 @@ export const ExpiredAt = ({ expiredAt }: { expiredAt: string }) => {
           </div>
         </div>
         <div className="space-x-2">
-          <PlanCard3 plan={store.subscribeData.data.plan} renew={2} />
+          <PlanCard3 plan={data?.data.data.plan} renew={2} />
           <Button variant="outline" className="h-9 py-2 px-6" asChild>
             <a href="/#/store">{t("新购订阅")}</a>
           </Button>

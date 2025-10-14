@@ -1,28 +1,26 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import FormSignUp from "@/views/auth/forms/formSign-up";
 
-import { signUpGet } from "@/api/auth";
-
-import { useV2boardUserData } from "@/store/index";
+import { signUpGet } from "@/api/v1/auth";
 
 import { SignUpLoading } from "@/views/auth/SignUpLoading";
 import { Separator } from "@/components/ui/separator";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
+
 export function SignUp() {
   //   const { id } = useParams();
 
-  const store = useV2boardUserData();
+  // const store = useV2boardUserData();
 
-  const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: signUpGet,
-      setDataFn: store.setRegisterData,
-    },
-  ]);
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  // const { fetchAllData, isLoading } = useFetchMultipleData([
+  //   {
+  //     fetchFn: signUpGet,
+  //     setDataFn: store.setRegisterData,
+  //   },
+  // ]);
+  const { isLoading } = signUpGet();
+  // useEffect(() => {
+  //   fetchAllData();
+  // }, []);
 
   const { t } = useTranslation();
   if (isLoading) {

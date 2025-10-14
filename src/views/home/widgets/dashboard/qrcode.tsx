@@ -9,12 +9,11 @@ import {
 } from "@/components/ui/dialog";
 import QRCode from "react-qr-code";
 import { Button } from "@/components/ui/button";
-import { useV2boardUserData } from "@/store/index";
 import { useTranslation } from "react-i18next";
-
+import { subscribeGet } from "@/api/v1/base";
 export function Qrcode() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = subscribeGet();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,7 +34,7 @@ export function Qrcode() {
         <div className="p-4 bg-primary rounded-md mx-auto my-4">
           <QRCode
             size={128}
-            value={store.subscribeData.data.subscribe_url}
+            value={data?.data.data.subscribe_url}
             fgColor="hsl(var(--background))"
             bgColor="hsl(var(--primary))"
           />

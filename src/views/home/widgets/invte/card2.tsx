@@ -2,12 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Receipt, CheckCircle } from "lucide-react";
-import { useV2boardUserData } from "@/utils/common-imports";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-
+import { inviteDetailsGet } from "@/api/v1/invite";
 const CommissionRecordItem = ({ record }: any) => {
   const { t } = useTranslation();
+
   const formatDate = (timestamp: number) => {
     return dayjs.unix(timestamp).format("YYYY-MM-DD HH:mm");
   };
@@ -56,8 +56,8 @@ const CommissionRecordItem = ({ record }: any) => {
 
 export const Card2 = () => {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
-  const commissionRecords = store.inviteDetailsData?.data || [];
+  const { data } = inviteDetailsGet();
+  const commissionRecords = data?.data.data || [];
   return (
     <Card className="w-full">
       <CardHeader className="pb-3">

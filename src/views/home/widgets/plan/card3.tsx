@@ -12,11 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAvailablePeriods } from "@/hooks/price";
-import {
-  useState,
-  couponCheckPost,
-  orderSavePost,
-} from "@/utils/common-imports";
+import { useState } from "@/utils/common-imports";
+import { couponCheckPost, orderSavePost } from "@/api/v1/order";
 import { useFetchData } from "@/hooks/use-fetch-data";
 import { Ticket, Tag, Percent, RefreshCw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -49,22 +46,21 @@ export function PlanCard3({ plan, renew = 0 }: { plan: any; renew?: number }) {
 
   const clickCheck = async () => {
     setIsLoading(true);
-    const result = await fetchData(() => couponCheckPost(couponCode, plan.id));
-    if (result?.data) setCouponData(result.data);
+    const result = await couponCheckPost(t, couponCode, plan.id);
+    if (result?.data.data) setCouponData(result.data.data);
     setIsLoading(false);
   };
   const clickOrder = async () => {
     setIsLoading(true);
-    const result = await fetchData(() =>
-      orderSavePost(
-        selectedPeriod,
-        plan.id,
-        couponData ? couponCode : undefined
-      )
+    const result = await orderSavePost(
+      t,
+      selectedPeriod,
+      plan.id,
+      couponData ? couponCode : undefined
     );
     setIsLoading(false);
-    if (result?.data) {
-      navigate(`/order/${result.data}`);
+    if (result?.data.data) {
+      navigate(`/order/${result.data.data}`);
     }
   };
   const actionMap: Record<number, JSX.Element> = {

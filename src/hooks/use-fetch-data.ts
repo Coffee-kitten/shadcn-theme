@@ -1,42 +1,4 @@
-import { useState, toast, useTranslation } from "@/utils/common-imports";
-
-/**
- * 批量获取多个数据的 Hook
- * @param fetchActions 数据获取动作数组，每个元素包含获取函数和设置函数
- */
-export const useFetchMultipleData = (
-  fetchActions: Array<{
-    fetchFn: () => Promise<any>;
-    setDataFn?: (data: any) => void;
-  }>
-) => {
-  const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(true);
-  const fetchAllData = async (silent: boolean = false) => {
-    try {
-      if (!silent) {
-        setIsLoading(true);
-      }
-      const results = await Promise.all(
-        fetchActions.map(({ fetchFn }) => fetchFn())
-      );
-
-      fetchActions.forEach(({ setDataFn }, index) => {
-        if (setDataFn) {
-          setDataFn(results[index].data);
-        }
-      });
-      if (!silent) {
-        setIsLoading(false);
-      }
-    } catch (error: any) {
-      handleError(error, t);
-    }
-  };
-
-  return { fetchAllData, isLoading };
-};
-
+import { toast, useTranslation } from "@/utils/common-imports";
 /**
  * 单个数据获取的 Hook
  * @returns 返回一个可以获取数据的函数

@@ -1,10 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import {
-  useEffect,
-  useV2boardUserData,
-  subscribeGet,
-  infoGet,
-} from "@/utils/common-imports";
 import { Outlet } from "react-router-dom";
 import {
   SidebarInset,
@@ -14,24 +8,12 @@ import {
 import { ModeToggle } from "@/components/mode-toggle";
 import { I18n } from "@/components/i18n";
 import { Loading } from "@/views/home/Loading";
-import { useFetchMultipleData } from "@/hooks/use-fetch-data";
-export function Sidebar() {
-  const store = useV2boardUserData();
+import { infoGet, subscribeGet } from "@/api/v1/base";
 
-  const { fetchAllData, isLoading } = useFetchMultipleData([
-    {
-      fetchFn: infoGet,
-      setDataFn: store.setInfoData,
-    },
-    {
-      fetchFn: subscribeGet,
-      setDataFn: store.setSubscribeData,
-    },
-  ]);
-  useEffect(() => {
-    fetchAllData();
-  }, []);
-  if (isLoading) {
+export function Sidebar() {
+  const { isLoading: infoLoading } = infoGet();
+  const { isLoading: subLoading } = subscribeGet();
+  if (infoLoading || subLoading) {
     return <Loading />;
   }
   return (

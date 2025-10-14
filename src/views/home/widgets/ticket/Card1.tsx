@@ -24,8 +24,10 @@ import { ticketSavePost } from "@/api/ticket";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-export const Card1 = ({ onTicketCreated }: any) => {
+import { ticketFetchGet } from "@/api/v1/ticket";
+export const Card1 = () => {
   const { t } = useTranslation();
+  const { mutate } = ticketFetchGet();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForm, setCreateForm] = useState({
     subject: "",
@@ -41,19 +43,18 @@ export const Card1 = ({ onTicketCreated }: any) => {
 
     try {
       setIsSubmitting(true);
-      // 模拟API调用延迟
       await ticketSavePost(createForm);
-      toast.success(t("工单创建成功"));
       // 重置表单
       setCreateForm({
         subject: "",
         level: 0,
         message: "",
       });
+
+      await mutate();
       // 关闭对话框
       setIsCreateOpen(false);
-      // 刷新工单列表数据
-      onTicketCreated();
+      toast.success(t("工单创建成功"));
     } catch (error: any) {
       toast.warning(error?.data?.message);
     } finally {

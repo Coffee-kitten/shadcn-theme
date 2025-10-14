@@ -5,14 +5,12 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-
-import { useV2boardUserData } from "@/store/index";
 import { usePeriodMap } from "@/hooks/price";
 import { useTranslation } from "react-i18next";
-
-export function Card3() {
+import { paymentDetailGet } from "@/api/v1/payment";
+export function Card3({ id }: any) {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = paymentDetailGet(id);
   const periodMap = usePeriodMap();
   return (
     <Card>
@@ -22,25 +20,19 @@ export function Card3() {
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="flex gap-2 items-center">
-          <CardDescription className="w-32">{t("产品名称：")}</CardDescription>
-          <div className="text-sm">
-            {store.paymentDetailData.data.plan.name}
-          </div>
+          <CardDescription className="w-32">{t("订阅名称：")}</CardDescription>
+          <div className="text-sm">{data?.data.data.plan.name}</div>
         </div>
         <div className="flex gap-2 items-center">
           <CardDescription className="w-32">{t("类型/周期")}：</CardDescription>
           <div className="text-sm">
-            {
-              periodMap[
-                store.paymentDetailData.data.period as keyof typeof periodMap
-              ].long
-            }
+            {periodMap[data?.data.data.period as keyof typeof periodMap].long}
           </div>
         </div>
         <div className="flex gap-2 items-center">
-          <CardDescription className="w-32">{t("产品流量：")}</CardDescription>
+          <CardDescription className="w-32">{t("订阅流量：")}</CardDescription>
           <div className="text-sm">
-            {store.paymentDetailData.data.plan.transfer_enable} GB
+            {data?.data.data.plan.transfer_enable} GB
           </div>
         </div>
       </CardContent>

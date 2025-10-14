@@ -8,8 +8,7 @@ export { Badge } from "@/components/ui/badge";
 
 // 常用的工具函数和hooks
 export { useTranslation } from "react-i18next";
-export { useV2boardUserData } from "@/store/index";
-export { useFetchData, useFetchMultipleData } from "@/hooks/use-fetch-data";
+export { useFetchData } from "@/hooks/use-fetch-data";
 
 // 常用的API
 export * from "@/api/dashboard";

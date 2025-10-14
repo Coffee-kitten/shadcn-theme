@@ -20,25 +20,26 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
-import { useV2boardUserData } from "@/store/index";
-import { orderSavePost } from "@/utils/common-imports";
+import { orderSavePost } from "@/api/v1/order";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useFetchData } from "@/hooks/use-fetch-data";
+
+import { subscribeGet } from "@/api/v1/base";
 export function Card2() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = subscribeGet();
   const navigate = useNavigate();
-  const fetchData = useFetchData();
   const formatGB = (bytes: number) => (bytes / 1024 ** 3).toFixed(2);
-  const used = store.subscribeData.data.u + store.subscribeData.data.d;
-  const total = store.subscribeData.data.transfer_enable;
+  const used = data?.data.data.u + data?.data.data.d;
+  const total = data?.data.data.transfer_enable;
   const handleReset = async () => {
-    const result = await fetchData(() =>
-      orderSavePost("reset_price", store.subscribeData.data.plan.id)
+    const result = await orderSavePost(
+      t,
+      "reset_price",
+      data?.data.data.plan.id
     );
-    if (result?.data) {
-      navigate(`/order/${result.data}`);
+    if (result?.data.data) {
+      navigate(`/order/${result.data.data}`);
     }
   };
   return (
@@ -50,7 +51,7 @@ export function Card2() {
             <AlertDialogTrigger asChild>
               <Button
                 variant="secondary"
-                disabled={store.subscribeData.data.plan.reset_price == null}
+                disabled={data?.data.data.plan.reset_price == null}
               >
                 <RotateCcw />
                 {t("重置")}
@@ -90,21 +91,20 @@ export function Card2() {
       <CardContent className="pt-2 pb-8">
         <Progress
           value={
-            ((store.subscribeData.data.u + store.subscribeData.data.d) /
-              store.subscribeData.data.transfer_enable) *
+            ((data?.data.data.u + data?.data.data.d) /
+              data?.data.data.transfer_enable) *
             100
           }
         />
       </CardContent>
       <CardFooter>
-        {store.subscribeData.data.plan.onetime_price ? (
+        {data?.data.data.plan.onetime_price ? (
           <p>Never</p>
-        ) : store.subscribeData.data.reset_day == 0 ? (
+        ) : data?.data.data.reset_day == 0 ? (
           <p>{t("已用流量已在今日重置")}</p>
         ) : (
           <p>
-            {t("已用流量将在")} {store.subscribeData.data.reset_day}{" "}
-            {t("日后重置")}
+            {t("已用流量将在")} {data?.data.data.reset_day} {t("日后重置")}
           </p>
         )}
       </CardFooter>

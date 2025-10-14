@@ -6,7 +6,7 @@ import {
   SendHorizontal,
   ShoppingCart,
   Server,
-  FileText,
+  Receipt,
   Users,
   User,
   ClipboardList,
@@ -25,15 +25,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useTranslation } from "react-i18next";
-import { useV2boardUserData } from "@/store/index";
+import { infoGet } from "@/api/v1/base";
 import dayjs from "dayjs";
 const getSidebarData = () => {
-  const store = useV2boardUserData();
+  const { data } = infoGet();
   const { t } = useTranslation();
   return {
     user: {
-      email: store.infoData.data.email,
-      avatar: store.infoData.data.avatar_url,
+      email: data?.data.data.email,
+      avatar: data?.data.data.avatar_url,
     },
     navSecondary: [
       {
@@ -91,7 +91,7 @@ const getSidebarData = () => {
       {
         name: t("我的订单"),
         url: "/#/order", // 修正了URL，应该指向订单页面
-        icon: FileText, // 文档图标更适合表示订单
+        icon: Receipt, // 文档图标更适合表示订单
       },
       {
         name: t("我的邀请"),

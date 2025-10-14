@@ -10,12 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import { ShoppingBag } from "lucide-react";
-import { useV2boardUserData } from "@/store/index";
 import { useTranslation } from "react-i18next";
-
-export function Head({ badge, footer, IconComponent }: any) {
-  const store = useV2boardUserData();
-
+import { subscribeGet } from "@/api/v1/base";
+export function Head({ badge, IconComponent }: any) {
+  const { data } = subscribeGet();
   const Icon = IconComponent || ShoppingBag;
   const { t } = useTranslation();
 
@@ -26,13 +24,13 @@ export function Head({ badge, footer, IconComponent }: any) {
           <Badge>{badge || ""} </Badge>
         </CardTitle>
         <CardDescription>
-          {store.subscribeData.data?.plan?.name || t("未拥有订阅")}
+          {data?.data.data.plan?.name || t("未拥有订阅")}
         </CardDescription>
       </CardHeader>
       <CardContent></CardContent>
       <CardFooter>
-        <Button variant="secondary">
-          <Icon /> {footer || t("购买订阅")}
+        <Button variant="outline" size="icon" className="rounded-full">
+          <Icon />
         </Button>
       </CardFooter>
     </Card>

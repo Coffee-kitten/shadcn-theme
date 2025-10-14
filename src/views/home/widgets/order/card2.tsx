@@ -7,10 +7,11 @@ import {
 } from "lucide-react";
 
 // 获取订单状态信息和对应图标
-import { useTranslation } from "react-i18next";
-
-export const getOrderStatus = (status: number, extraClassName: string = "") => {
-  const { t } = useTranslation();
+export const getOrderStatus = (
+  status: number, 
+  t: (key: string) => string, 
+  extraClassName: string = ""
+) => {
   const statusMap: Record<
     number,
     {

@@ -1,11 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card2 } from "@/views/home/widgets/plan/card2.tsx";
 import { useTranslation } from "react-i18next";
-import { useV2boardUserData } from "@/store/index";
+import { planFetchGet } from "@/api/v1/plan";
 export function Card1() {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
 
+  const { data } = planFetchGet();
   // 过滤函数
   const filterPlans = [
     ["all", () => true],
@@ -23,11 +23,9 @@ export function Card1() {
       {filterPlans.map((key: any) => (
         <TabsContent key={key[0]} value={key[0]}>
           <section className="grid auto-rows-min gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            {store.planFetchData.data
-              .filter(key[1])
-              .map((plan: any, index: number) => (
-                <Card2 key={index} {...plan} />
-              ))}
+            {data?.data.data.filter(key[1]).map((plan: any, index: number) => (
+              <Card2 key={index} {...plan} />
+            ))}
           </section>
         </TabsContent>
       ))}

@@ -11,19 +11,19 @@ import {
   Wallet,
   Percent,
 } from "lucide-react";
-import { useV2boardUserData } from "@/store/index";
 import { toast } from "sonner";
 import { InfoCard } from "./InfoCard";
 import { TransferDialog } from "./TransferDialog";
 import { WithdrawDialog } from "./WithdrawDialog";
 import { useInviteActions } from "./useInviteActions";
 import { useTranslation } from "react-i18next";
+import { inviteFetchGet } from "@/api/v1/invite";
 export const Card1 = () => {
   const { t } = useTranslation();
-  const store = useV2boardUserData();
+  const { data } = inviteFetchGet();
   const { isLoading, handleGenerateNewLink } = useInviteActions();
 
-  const inviteCodes = store.inviteFetchData?.data?.codes || [];
+  const inviteCodes = data?.data.data.codes || [];
 
   return (
     <Card className="bg-muted/30">
@@ -57,7 +57,7 @@ export const Card1 = () => {
           }}
           content={
             <Badge variant="outline">
-              {t("{{count}}人", { count: store.inviteFetchData.data.stat[0] })}
+              {t("{{count}}人", { count: data?.data.data.stat[0] })}
             </Badge>
           }
         />
@@ -69,9 +69,7 @@ export const Card1 = () => {
           iconColor="text-green-600 dark:text-green-400"
           title={t("剩余佣金")}
           content={
-            <Badge variant="outline">
-              ¥ {store.inviteFetchData.data.stat[4] / 100}
-            </Badge>
+            <Badge variant="outline">¥ {data?.data.data.stat[4] / 100}</Badge>
           }
         />
         <Separator />
@@ -80,11 +78,7 @@ export const Card1 = () => {
           iconBgColor="bg-emerald-50 dark:bg-emerald-950/50"
           iconColor="text-emerald-600 dark:text-emerald-400"
           title={t("佣金比例")}
-          content={
-            <Badge variant="outline">
-              {store.inviteFetchData.data.stat[3]}%
-            </Badge>
-          }
+          content={<Badge variant="outline">{data?.data.data.stat[3]}%</Badge>}
         />
 
         <Separator />
@@ -101,15 +95,13 @@ export const Card1 = () => {
               "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
           }}
           content={
-            <Badge variant="outline">
-              ¥ {store.inviteFetchData.data.stat[2] / 100}
-            </Badge>
+            <Badge variant="outline">¥ {data?.data.data.stat[2] / 100}</Badge>
           }
         />
         <Separator />
         <div className="flex gap-2">
-          <TransferDialog currentBalance={store.inviteFetchData.data.stat[4]} />
-          <WithdrawDialog currentBalance={store.inviteFetchData.data.stat[4]} />
+          <TransferDialog currentBalance={data?.data.data.stat[4]} />
+          <WithdrawDialog currentBalance={data?.data.data.stat[4]} />
         </div>
       </CardHeader>
       <Separator />
