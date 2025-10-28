@@ -21,7 +21,7 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-
+// import { CircleQuestionMark } from "lucide-react";
 export function NavUser({
   user,
 }: {
@@ -97,6 +97,11 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup> */}
+            {/* <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <CircleQuestionMark />
+              Feedback
+            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />

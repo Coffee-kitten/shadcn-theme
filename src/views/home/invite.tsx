@@ -9,7 +9,7 @@ import {
   inviteDetailsGet,
   commConfigGet,
 } from "@/api/v1/invite";
-export function InvitePage() {
+export default function InvitePage() {
   const { t } = useTranslation();
   const { isLoading } = inviteFetchGet();
   const { isLoading: isLoadingDetails } = inviteDetailsGet();

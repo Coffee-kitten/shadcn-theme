@@ -7,16 +7,16 @@ import dayjs from "dayjs";
 import { getTicketStatus, getPriorityText, TicketInfoRow } from "./utils";
 import { Loading2 } from "./Loading2";
 import { useState } from "react";
-import { ticketReplyPost } from "@/api/ticket";
-import { toast } from "sonner";
+import { useTicketReplyPost, useTicketClosePost } from "@/api/v1/ticket";
 import { useTranslation } from "react-i18next";
 import { ticketFetchIdGet, ticketFetchGet } from "@/api/v1/ticket";
-import { ticketClosePost } from "@/api/ticket";
 export function TicketDetail({ onBack, ticketID }: any) {
   const { t } = useTranslation();
   const [replyMessage, setReplyMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isReplyLoading, setIsReplyLoading] = useState(false);
+  const { ticketReplyPost } = useTicketReplyPost();
+  const { ticketClosePost } = useTicketClosePost();
   const {
     data,
     isLoading: isLoadingDetail,
@@ -40,28 +40,22 @@ export function TicketDetail({ onBack, ticketID }: any) {
       ? { ...getTicketStatus(2, t), text: t("已完成") }
       : getTicketStatus(data?.data.data.reply_status, t);
   const handleReply = async () => {
-    try {
-      setIsReplyLoading(true);
-      await ticketReplyPost(data?.data.data.id, replyMessage);
+    setIsReplyLoading(true);
+    const result = await ticketReplyPost(data?.data.data.id, replyMessage);
+    if (result) {
       await mutate();
-    } catch (error: any) {
-      toast.error(error?.data?.message);
-    } finally {
-      setIsReplyLoading(false);
     }
+    setIsReplyLoading(false);
   };
   const handleCloseTicket = async (ticketId: number) => {
-    try {
-      setIsLoading(true);
-      await ticketClosePost(ticketId);
+    setIsLoading(true);
+    const result = await ticketClosePost(ticketId);
+    if (result) {
       await mutate();
       await mutateList();
-    } catch (error) {
-      toast.error(t("工单关闭失败，请重试"));
-    } finally {
-      // setTicketMessages((await ticketFetchIdGet(ticketId)).data.data);
-      setIsLoading(false);
     }
+    // setTicketMessages((await ticketFetchIdGet(ticketId)).data.data);
+    setIsLoading(false);
   };
   return (
     <div className="space-y-4">

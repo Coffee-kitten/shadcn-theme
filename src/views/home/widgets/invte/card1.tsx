@@ -15,14 +15,28 @@ import { toast } from "sonner";
 import { InfoCard } from "./InfoCard";
 import { TransferDialog } from "./TransferDialog";
 import { WithdrawDialog } from "./WithdrawDialog";
-import { useInviteActions } from "./useInviteActions";
+import { useState } from "react";
+// import { useInviteActions } from "./useInviteActions";
 import { useTranslation } from "react-i18next";
-import { inviteFetchGet } from "@/api/v1/invite";
+import { inviteFetchGet, inviteSaveGet } from "@/api/v1/invite";
+
 export const Card1 = () => {
   const { t } = useTranslation();
-  const { data } = inviteFetchGet();
-  const { isLoading, handleGenerateNewLink } = useInviteActions();
-
+  const { data, mutate } = inviteFetchGet();
+  const [isLoading, setIsLoading] = useState(false);
+  // const { isLoading } = useInviteActions();
+  const handleGenerateNewLink = async () => {
+    try {
+      setIsLoading(true);
+      await inviteSaveGet();
+      await mutate(); // 更新邀请数据
+      toast.success(t("已生成"));
+    } catch (error: any) {
+      toast.error(error.data?.message || t("生成失败"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const inviteCodes = data?.data.data.codes || [];
 
   return (
@@ -100,8 +114,8 @@ export const Card1 = () => {
         />
         <Separator />
         <div className="flex gap-2">
-          <TransferDialog currentBalance={data?.data.data.stat[4]} />
-          <WithdrawDialog currentBalance={data?.data.data.stat[4]} />
+          <TransferDialog />
+          <WithdrawDialog />
         </div>
       </CardHeader>
       <Separator />

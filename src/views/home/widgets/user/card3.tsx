@@ -5,7 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState, userUpdatePost } from "@/utils/common-imports";
+import { useState } from "react";
+import { useUserUpdatePost } from "@/api/v1/user";
 import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
 import { infoGet } from "@/api/v1/base";
@@ -14,7 +15,7 @@ export const Card3 = () => {
   const [loadingTraffic, setLoadingTraffic] = useState(false);
   const [loadingExpire, setLoadingExpire] = useState(false);
   const { data, mutate } = infoGet();
-
+  const { userUpdatePost } = useUserUpdatePost();
   const handleChange = async (
     key: "remind_traffic" | "remind_expire",
     value: number
@@ -25,8 +26,7 @@ export const Card3 = () => {
     setLoading(true);
     await userUpdatePost(key, value);
 
-    // 刷新 infoGet 数据
-    mutate();
+    await mutate();
 
     setLoading(false);
   };

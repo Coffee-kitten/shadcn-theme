@@ -12,7 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Eye, EyeOff, Lock, Loader2 } from "lucide-react";
-import { changePasswordPost } from "@/api/user";
+import { useChangePasswordPost } from "@/api/v1/user";
+
 import { toast } from "sonner";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -80,28 +81,26 @@ export const ChangePasswordDialog = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  const { changePasswordPost } = useChangePasswordPost();
+
   const handlePasswordChange = async () => {
     if (formData.newPassword !== formData.confirmPassword) {
       toast.error(t("两次新密码输入不同"));
       return;
     }
 
-    try {
-      setIsLoading(true);
-      await changePasswordPost(formData.oldPassword, formData.newPassword);
+    setIsLoading(true);
+    const result = await changePasswordPost(
+      formData.oldPassword,
+      formData.newPassword
+    );
+    if (result) {
       toast.success(t("修改成功"));
       setIsDialogOpen(false);
       setFormData({ oldPassword: "", newPassword: "", confirmPassword: "" });
-    } catch (error: any) {
-      toast.error(
-        error.data?.errors?.old_password?.[0] ||
-          error.data?.errors?.new_password?.[0] ||
-          error.data?.message ||
-          t("密码修改失败")
-      );
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   return (

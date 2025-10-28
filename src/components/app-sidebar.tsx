@@ -45,29 +45,29 @@ const getSidebarData = () => {
     projects: [
       {
         name: t("仪表盘"),
-        url: "/#/dashboard",
+        url: "/dashboard",
         icon: Frame,
       },
       {
         name: t("知识库"),
-        url: "/#/knowledge",
+        url: "/knowledge",
         icon: Map,
       },
       {
         name: t("报告"),
-        url: "/#/announcements",
+        url: "/announcements",
         icon: ClipboardList,
       },
     ],
     subscriptionItems: [
       {
         name: t("购买订阅"),
-        url: "/#/store",
+        url: "/store",
         icon: ShoppingCart, // 购物车图标更适合购买操作
       },
       {
         name: t("节点状态"),
-        url: "/#/server",
+        url: "/server",
         icon: Server, // 服务器图标更适合表示节点状态
       },
     ],
@@ -76,12 +76,12 @@ const getSidebarData = () => {
     userItems: [
       {
         name: t("个人中心"),
-        url: "/#/user",
+        url: "/user",
         icon: User, // 用户图标表示个人中心
       },
       {
         name: t("我的工单"),
-        url: "/#/ticket",
+        url: "/ticket",
         icon: MessageCircle, // 消息圆圈图标表示工单
       },
     ],
@@ -90,12 +90,12 @@ const getSidebarData = () => {
     accountItems: [
       {
         name: t("我的订单"),
-        url: "/#/order", // 修正了URL，应该指向订单页面
+        url: "/order", // 修正了URL，应该指向订单页面
         icon: Receipt, // 文档图标更适合表示订单
       },
       {
         name: t("我的邀请"),
-        url: "/#/invite", // 修正了URL，应该指向邀请页面
+        url: "/invite", // 修正了URL，应该指向邀请页面
         icon: Users, // 用户组图标更适合表示邀请功能
       },
     ],

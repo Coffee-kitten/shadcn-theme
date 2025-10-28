@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, MessageCircle, FileText, AlertCircle } from "lucide-react";
 import { useState } from "react";
-import { ticketSavePost } from "@/api/ticket";
+import { useTicketSavePost } from "@/api/v1/ticket";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +28,7 @@ import { ticketFetchGet } from "@/api/v1/ticket";
 export const Card1 = () => {
   const { t } = useTranslation();
   const { mutate } = ticketFetchGet();
+  const { ticketSavePost } = useTicketSavePost();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForm, setCreateForm] = useState({
     subject: "",
@@ -41,25 +42,23 @@ export const Card1 = () => {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      await ticketSavePost(createForm);
+    setIsSubmitting(true);
+    const result = await ticketSavePost(createForm);
+
+    if (result) {
+      await mutate();
+      toast.success(t("工单创建成功"));
+      // 关闭对话框
+      setIsCreateOpen(false);
       // 重置表单
       setCreateForm({
         subject: "",
         level: 0,
         message: "",
       });
-
-      await mutate();
-      // 关闭对话框
-      setIsCreateOpen(false);
-      toast.success(t("工单创建成功"));
-    } catch (error: any) {
-      toast.warning(error?.data?.message);
-    } finally {
-      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   };
   return (
     <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">

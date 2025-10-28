@@ -3,10 +3,10 @@ import FormSignUp from "@/views/auth/forms/formSign-up";
 
 import { signUpGet } from "@/api/v1/auth";
 
-import { SignUpLoading } from "@/views/auth/SignUpLoading";
+import { SignUpLoading } from "@/views/auth/Loading";
 import { Separator } from "@/components/ui/separator";
-
-export function SignUp() {
+import { Link } from "react-router-dom";
+export default function SignUp() {
   //   const { id } = useParams();
 
   // const store = useV2boardUserData();
@@ -40,9 +40,9 @@ export function SignUp() {
       <FormSignUp />
       <div className="-mt-2 space-x-1 text-center text-sm opacity-85">
         {t("已经拥有账户")}{" "}
-        <a href="/#/login" className="opacity-75 underline">
+        <Link to="/login" className="opacity-75 underline">
           {t("登入")}
-        </a>
+        </Link>
       </div>
       <div className="text-center text-xs text-muted-foreground">
         <p>© 2021 {import.meta.env.VITE_APP_NAME}. All rights reserved.</p>

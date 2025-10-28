@@ -14,21 +14,35 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { ArrowRightLeft } from "lucide-react";
 import { BadgeJapaneseYen } from "lucide-react";
-import { useInviteActions } from "./useInviteActions";
 import { useTranslation } from "react-i18next";
-
-export const TransferDialog = ({ currentBalance }: any) => {
+import { inviteFetchGet } from "@/api/v1/invite";
+import { useUserTransferPost } from "@/api/v1/invite";
+import { useState } from "react";
+import { toast } from "sonner";
+export const TransferDialog = () => {
   const { t } = useTranslation();
-  const {
-    transferAmount,
-    setTransferAmount,
-    handleTransferToBalance,
-    generateLoading,
-  } = useInviteActions();
-  const handleTransfer = () => {
-    handleTransferToBalance();
-  };
+  const { data, mutate } = inviteFetchGet();
+  const [isLoading, setIsLoading] = useState(false);
+  const [transferAmount, setTransferAmount] = useState("");
+  const { userTransferPost } = useUserTransferPost();
 
+  const handleTransferToBalance = async () => {
+    setIsLoading(true);
+    const result = await userTransferPost(
+      Math.floor((transferAmount as any) * 100)
+    );
+    if (result) {
+      await mutate(); // 更新数据
+      toast.success(
+        t("成功划转 ¥{{transferAmount}} 到账户余额", {
+          transferAmount,
+        })
+      );
+      setTransferAmount(""); // 清空输入框
+    }
+
+    setIsLoading(false);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -50,7 +64,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
           <div className="text-base">{t("您的可划转佣金:")}</div>
           <div className="flex gap-0.5 items-center font-medium text-xl">
             <span>¥</span>
-            <span>{currentBalance / 100}</span>
+            <span>{data?.data.data.stat[4] / 100}</span>
             <span>CNY</span>
           </div>
         </div>
@@ -73,7 +87,7 @@ export const TransferDialog = ({ currentBalance }: any) => {
                   setTransferAmount(value);
                 }
               }}
-              max={currentBalance / 100}
+              max={data?.data.data.stat[4] / 100}
               min="0"
               step="0.01"
             />
@@ -85,18 +99,18 @@ export const TransferDialog = ({ currentBalance }: any) => {
             <Button
               className="mt-2 sm:mt-0"
               variant="outline"
-              disabled={generateLoading}
+              disabled={isLoading}
             >
               {t("取消")}
             </Button>
           </DialogClose>
           <Button
-            onClick={handleTransfer}
+            onClick={handleTransferToBalance}
             disabled={
               !transferAmount ||
               parseFloat(transferAmount) <= 0 ||
-              parseFloat(transferAmount) > currentBalance / 100 ||
-              generateLoading
+              parseFloat(transferAmount) > data?.data.data.stat[4] / 100 ||
+              isLoading
             }
           >
             {t("确认划转")}

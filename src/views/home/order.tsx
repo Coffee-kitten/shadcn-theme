@@ -5,7 +5,7 @@ import { Loading } from "@/views/home/widgets/order/loading";
 import { useTranslation } from "react-i18next";
 import { Receipt } from "lucide-react";
 import { orderFetchGet } from "@/api/v1/order";
-export function Order() {
+export default function Order() {
   const { t } = useTranslation();
 
   const { isLoading } = orderFetchGet();

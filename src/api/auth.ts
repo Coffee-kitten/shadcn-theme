@@ -42,14 +42,6 @@ export const signUpPost = (
   });
 };
 
-// 注册信息获取
-export const signUpGet = () => {
-  return v2boardRequest({
-    url: "/api/v1/guest/comm/config",
-    method: "get",
-  });
-};
-
 // 忘记密码验证码
 export const passwrodMailPost = (email: string) => {
   return v2boardRequest({

@@ -4,7 +4,7 @@ import { Loading } from "@/views/home/widgets/announcements/loading";
 import { useTranslation } from "react-i18next";
 import { ClipboardList } from "lucide-react";
 import { announcementsFetchGet } from "@/api/v1/dashboard";
-export function Announcements() {
+export default function Announcements() {
   const { t } = useTranslation();
   const { isLoading } = announcementsFetchGet();
   return (

@@ -16,3 +16,10 @@ export const subscribeGet = () => {
   );
   return { data, error, isLoading };
 };
+export const statGet = () => {
+  const { data, error, isLoading } = useSWR<Record<string, any>>(
+    `/api/v1/user/getStat`,
+    v2boardRequest
+  );
+  return { data, error, isLoading };
+};

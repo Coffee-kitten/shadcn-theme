@@ -9,13 +9,13 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { I18n } from "@/components/i18n";
 import { Loading } from "@/views/home/Loading";
 import { infoGet, subscribeGet } from "@/api/v1/base";
-
 export function Sidebar() {
   const { isLoading: infoLoading } = infoGet();
   const { isLoading: subLoading } = subscribeGet();
   if (infoLoading || subLoading) {
     return <Loading />;
   }
+
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { resetSecurityGet } from "@/api/user";
+import { resetSecurityGet } from "@/api/v1/user";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { infoGet } from "@/api/v1/base";
@@ -21,7 +21,7 @@ export const Card2 = () => {
   const onClickReset = async () => {
     try {
       await resetSecurityGet();
-      mutate();
+      await mutate();
       toast.success(t("重置成功"));
     } catch {
       toast.error(t("重置失败"));

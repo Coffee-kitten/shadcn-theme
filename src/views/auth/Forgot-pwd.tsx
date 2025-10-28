@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { FormForgotPwd } from "@/views/auth/forms/FormForgot-pwd";
 import { Separator } from "@/components/ui/separator";
-export const ForgotPwd = () => {
+import { Link } from "react-router-dom";
+export default function ForgotPwd() {
   //   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -17,11 +18,11 @@ export const ForgotPwd = () => {
       <Separator />
       <FormForgotPwd />
       <div className="-mt-1 text-center text-sm opacity-75">
-        <a href="/#/login">{t("前往登录")}</a>
+        <Link to="/login">{t("前往登录")}</Link>
       </div>
       <div className="text-center text-xs text-muted-foreground">
         <p>© 2021 {import.meta.env.VITE_APP_NAME}. All rights reserved.</p>
       </div>
     </div>
   );
-};
+}

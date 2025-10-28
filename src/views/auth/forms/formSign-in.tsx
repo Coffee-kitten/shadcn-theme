@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -65,12 +66,12 @@ export function FormSignIn() {
             <FormItem>
               <FormLabel className="flex items-center">
                 {t("密码")}
-                <a
-                  href="/#/forgot-password"
+                <Link
+                  to="/forgot-password"
                   className="ml-auto inline-block text-xs sm:text-sm underline opacity-75"
                 >
                   {t("忘记密码")}
-                </a>
+                </Link>
               </FormLabel>
 
               <FormControl>

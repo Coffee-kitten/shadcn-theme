@@ -2,7 +2,9 @@ import { useTranslation } from "react-i18next";
 
 import { FormSignIn } from "@/views/auth/forms/formSign-in";
 import { Separator } from "@/components/ui/separator";
-export function SignIn() {
+
+import { Link } from "react-router-dom";
+export default function SignIn() {
   //   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -19,9 +21,9 @@ export function SignIn() {
       <FormSignIn />
       <div className="-mt-2 space-x-1 text-center text-sm opacity-85">
         <span>{t("没有账户")} </span>
-        <a href="/#/register" className="underline opacity-75">
+        <Link to="/register" className="underline opacity-75">
           {t("立即注册")}
-        </a>
+        </Link>
       </div>
       <div className="text-center text-xs text-muted-foreground">
         <p>© 2021 {import.meta.env.VITE_APP_NAME}. All rights reserved.</p>

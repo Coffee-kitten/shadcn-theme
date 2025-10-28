@@ -19,7 +19,8 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useState, orderCancelPost } from "@/utils/common-imports";
+import { useState } from "@/utils/common-imports";
+import { useOrderCancelPost } from "@/api/v1/order";
 import { usePeriodMap } from "@/hooks/price";
 import { useTranslation } from "react-i18next";
 import { orderFetchGet } from "@/api/v1/order";
@@ -29,20 +30,18 @@ export function Card1() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const periodMap = usePeriodMap();
+  const { orderCancelPost } = useOrderCancelPost();
   const handlePayment = (tardeNo: string) => {
     navigate("/order/" + tardeNo);
   };
   const handleCancel = async (tardeNo: string) => {
-    try {
-      setIsLoading(true);
-      await orderCancelPost(tardeNo);
+    setIsLoading(true);
+    const result = await orderCancelPost(tardeNo);
+    if (result) {
       await mutate();
       toast.success(t("订单已取消"));
-    } catch (error: any) {
-      toast.error(error.data.message);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

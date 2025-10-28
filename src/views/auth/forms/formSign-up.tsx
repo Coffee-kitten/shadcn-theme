@@ -23,11 +23,16 @@ import {
 import { signUpPost, signUpMailPost } from "@/api/auth";
 import { useTranslation } from "react-i18next";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { LogIn, ShieldQuestion } from "lucide-react";
+import { LogIn, CircleQuestionMark } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { signUpGet } from "@/api/v1/auth";
-
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
@@ -45,6 +50,7 @@ export default function FormSignUp() {
   const navigate = useNavigate();
   const codeFromQuery = searchParams.get("code");
   const [currentStep, setCurrentStep] = useState(1);
+  const isMobile = useIsMobile();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -200,15 +206,85 @@ export default function FormSignUp() {
                 )}
               />
             )}
+            {!!data?.data.data.is_email_verify && (
+              <FormField
+                control={form.control}
+                name="email_code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("邮箱验证码")}</FormLabel>
+                    <FormControl>
+                      <div className="flex gap-2">
+                        <Input
+                          {...field}
+                          type="number"
+                          autoComplete="one-time-code"
+                        />
+                        <Button
+                          type="button"
+                          onClick={handleSignUp_Mail}
+                          disabled={sendMailcode}
+                        >
+                          {sendMailcode ? countdownSeconds : t("发送")}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            <Button
+              onClick={() => setCurrentStep(2)}
+              disabled={
+                !form.getValues("email") ||
+                (data?.data.data.is_email_verify &&
+                  !form.getValues("email_code")) ||
+                (!!data?.data.data.email_whitelist_suffix &&
+                  !form.getValues("email_domain"))
+              }
+            >
+              {t("继续")}
+            </Button>
+          </>
+        )}
+
+        {currentStep == 2 && (
+          <>
             <FormField
               control={form.control}
               name="invite_code"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    {t("邀请码") +
-                      (data?.data.data.is_invite_force ? "" : t("可选"))}
-                  </FormLabel>
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel>
+                      {t("邀请码")}
+                      {!!!data?.data.data.is_invite_force && t("可选")}
+                    </FormLabel>
+                    {!!data?.data.data.is_invite_force &&
+                      (isMobile ? (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <CircleQuestionMark className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                          </PopoverTrigger>
+                          <PopoverContent className="z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+                            <p>{t("每日")}</p>
+                          </PopoverContent>
+                        </Popover>
+                      ) : (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <CircleQuestionMark className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{t("每日")}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ))}
+                  </div>
                   <FormControl>
                     <Input
                       {...field}
@@ -216,72 +292,6 @@ export default function FormSignUp() {
                       disabled={!!codeFromQuery}
                     />
                   </FormControl>
-                </FormItem>
-              )}
-            />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <ShieldQuestion />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Add to library</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {!!data?.data.data.is_email_verify ? (
-              <Button
-                onClick={() => setCurrentStep(2)}
-                disabled={
-                  !form.getValues("email") ||
-                  (data?.data.data.is_invite_force &&
-                    !form.getValues("invite_code")) ||
-                  !form.getValues("email_domain")
-                }
-              >
-                {t("继续")}
-              </Button>
-            ) : (
-              <Button
-                onClick={() => setCurrentStep(3)}
-                disabled={
-                  !form.getValues("email") ||
-                  (data?.data.data.is_invite_force &&
-                    !form.getValues("invite_code")) ||
-                  !form.getValues("email_domain")
-                }
-              >
-                {t("继续")}
-              </Button>
-            )}
-          </>
-        )}
-
-        {!!data?.data.data.is_email_verify && currentStep == 2 && (
-          <>
-            <FormField
-              control={form.control}
-              name="email_code"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("邮箱验证码")}</FormLabel>
-                  <FormControl>
-                    <div className="flex gap-2">
-                      <Input
-                        {...field}
-                        type="number"
-                        autoComplete="one-time-code"
-                      />
-                      <Button
-                        type="button"
-                        onClick={handleSignUp_Mail}
-                        disabled={sendMailcode}
-                      >
-                        {sendMailcode ? countdownSeconds : t("发送")}
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -296,7 +306,10 @@ export default function FormSignUp() {
               <Button
                 className="flex-[2]"
                 onClick={() => setCurrentStep(3)}
-                disabled={!form.getValues("email_code")}
+                disabled={
+                  data?.data.data.is_invite_force &&
+                  !form.getValues("invite_code")
+                }
               >
                 {t("继续")}
               </Button>

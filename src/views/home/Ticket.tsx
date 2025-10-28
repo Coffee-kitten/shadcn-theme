@@ -6,7 +6,7 @@ import { Loading1 } from "@/views/home/widgets/ticket/Loading1";
 import { useTranslation } from "react-i18next";
 import { MessageCircle } from "lucide-react";
 import { ticketFetchGet } from "@/api/v1/ticket";
-export function TicketPage() {
+export default function TicketPage() {
   const { t } = useTranslation();
   const { isLoading } = ticketFetchGet();
   const [currentView, setCurrentView] = useState<"list" | "detail">("list");

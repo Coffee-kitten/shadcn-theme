@@ -1,6 +1,6 @@
 import { type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -9,7 +9,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-
 
 export function NavProjects({
   projects,
@@ -22,7 +21,6 @@ export function NavProjects({
   }[];
   lable: string;
 }) {
-
   const location = useLocation();
   const { isMobile, setOpenMobile } = useSidebar();
 
@@ -38,12 +36,12 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => {
           // 确保比较逻辑正确
-          const isActive = `/#${location.pathname}` == item.url;
+          const isActive = `${location.pathname}` == item.url;
           return (
             <SidebarMenuItem key={item.name}>
               <SidebarMenuButton asChild>
-                <a
-                  href={item.url}
+                <Link
+                  to={item.url}
                   onClick={handleItemClick}
                   className={cn(
                     isActive && "bg-accent text-accent-foreground font-medium"
@@ -51,7 +49,7 @@ export function NavProjects({
                 >
                   <item.icon />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           );

@@ -4,7 +4,7 @@ import { Loading } from "@/views/home/widgets/plan/Loading";
 import { Card1 } from "@/views/home/widgets/plan/card1";
 import { ShoppingCart } from "lucide-react";
 import { planFetchGet } from "@/api/v1/plan";
-export function Plan() {
+export default function Plan() {
   const { t } = useTranslation();
   const { isLoading } = planFetchGet();
   return (

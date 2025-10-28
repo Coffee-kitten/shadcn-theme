@@ -9,22 +9,22 @@ import { useEffect } from "react";
 //
 import { Sidebar } from "@/views/home/Sidebar";
 //
-import { SignIn } from "@/views/auth/Sign-in";
-import { SignUp } from "@/views/auth/Sign-up";
-import { ForgotPwd } from "@/views/auth/Forgot-pwd";
+import SignIn from "@/views/auth/Sign-in";
+import SignUp from "@/views/auth/Sign-up";
+import ForgotPwd from "@/views/auth/Forgot-pwd";
 import { FourZeroFour } from "@/views/fragments/404";
 import { Tos } from "@/views/fragments/tos";
 //
-import { Dashboard } from "@/views/home/Dashboard";
-import { Announcements } from "@/views/home/Announcements";
-import { Knowledge } from "@/views/home/Knowledge";
-import { ServerPage } from "@/views/home/Server";
-import { Order } from "@/views/home/Order";
-import { Plan } from "@/views/home/Plan";
-import { Payment } from "@/views/home/Payment";
-import { UserPage } from "@/views/home/User";
-import { InvitePage } from "@/views/home/Invite";
-import { TicketPage } from "@/views/home/Ticket";
+import Dashboard from "@/views/home/Dashboard";
+import Announcements from "@/views/home/Announcements";
+import Knowledge from "@/views/home/Knowledge";
+import ServerPage from "@/views/home/Server";
+import Order from "@/views/home/Order";
+import Plan from "@/views/home/Plan";
+import Payment from "@/views/home/Payment";
+import UserPage from "@/views/home/User";
+import InvitePage from "@/views/home/Invite";
+import TicketPage from "@/views/home/Ticket";
 import { Layout } from "@/views/auth/layout";
 //
 function ProtectedRoutes() {

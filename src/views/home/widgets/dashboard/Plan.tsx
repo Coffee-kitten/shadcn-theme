@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { PlanCard3 } from "@/views/home/widgets/plan/card3";
 import { useTranslation } from "react-i18next";
 import { subscribeGet } from "@/api/v1/base";
+import { Link } from "react-router-dom";
 export const ExpiredAt = ({ expiredAt }: { expiredAt: string }) => {
   const { data } = subscribeGet();
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ export const ExpiredAt = ({ expiredAt }: { expiredAt: string }) => {
         <div className="space-x-2">
           <PlanCard3 plan={data?.data.data.plan} renew={2} />
           <Button variant="outline" className="h-9 py-2 px-6" asChild>
-            <a href="/#/store">{t("新购订阅")}</a>
+            <Link to="/store">{t("新购订阅")}</Link>
           </Button>
         </div>
       </div>
@@ -41,7 +42,7 @@ export const BuyPlan = () => {
           </div>
         </div>
         <Button className="h-9 py-2 px-8" asChild>
-          <a href="/#/store">{t("前往选购")}</a>
+          <Link to="/store">{t("前往选购")}</Link>
         </Button>
       </div>
     </div>

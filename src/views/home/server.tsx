@@ -4,7 +4,7 @@ import { Card2 } from "@/views/home/widgets/server/card2";
 import { Loading } from "@/views/home/widgets/server/loading";
 import { Server } from "lucide-react";
 import { serverFetchGet } from "@/api/v1/server";
-export function ServerPage() {
+export default function ServerPage() {
   const { t } = useTranslation();
   const { isLoading } = serverFetchGet();
   return (

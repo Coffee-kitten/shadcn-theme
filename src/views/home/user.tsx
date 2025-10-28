@@ -5,7 +5,7 @@ import { Card3 } from "@/views/home/widgets/user/card3";
 import { useTranslation } from "react-i18next";
 import { User } from "lucide-react";
 import { infoGet } from "@/api/v1/base";
-export function UserPage() {
+export default function UserPage() {
   const { t } = useTranslation();
   const { isLoading } = infoGet();
 

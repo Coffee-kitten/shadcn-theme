@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Frame } from "lucide-react";
 import { trafficLogGet, announcementsFetchGet } from "@/api/v1/dashboard";
 import { subscribeGet } from "@/api/v1/base";
-export function Dashboard() {
+export default function Dashboard() {
   const { t } = useTranslation();
   const { isLoading: trafficLogLoading } = trafficLogGet();
   const { isLoading: noticeLoading } = announcementsFetchGet();

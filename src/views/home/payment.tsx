@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 // Create a client
 import { CreditCard } from "lucide-react";
 import { paymentMethodGet, paymentDetailGet } from "@/api/v1/payment";
-export function Payment() {
+export default function Payment() {
   const { id } = useParams();
   const { t } = useTranslation();
   const { data, isLoading } = paymentDetailGet(id);
@@ -19,11 +19,7 @@ export function Payment() {
     >
       {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
       {/* <Skeleton className="h-[125px] w-[250px] rounded-xl" /> */}
-      <Head
-        badge={t("订单详细")}
-        IconComponent={CreditCard}
-        footer={t("订单详细")}
-      />
+      <Head badge={t("订单详细")} IconComponent={CreditCard} />
       {data?.data.data.status == 0 ? <Card1 id={id} /> : <Card4 id={id} />}
     </PageContainer>
   );

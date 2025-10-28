@@ -21,15 +21,34 @@ import {
 } from "@/components/ui/select";
 import { Banknote } from "lucide-react";
 import { useState } from "react";
-import { useInviteActions } from "./useInviteActions";
+import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { commConfigGet } from "@/api/v1/invite";
-export const WithdrawDialog = ({ currentBalance }: any) => {
-  const { t } = useTranslation();
+import {
+  commConfigGet,
+  inviteFetchGet,
+  useTicketWithdrawPost,
+} from "@/api/v1/invite";
+export const WithdrawDialog = () => {
+  const { data: inviteData } = inviteFetchGet();
   const { data } = commConfigGet();
+  const { t } = useTranslation();
+  const { ticketWithdrawPost } = useTicketWithdrawPost();
   const [withdrawMethod, setWithdrawMethod] = useState("");
   const [withdrawAccount, setWithdrawAccount] = useState("");
-  const { handleWithdrawCommission, withdrawLoading } = useInviteActions();
+  const [isLoading, setIsLoading] = useState(false);
+  // const { withdrawLoading } = useInviteActions();
+  const handleWithdrawCommission = async () => {
+    setIsLoading(true);
+    const result = await ticketWithdrawPost(withdrawMethod, withdrawAccount);
+    if (result) {
+      toast.success(
+        t("提现申请已提交，提现方式：{{withdrawMethod}}", {
+          withdrawMethod,
+        })
+      );
+    }
+    setIsLoading(false);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -43,7 +62,7 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
           <DialogTitle>{t("提现申请")}</DialogTitle>
           <DialogDescription>
             {t("申请提现 ¥{{currentBalance}} 推广佣金，请填写提现信息。", {
-              currentBalance: currentBalance / 100,
+              currentBalance: inviteData?.data.data.stat[4] / 100,
             })}
           </DialogDescription>
         </DialogHeader>
@@ -81,16 +100,14 @@ export const WithdrawDialog = ({ currentBalance }: any) => {
             <Button
               className="mt-2 sm:mt-0"
               variant="outline"
-              disabled={withdrawLoading}
+              disabled={isLoading}
             >
               {t("取消")}
             </Button>
           </DialogClose>
           <Button
-            disabled={!withdrawMethod || !withdrawAccount || withdrawLoading}
-            onClick={() => {
-              handleWithdrawCommission(withdrawMethod, withdrawAccount);
-            }}
+            disabled={!withdrawMethod || !withdrawAccount || isLoading}
+            onClick={handleWithdrawCommission}
           >
             {t("确认提现")}
           </Button>

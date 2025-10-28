@@ -20,7 +20,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
-import { orderSavePost } from "@/api/v1/order";
+import { useOrderSave } from "@/api/v1/order";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -32,12 +32,9 @@ export function Card2() {
   const formatGB = (bytes: number) => (bytes / 1024 ** 3).toFixed(2);
   const used = data?.data.data.u + data?.data.data.d;
   const total = data?.data.data.transfer_enable;
+  const { saveOrder } = useOrderSave();
   const handleReset = async () => {
-    const result = await orderSavePost(
-      t,
-      "reset_price",
-      data?.data.data.plan.id
-    );
+    const result = await saveOrder("reset_price", data?.data.data.plan.id);
     if (result?.data.data) {
       navigate(`/order/${result.data.data}`);
     }
