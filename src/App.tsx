@@ -18,7 +18,6 @@ export function App() {
         value={{
           onError: (error) => {
             const isTimeout = error?.message?.includes("timeout");
-            console.log(error);
             toast({
               variant: "destructive",
               title: isTimeout ? t("请求超时") : t("请求失败"),

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { subscribeGet } from "@/api/v1/base";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 export function Head({ badge, IconComponent }: any) {
   const { data } = subscribeGet();
   const Icon = IconComponent || ShoppingBag;
@@ -24,7 +25,10 @@ export function Head({ badge, IconComponent }: any) {
           <Badge>{badge || ""} </Badge>
         </CardTitle>
         <CardDescription>
-          {data?.data.data.plan?.name || t("未拥有订阅")}
+          <TextGenerateEffect
+            className="text-base"
+            words={data?.data.data.plan?.name || t("未拥有订阅")}
+          />
         </CardDescription>
       </CardHeader>
       <CardContent></CardContent>

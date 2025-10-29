@@ -15,6 +15,7 @@ import { signInPost } from "@/api/auth";
 import { useTranslation } from "react-i18next";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { LogIn } from "lucide-react";
+import { toast as toastSonner } from "sonner";
 export function FormSignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export function FormSignIn() {
     try {
       setIsLoading(true);
       await signInPost(form.getValues("email"), form.getValues("password"));
+      toastSonner.success(t("登入成功"));
     } catch (error: any) {
       const errorMessage =
         error?.data?.errors?.email?.[0] ||

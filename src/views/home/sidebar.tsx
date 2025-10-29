@@ -15,7 +15,6 @@ export function Sidebar() {
   if (infoLoading || subLoading) {
     return <Loading />;
   }
-
   return (
     <SidebarProvider>
       <AppSidebar />
