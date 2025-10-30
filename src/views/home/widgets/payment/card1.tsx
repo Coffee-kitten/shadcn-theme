@@ -10,18 +10,17 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard } from "lucide-react";
 import { AntDesignAlipayCircleFilled } from "@/views/svg/payment";
 import { useState } from "react";
-import { Qrcode } from "@/views/home/widgets/payment/qrcode";
 
 import { Card2 } from "@/views/home/widgets/payment/card2";
-import { Card3 } from "@/views/home/widgets/payment/card3";
-
+import { CardInfo, CardOrder } from "@/views/home/widgets/payment/card3";
+import { Card5 } from "@/views/home/widgets/payment/card5";
 import { useTranslation } from "react-i18next";
-import { paymentMethodGet } from "@/api/v1/payment";
+import { paymentMethodGet, paymentDetailGet } from "@/api/v1/payment";
+
 export function Card1({ id }: any) {
   const { t } = useTranslation();
-
+  const { data } = paymentDetailGet(id);
   const { data: paymentMethodData } = paymentMethodGet();
-
   const [selectedPayment, setSelectedPayment] = useState(
     paymentMethodData?.data.data[0]?.id
   );
@@ -66,9 +65,13 @@ export function Card1({ id }: any) {
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-6">
-      <div className="grid gap-6">
-        <Card3 id={id} />
+    <div className="grid lg:grid-cols-[2fr_1fr] gap-6 items-start">
+      <div className="grid gap-6 flex-1">
+        <Card5 id={id} />
+        <CardInfo id={id} />
+        <CardOrder id={id} />
+      </div>
+      <div className="grid gap-6 flex-2">
         <Card>
           <CardHeader>
             <CardTitle>{t("Payment Options")}</CardTitle>
@@ -81,6 +84,7 @@ export function Card1({ id }: any) {
               defaultValue={paymentMethodData?.data.data[0]?.id}
               className="grid gap-4"
               onValueChange={setSelectedPayment}
+              disabled={data?.data.data.status != 0}
             >
               {paymentMethodData?.data.data.map((method: any) => (
                 <div className="block" key={method.id}>
@@ -101,10 +105,7 @@ export function Card1({ id }: any) {
             </RadioGroup>
           </CardContent>
         </Card>
-      </div>
-      <div className="grid gap-6">
-        <Card2 id={id} />
-        <Qrcode selectedPayment={selectedPayment} id={id} />
+        <Card2 id={id} selectedPayment={selectedPayment} />
       </div>
     </div>
   );

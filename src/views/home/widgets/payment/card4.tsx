@@ -8,7 +8,7 @@ export function Card4({ id }: any) {
   const orderStatus = getOrderStatus(data?.data.data.status, t);
   // 获取标题和描述文本
   const statusMap: Record<number, { title: string; description: string }> = {
-    0: { title: t("等待支付"), description: t("请尽快完成支付以激活您的服务") },
+    0: { title: t("等待支付"), description: t("请及时付款，避免订单被取消") },
     1: { title: t("处理中"), description: t("支付正在处理中，请稍候") },
     2: { title: t("已取消"), description: t("订单由于超时支付已被取消") },
     3: { title: t("已完成"), description: t("订单已支付并开通") },

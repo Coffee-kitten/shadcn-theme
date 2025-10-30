@@ -170,7 +170,7 @@
   "类型/周期": "Type/Period",
   "订阅流量：": "Data:",
   "等待支付": "Awaiting Payment",
-  "请尽快完成支付以激活您的服务": "Please complete payment to activate your service",
+  "请及时付款，避免订单被取消": "Please complete payment to activate your service",
   "支付正在处理中，请稍候": "Payment processing, please wait",
   "订单由于超时支付已被取消": "Order cancelled due to payment timeout",
   "订单已支付并开通": "Order paid and activated",

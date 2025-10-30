@@ -10,11 +10,11 @@ export const infoGet = () => {
 };
 
 export const subscribeGet = () => {
-  const { data, error, isLoading } = useSWR<Record<string, any>>(
+  const { data, error, isLoading, mutate } = useSWR<Record<string, any>>(
     `/api/v1/user/getSubscribe`,
     v2boardRequest
   );
-  return { data, error, isLoading };
+  return { data, error, isLoading, mutate };
 };
 export const statGet = () => {
   const { data, error, isLoading } = useSWR<Record<string, any>>(

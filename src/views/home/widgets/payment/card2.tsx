@@ -11,21 +11,23 @@ import { Minus, Wallet, CreditCard } from "lucide-react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { paymentDetailGet } from "@/api/v1/payment";
-export function Card2({ id }: any) {
+import { Qrcode } from "@/views/home/widgets/payment/qrcode";
+import { Button } from "@/components/ui/button";
+import { Frame } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+export function Card2({ id, selectedPayment }: any) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { data } = paymentDetailGet(id);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
-        <CardDescription>Review your order details</CardDescription>
+        <CardTitle>{t("订单摘要")}</CardTitle>
+        <CardDescription>Order Summary</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-2">
-          <div className="flex items-center justify-between">
-            <span>{t("订单号：")}</span>
-            <span>{data?.data.data.trade_no}</span>
-          </div>
           <div className="flex items-center justify-between">
             <span>{t("创建时间：")}</span>
             <span>
@@ -34,6 +36,16 @@ export function Card2({ id }: any) {
                 .format("YYYY-MM-DD HH:mm:ss")}
             </span>
           </div>
+          {data?.data.data.paid_at && (
+            <div className="flex items-center justify-between">
+              <span>{t("支付时间：")}</span>
+              <span>
+                {dayjs
+                  .unix(data?.data.data.paid_at)
+                  .format("YYYY-MM-DD HH:mm:ss")}
+              </span>
+            </div>
+          )}
         </div>
         <Separator />
 
@@ -128,6 +140,21 @@ export function Card2({ id }: any) {
             ¥{(data?.data.data.total_amount / 100).toFixed(2)}
           </span>
         </div>
+        {data?.data.data.status == 0 ? (
+          <Qrcode selectedPayment={selectedPayment} id={id} />
+        ) : (
+          <Button
+            variant="secondary"
+            size="lg"
+            className="w-full"
+            onClick={() => {
+              navigate("/dashboard", { replace: true });
+            }}
+          >
+            <Frame />
+            {t("返回仪表盘")}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
