@@ -11,10 +11,13 @@ import {
   User,
   ClipboardList,
   MessageCircle,
+  Gift,
 } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
+import { Separator } from "@/components/ui/separator";
 import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +30,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { infoGet } from "@/api/v1/base";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 const getSidebarData = () => {
   const { data } = infoGet();
   const { t } = useTranslation();
@@ -44,27 +48,12 @@ const getSidebarData = () => {
     ],
     projects: [
       {
-        name: t("仪表盘"),
+        title: t("仪表盘"),
         url: "/dashboard",
         icon: Frame,
       },
-      {
-        name: t("知识库"),
-        url: "/knowledge",
-        icon: Map,
-      },
-      {
-        name: t("报告"),
-        url: "/announcements",
-        icon: ClipboardList,
-      },
     ],
     subscriptionItems: [
-      {
-        name: t("购买订阅"),
-        url: "/store",
-        icon: ShoppingCart, // 购物车图标更适合购买操作
-      },
       {
         name: t("节点状态"),
         url: "/server",
@@ -75,28 +64,41 @@ const getSidebarData = () => {
     // 用户相关功能
     userItems: [
       {
-        name: t("个人中心"),
-        url: "/user",
-        icon: User, // 用户图标表示个人中心
-      },
-      {
         name: t("我的工单"),
         url: "/ticket",
         icon: MessageCircle, // 消息圆圈图标表示工单
       },
-    ],
 
+      {
+        name: t("报告"),
+        url: "/announcements",
+        icon: ClipboardList,
+      },
+    ],
+    navMain: [
+      {
+        title: t("可购订阅"),
+        url: "/store",
+        icon: ShoppingCart,
+        isActive: true,
+      },
+    ],
     // 将 projects3 重命名为 accountItems
     accountItems: [
+      {
+        name: t("知识库"),
+        url: "/knowledge",
+        icon: Map,
+      },
       {
         name: t("我的订单"),
         url: "/order", // 修正了URL，应该指向订单页面
         icon: Receipt, // 文档图标更适合表示订单
       },
       {
-        name: t("我的邀请"),
+        name: t("推荐好友"),
         url: "/invite", // 修正了URL，应该指向邀请页面
-        icon: Users, // 用户组图标更适合表示邀请功能
+        icon: Gift, // 用户组图标更适合表示邀请功能
       },
     ],
   };
@@ -106,12 +108,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const data = getSidebarData();
   const { t } = useTranslation();
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="floating" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link to="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
@@ -121,16 +123,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     2020-{dayjs().year()}
                   </span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} lable={t("概况")} />
-        <NavProjects projects={data.subscriptionItems} lable={t("订阅")} />
-        <NavProjects projects={data.userItems} lable={t("用户")} />
+        <NavMain items={data.projects} />
+
+        <div className="px-4">
+          <Separator />
+        </div>
+        <NavMain items={data.navMain} />
+        <div className="px-4">
+          <Separator />
+        </div>
         <NavProjects projects={data.accountItems} lable={t("财务")} />
+        <NavProjects projects={data.userItems} lable={t("用户")} />
+
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

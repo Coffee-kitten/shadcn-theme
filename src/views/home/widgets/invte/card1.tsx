@@ -132,36 +132,55 @@ export const Card1 = () => {
               </p>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-2">
+          <div className="grid md:grid-cols-2 gap-3">
             {inviteCodes.map((code: any, index: number) => {
               const inviteLink = `${window.location.origin}/#/register?code=${code.code}`;
               return (
-                <div key={code.id || index} className="group relative">
-                  <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10">
-                        <Link className="h-4 w-4" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium font-mono tracking-wider">
-                          {code.code}
-                        </span>
+                <div
+                  key={code.id || index}
+                  className="p-3 rounded-lg border bg-card hover:bg-accent/30 transition-colors"
+                >
+                  <div className="flex flex-col items-center text-center gap-3">
+                    <span className="font-mono tracking-wide bg-muted/50 px-2 py-1 rounded text-sm">
+                      {code.code}
+                    </span>
+
+                    {/* 按钮组 */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => {
+                            navigator.clipboard.writeText(code.code);
+                            toast.success(t("邀请码已复制到剪贴板"));
+                          }}
+                          variant="secondary"
+                          size="icon"
+                          className="h-7 w-7"
+                        >
+                          <Copy />
+                        </Button>
                         <span className="text-xs text-muted-foreground">
                           {t("邀请码")}
                         </span>
                       </div>
+                      <Separator orientation="vertical" className="h-3" />
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => {
+                            navigator.clipboard.writeText(inviteLink);
+                            toast.success(t("邀请链接已复制到剪贴板"));
+                          }}
+                          variant="outline"
+                          size="icon"
+                          className="h-7 w-7"
+                        >
+                          <Copy />
+                        </Button>
+                        <span className="text-xs text-muted-foreground">
+                          {t("邀请链接")}
+                        </span>
+                      </div>
                     </div>
-                    <Button
-                      onClick={() => {
-                        navigator.clipboard.writeText(inviteLink);
-                        toast.success("邀请链接已复制到剪贴板");
-                      }}
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 px-3"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
               );

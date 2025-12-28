@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { announcementsFetchGet } from "@/api/v1/dashboard";
+
 export function Card1() {
   const { t } = useTranslation();
   const { data } = announcementsFetchGet();

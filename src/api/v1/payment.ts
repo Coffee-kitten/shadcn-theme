@@ -16,14 +16,14 @@ export const paymentMethodGet = () => {
   return { data, error, isLoading };
 };
 export const orderCheckGet = (trade_no: any) => {
-  const { data, error, isLoading } = useSWR<Record<string, any>>(
+  const { data, error, isLoading, mutate } = useSWR<Record<string, any>>(
     `/api/v1/user/order/check?trade_no=${trade_no}`,
     v2boardRequest,
     {
       refreshInterval: 5000,
     }
   );
-  return { data, error, isLoading };
+  return { data, error, isLoading, mutate };
 };
 export const orderCheckoutPost = (trade_no: string, method: string) => {
   return v2boardRequest({

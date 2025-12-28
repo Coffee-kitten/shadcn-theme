@@ -1,7 +1,5 @@
 "use client";
 
-import { LogOut } from "lucide-react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -18,6 +17,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { CaretSortIcon } from "@radix-ui/react-icons";
+
+import { BadgeCheck, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -97,15 +98,17 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup> */}
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <CircleQuestionMark />
-              Feedback
-            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
+            <Link to="/user">
+              <DropdownMenuItem className="text-xs">
+                <BadgeCheck />
+                {t("个人中心")}
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout} className="text-xs">
               <LogOut />
-              Log out
+              {t("登出")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

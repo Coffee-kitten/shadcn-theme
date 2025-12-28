@@ -4,7 +4,7 @@ const Loading = () => {
   return (
     <>
       {/* 加载内容区域 */}
-      <div className="bg-card/20 border rounded-lg p-6 space-y-6">
+      <div className="bg-card0 border rounded-lg p-6 space-y-6">
         {/* 装饰性骨架屏 */}
         <div className="space-y-4 pt-4 border-t">
           <div className="space-y-2">

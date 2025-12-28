@@ -1,5 +1,4 @@
 import { type LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useLocation, Link } from "react-router-dom";
 import {
   SidebarGroup,
@@ -34,26 +33,17 @@ export function NavProjects({
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>{lable}</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => {
+        {projects.map((item) => (
           // 确保比较逻辑正确
-          const isActive = `${location.pathname}` == item.url;
-          return (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton asChild>
-                <Link
-                  to={item.url}
-                  onClick={handleItemClick}
-                  className={cn(
-                    isActive && "bg-accent text-accent-foreground font-medium"
-                  )}
-                >
-                  <item.icon />
-                  <span>{item.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          );
-        })}
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton asChild isActive={location.pathname == item.url}>
+              <Link to={item.url} onClick={handleItemClick}>
+                <item.icon />
+                <span className="text-xs">{item.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
       </SidebarMenu>
     </SidebarGroup>
   );
