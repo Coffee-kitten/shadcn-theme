@@ -71,16 +71,21 @@ export function Qrcode({ selectedPayment, id }: any) {
           disabled={isLoading}
           onClick={clickPayment}
         >
-          {isLoading ? (
-            <>
-              <Loader2 className="animate-spin" /> Please wait
-            </>
-          ) : (
-            <>
-              <CreditCard />
-              {t("付款")}
-            </>
-          )}
+          <span style={{
+            display: isLoading ? "flex" : "none",
+            alignItems: "center",
+            gap: 8,
+          }}>
+            <Loader2 className="animate-spin" /> Please wait
+          </span>
+          <span style={{
+            display: isLoading ? "none" : "flex",
+            alignItems: "center",
+            gap: 8,
+          }}>
+            <CreditCard />
+            {t("付款")}
+          </span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[475px] [&>button]:hidden">
